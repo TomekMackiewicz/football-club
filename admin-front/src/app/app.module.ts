@@ -2,7 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSidenavModule, MatCheckboxModule } from '@angular/material';
+import { 
+    MatSidenavModule, 
+    MatCheckboxModule, 
+    MatToolbarModule, 
+    MatButtonModule, 
+    MatIconModule, 
+    MatMenuModule 
+} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +24,11 @@ import { AppComponent } from './app.component';
         AppRoutingModule,
         FormsModule,
         MatSidenavModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -1,12 +1,34 @@
 <mat-sidenav-container>
     
-    <mat-sidenav #sidenav mode="side">
+    <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened">
         Sidenav content
     </mat-sidenav>
 
     <mat-sidenav-content>
-        <p><button mat-button (click)="sidenav.toggle()">sidenav.toggle()</button></p>
+        <mat-toolbar>
+            <button mat-raised-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span class="fill-space"></span>
+            
+            <button mat-icon-button [matMenuTriggerFor]="userMenu">
+                <mat-icon>person_outline</mat-icon>
+            </button>
+
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>person_outline</mat-icon>
+                    <span>Profile</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </mat-menu>           
+        </mat-toolbar>
+        
         <router-outlet></router-outlet>
+        
     </mat-sidenav-content>
     
 </mat-sidenav-container>
