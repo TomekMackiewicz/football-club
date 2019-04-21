@@ -8,15 +8,21 @@ import {
     MatToolbarModule, 
     MatButtonModule, 
     MatIconModule, 
-    MatMenuModule 
+    MatMenuModule,
+    MatListModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
+
+import { NavService } from './services/nav.service';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        MenuListItemComponent
     ],
     imports: [
         BrowserModule,
@@ -28,9 +34,10 @@ import { AppComponent } from './app.component';
         MatToolbarModule,
         MatButtonModule,
         MatIconModule,
-        MatMenuModule
+        MatMenuModule,
+        MatListModule
     ],
-    providers: [],
+    providers: [NavService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
