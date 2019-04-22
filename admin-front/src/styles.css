@@ -21,3 +21,12 @@ mat-sidenav {
 .fill-space {
     flex: 1 1 auto;
 }
+
+.route-icon {
+    padding-right: 8px;
+}
+
+.nav-chevron {
+    display: inline-flex;
+    vertical-align: middle;    
+}

@@ -16,7 +16,7 @@ export const NAV_ITEMS = [{
     ]
   },
   {
-    displayName: 'Games',
+    displayName: 'games',
     iconName: 'games',
     children: [
         {

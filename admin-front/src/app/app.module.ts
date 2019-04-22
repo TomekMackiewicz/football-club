@@ -19,6 +19,10 @@ import { MenuListItemComponent } from './menu-list-item/menu-list-item.component
 
 import { NavService } from './services/nav.service';
 
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -35,9 +39,21 @@ import { NavService } from './services/nav.service';
         MatButtonModule,
         MatIconModule,
         MatMenuModule,
-        MatListModule
+        MatListModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })        
     ],
     providers: [NavService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
