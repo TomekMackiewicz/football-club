@@ -23,6 +23,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
+import { GameModule } from './game/game.module';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -47,7 +49,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })        
+        }),
+        GameModule        
     ],
     providers: [NavService],
     bootstrap: [AppComponent]

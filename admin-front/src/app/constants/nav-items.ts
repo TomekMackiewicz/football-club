@@ -22,7 +22,7 @@ export const NAV_ITEMS = [{
         {
             displayName: 'List',
             iconName: 'ballot',
-            route: 'games'
+            route: 'games/list'
         },
         {
             displayName: 'Add',
