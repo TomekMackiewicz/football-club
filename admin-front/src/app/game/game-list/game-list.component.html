@@ -46,27 +46,27 @@
 
             <ng-container matColumnDef="type">
                 <th mat-header-cell *matHeaderCellDef>Type</th>
-                <td mat-cell *matCellDef="let row">{{row.game_type}}</td>
+                <td mat-cell *matCellDef="let row">{{row.gameType}}</td>
             </ng-container>
 
             <ng-container matColumnDef="hostTeam">
                 <th mat-header-cell *matHeaderCellDef>Host team</th>
-                <td mat-cell *matCellDef="let row">{{row.host_team}}</td>
+                <td mat-cell *matCellDef="let row">{{row.hostTeam}}</td>
             </ng-container>
 
             <ng-container matColumnDef="guestTeam">
                 <th mat-header-cell *matHeaderCellDef>Guest team</th>
-                <td mat-cell *matCellDef="let row">{{row.guest_team}}</td>
+                <td mat-cell *matCellDef="let row">{{row.guestTeam}}</td>
             </ng-container>
 
             <ng-container matColumnDef="hostScore">
                 <th mat-header-cell *matHeaderCellDef>Host score</th>
-                <td mat-cell *matCellDef="let row">{{row.host_score}}</td>
+                <td mat-cell *matCellDef="let row">{{row.hostScore}}</td>
             </ng-container>
 
             <ng-container matColumnDef="guestScore">
                 <th mat-header-cell *matHeaderCellDef>Guest score</th>
-                <td mat-cell *matCellDef="let row">{{row.guest_score}}</td>
+                <td mat-cell *matCellDef="let row">{{row.guestScore}}</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

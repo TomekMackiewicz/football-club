@@ -42,12 +42,12 @@ class Game
     private $guestTeam;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $hostScore;
     
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $guestScore;
 

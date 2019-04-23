@@ -15,10 +15,10 @@ class GameType extends AbstractType
         $builder
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy'
+                'format' => 'yyyy-MM-dd'
             ])
             ->add('location')
-            ->add('type')
+            ->add('gameType')
             ->add('hostTeam')
             ->add('guestTeam')
             ->add('hostScore')
@@ -31,7 +31,8 @@ class GameType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Game::class,
-            'csrf_protection' => false
+            'csrf_protection' => false,
+            'allow_extra_fields' => true
         ));
     }
 }

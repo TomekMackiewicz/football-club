@@ -13,11 +13,11 @@ export class GameAddComponent implements OnInit {
     gameForm = this.fb.group({
         date: ['', Validators.required],
         location: ['', Validators.required],
-        game_type: ['', Validators.required],
-        host_team: ['', Validators.required],
-        guest_team: ['', Validators.required],
-        host_score: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-        guest_score: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
+        gameType: ['', Validators.required],
+        hostTeam: ['', Validators.required],
+        guestTeam: ['', Validators.required],
+        hostScore: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+        guestScore: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
     });
 
     constructor(
@@ -28,13 +28,11 @@ export class GameAddComponent implements OnInit {
     ngOnInit() {
     }
 
-    addGame(game: Game) {
-        return this.gameService.addGame(game);
-    }
-
-    onSubmit() {
-      // TODO: Use EventEmitter with form value
-      console.warn(this.gameForm.value);
+    addGame() {
+        return this.gameService.addGame(this.gameForm.value)
+        .subscribe(success => {
+            console.log(success);
+        });
     }
 
 }
