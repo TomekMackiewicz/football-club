@@ -29,7 +29,7 @@ class Game
     /**
      * @ORM\Column(type="integer")
      */
-    private $type;
+    private $gameType;
 
     /**
      * @ORM\Column(type="integer")
@@ -80,14 +80,14 @@ class Game
         return $this;
     }
 
-    public function getType()
+    public function getGameType()
     {
-        return $this->type;
+        return $this->gameType;
     }
 
-    public function setType(int $type): self
+    public function setGameType(int $type): self
     {
-        $this->type = $type;
+        $this->gameType = $type;
 
         return $this;
     }

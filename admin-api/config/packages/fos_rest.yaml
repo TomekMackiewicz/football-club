@@ -12,4 +12,4 @@ fos_rest:
     view:
         view_response_listener: 'force'
         formats:
-    json: true
+            json: true
