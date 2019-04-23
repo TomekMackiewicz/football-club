@@ -1,6 +1,15 @@
 {
     "add": "add",
+    "date": "date",
+    "game.new" : "new game",
+    "game.type": "game type",
     "games": "games",
     "list" : "list",
-    "players": "players"
+    "location": "location",
+    "players": "players",
+    "team.guest": "guest team",
+    "team.host": "host team",
+    "guest.score": "guest score",
+    "host.score": "host score"
+    
 }

@@ -72,7 +72,7 @@ export class GameListComponent implements AfterViewInit {
     }
           
 }
-
+// @TODO
 export interface Games {
     games: Game[];
     total_count: number;

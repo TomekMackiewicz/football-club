@@ -1,6 +1,14 @@
 {
     "add": "dodaj",
+    "date": "data",
+    "game.new" : "dodaj mecz",
+    "game.type": "rodzaj meczu",
     "games": "mecze",
     "list" : "lista",
-    "players": "gracze"
+    "location": "lokalizacja",
+    "players": "gracze",
+    "team.guest": "goście",
+    "team.host": "gospodarze",
+    "guest.score": "wynik gości",
+    "host.score": "wynik gospodarzy"
 }

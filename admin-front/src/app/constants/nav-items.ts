@@ -1,15 +1,15 @@
 export const NAV_ITEMS = [{
-    displayName: 'Players',
+    displayName: 'players',
     iconName: 'people_outline',
     //route: 'players',
     children: [
         {
-            displayName: 'List',
+            displayName: 'list',
             iconName: 'group',
             route: 'players',
         },
         {
-            displayName: 'Add',
+            displayName: 'add',
             iconName: 'person_add',
             route: 'players/add',
         }
@@ -20,12 +20,12 @@ export const NAV_ITEMS = [{
     iconName: 'games',
     children: [
         {
-            displayName: 'List',
+            displayName: 'list',
             iconName: 'ballot',
             route: 'games/list'
         },
         {
-            displayName: 'Add',
+            displayName: 'add',
             iconName: 'create',
             route: 'games/add'
         }
