@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { GameListComponent } from './game-list/game-list.component';
 import { GameAddComponent } from './game-add/game-add.component';
@@ -14,6 +15,8 @@ import {
     MatInputModule
 } from '@angular/material';
 
+import { GameService } from './game.service';
+
 @NgModule({
     declarations: [
         GameListComponent,
@@ -21,6 +24,7 @@ import {
     ],
     imports: [
         CommonModule,
+        HttpClientModule,
         MatPaginatorModule,
         MatProgressSpinnerModule,
         MatTableModule,
@@ -28,6 +32,7 @@ import {
         MatCheckboxModule,
         MatFormFieldModule,
         MatInputModule
-    ]
+    ],
+    providers: [GameService]
 })
 export class GameModule { }

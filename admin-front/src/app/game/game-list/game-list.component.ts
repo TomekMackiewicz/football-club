@@ -1,19 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
+import { GameService } from '../game.service';
+import { Game } from '../../model/game';
 
 @Component({
     selector: 'app-game-list',
     templateUrl: './game-list.component.html',
 })
 export class GameListComponent implements AfterViewInit {
-    displayedColumns: string[] = ['select', 'created', 'state', 'number', 'title'];
-    exampleDatabase: ExampleHttpDatabase | null;
-    data: GithubIssue[] = [];
-    selection = new SelectionModel<GithubIssue>(true, []);
+    displayedColumns: string[] = ['select', 'date', 'location', 'type', 'hostTeam', 'guestTeam', 'hostScore', 'guestScore'];
+    games: Array<Game>;
+    selection = new SelectionModel<Game>(true, []);
+    dataSource: MatTableDataSource<Game>;
+    total: number = 0;
 
     resultsLength = 0;
     isLoadingResults = true;
@@ -22,45 +25,26 @@ export class GameListComponent implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        private gameService: GameService
+    ) {}
 
     ngAfterViewInit() {
-        this.exampleDatabase = new ExampleHttpDatabase(this.http);
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-        merge(this.sort.sortChange, this.paginator.page)
-            .pipe(
-                startWith({}),
-                switchMap(() => {
-                    this.isLoadingResults = true;
-                    return this.exampleDatabase!.getRepoIssues(
-                        this.sort.active, this.sort.direction, this.paginator.pageIndex);
-                }),
-                map(data => {
-                    this.isLoadingResults = false;
-                    this.isRateLimitReached = false;
-                    this.resultsLength = data.total_count;
-
-                    return data.items;
-                }),
-                catchError(() => {
-                    this.isLoadingResults = false;
-                    this.isRateLimitReached = true;
-                    return observableOf([]);
-                })
-            ).subscribe(data => this.data = data);
+        this.getGames(this.sort.active, this.sort.direction, this.paginator.pageIndex);
     }
 
     isAllSelected() {
         const numSelected = this.selection.selected.length;
-        const numRows = this.data.length;
+        const numRows = this.games.length;
         return numSelected === numRows;
     }
 
     masterToggle() {
         this.isAllSelected() ?
             this.selection.clear() :
-            this.data.forEach(row => this.selection.select(row));
+            this.games.forEach(row => this.selection.select(row));
     }
 
     applyFilter(filterValue: string) {
@@ -70,29 +54,26 @@ export class GameListComponent implements AfterViewInit {
             this.paginator.firstPage();
         }
     }
-      
-}
 
-export interface GithubApi {
-    items: GithubIssue[];
-    total_count: number;
-}
-
-export interface GithubIssue {
-    created_at: string;
-    number: string;
-    state: string;
-    title: string;
-}
-
-export class ExampleHttpDatabase {
-    constructor(private http: HttpClient) {}
-
-    getRepoIssues(sort: string, order: string, page: number): Observable<GithubApi> {
-        const href = 'https://api.github.com/search/issues';
-        const requestUrl =
-            `${href}?q=repo:angular/material2&sort=${sort}&order=${order}&page=${page + 1}`;
-
-        return this.http.get<GithubApi>(requestUrl);
+    getGames(sort: string, order: string, page: number): Observable<Games> {
+        this.gameService.getGames(sort, order, page).subscribe(
+            (data: Games) => {
+                this.games = data.games;
+                this.total = data.total_count;
+                this.dataSource = new MatTableDataSource(this.games);
+                this.isLoadingResults = false;
+            },
+            error => {
+                console.log(error);
+            }
+        );
+        
+        return;
     }
+          
+}
+
+export interface Games {
+    games: Game[];
+    total_count: number;
 }
