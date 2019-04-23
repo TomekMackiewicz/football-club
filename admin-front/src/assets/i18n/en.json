@@ -10,6 +10,7 @@
     "team.guest": "guest team",
     "team.host": "host team",
     "guest.score": "guest score",
-    "host.score": "host score"
-    
+    "host.score": "host score",
+    "validation.digits": "only digits are allowed",
+    "validation.required": "field is required"
 }

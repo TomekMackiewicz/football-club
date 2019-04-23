@@ -16,8 +16,8 @@ export class GameAddComponent implements OnInit {
         game_type: ['', Validators.required],
         host_team: ['', Validators.required],
         guest_team: ['', Validators.required],
-        host_score: ['', Validators.required],
-        guest_score: ['', Validators.required]
+        host_score: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+        guest_score: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
     });
 
     constructor(
