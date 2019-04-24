@@ -5,9 +5,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { GameListComponent } from './game-list/game-list.component';
-import { GameAddComponent } from './game-add/game-add.component';
-
 import { 
     MatPaginatorModule,
     MatProgressSpinnerModule,
@@ -24,6 +21,11 @@ import {
     MatCardModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { ApplicationPipesModule } from '../pipes/application-pipes.module';
+
+import { GameListComponent } from './game-list/game-list.component';
+import { GameAddComponent } from './game-add/game-add.component';
 
 import { GameService } from './game.service';
 
@@ -51,6 +53,7 @@ import { GameService } from './game.service';
         MatCardModule,
         FlexLayoutModule,
         HttpClientModule,
+        ApplicationPipesModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

@@ -24,8 +24,6 @@ import { MenuListItemComponent } from './menu-list-item/menu-list-item.component
 
 import { NavService } from './services/nav.service';
 
-////import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -52,8 +50,7 @@ import { NavService } from './services/nav.service';
                 deps: [HttpClient]
             }
         }),
-        GameModule,
-        ////CapitalizeFirstPipe       
+        GameModule       
     ],
     providers: [NavService],
     bootstrap: [AppComponent]
