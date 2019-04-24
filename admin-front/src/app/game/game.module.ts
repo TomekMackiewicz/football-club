@@ -4,6 +4,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 import { GameListComponent } from './game-list/game-list.component';
 import { GameAddComponent } from './game-add/game-add.component';
@@ -38,6 +40,7 @@ import { CapitalizeFirstPipe } from '../pipes/capitalize-first.pipe';
         CommonModule,
         HttpClientModule,
         ReactiveFormsModule,
+        ToastModule,
         MatPaginatorModule,
         MatProgressSpinnerModule,
         MatTableModule,
@@ -61,7 +64,7 @@ import { CapitalizeFirstPipe } from '../pipes/capitalize-first.pipe';
             }
         })
     ],
-    providers: [GameService]
+    providers: [GameService, MessageService]
 })
 export class GameModule { }
 

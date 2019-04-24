@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 import { GameService } from '../game.service';
 import { Game } from '../../model/game';
@@ -8,7 +9,7 @@ import { Game } from '../../model/game';
     selector: 'app-game-add',
     templateUrl: './game-add.component.html'
 })
-export class GameAddComponent implements OnInit {
+export class GameAddComponent implements AfterViewInit {
 
     gameForm = this.fb.group({
         date: ['', Validators.required],
@@ -22,16 +23,18 @@ export class GameAddComponent implements OnInit {
 
     constructor(
         private gameService: GameService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private messageService: MessageService
     ) { }
 
-    ngOnInit() {
+    ngAfterViewInit() {
+        this.messageService.add({severity:'success', summary:'Game created', detail:'Via MessageService'});
     }
 
     addGame() {
         return this.gameService.addGame(this.gameForm.value)
         .subscribe(success => {
-            console.log(success);
+            //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
         });
     }
 
