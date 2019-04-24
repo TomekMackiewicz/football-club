@@ -8,7 +8,7 @@ import { AlertService } from '../../alert/alert.service';
     selector: 'app-game-add',
     templateUrl: './game-add.component.html'
 })
-export class GameAddComponent implements AfterViewInit {
+export class GameAddComponent {
 
     gameForm = this.fb.group({
         date: ['', Validators.required],
@@ -26,15 +26,15 @@ export class GameAddComponent implements AfterViewInit {
         private fb: FormBuilder
     ) { }
 
-    ngAfterViewInit() {
-        ////this.alertService.success('game.added', true);
-    }
-
     addGame() {
-        return this.gameService.addGame(this.gameForm.value)
-        .subscribe(success => {
-            this.alertService.success('game.added', true);
-        });
+        return this.gameService.addGame(this.gameForm.value).subscribe(
+            success => {
+                this.alertService.success('game.added', true);
+            },
+            error => {
+                this.alertService.error(error, true);
+            }
+        );
     }
 
 }

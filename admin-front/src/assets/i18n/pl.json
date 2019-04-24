@@ -1,6 +1,7 @@
 {
     "add": "dodaj",
     "date": "data",
+    "error": "ups, coś poszło nie tak :(",
     "game.added": "mecz został dodany",
     "game.new" : "dodaj mecz",
     "game.type": "rodzaj meczu",
