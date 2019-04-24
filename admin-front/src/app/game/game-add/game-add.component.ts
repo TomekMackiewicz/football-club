@@ -1,4 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
+import { Router } from "@angular/router"
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { GameService } from '../game.service';
@@ -21,6 +22,7 @@ export class GameAddComponent {
     });
 
     constructor(
+        private router: Router,
         private gameService: GameService,
         private alertService: AlertService,
         private fb: FormBuilder
@@ -30,6 +32,7 @@ export class GameAddComponent {
         return this.gameService.addGame(this.gameForm.value).subscribe(
             success => {
                 this.alertService.success('game.added', true);
+                this.router.navigate(['/games/list']);
             },
             error => {
                 this.alertService.error(error, true);
