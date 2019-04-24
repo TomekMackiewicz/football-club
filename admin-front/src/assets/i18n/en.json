@@ -1,6 +1,7 @@
 {
     "add": "add",
     "date": "date",
+    "game.added": "game added succesfully",
     "game.new" : "new game",
     "game.type": "game type",
     "games": "games",

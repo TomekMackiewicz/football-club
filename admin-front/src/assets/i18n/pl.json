@@ -1,6 +1,7 @@
 {
     "add": "dodaj",
     "date": "data",
+    "game.added": "mecz został dodany",
     "game.new" : "dodaj mecz",
     "game.type": "rodzaj meczu",
     "games": "mecze",

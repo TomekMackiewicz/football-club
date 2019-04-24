@@ -1,9 +1,8 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 
 import { GameService } from '../game.service';
-import { Game } from '../../model/game';
+import { AlertService } from '../../alert/alert.service';
 
 @Component({
     selector: 'app-game-add',
@@ -23,18 +22,18 @@ export class GameAddComponent implements AfterViewInit {
 
     constructor(
         private gameService: GameService,
-        private fb: FormBuilder,
-        private messageService: MessageService
+        private alertService: AlertService,
+        private fb: FormBuilder
     ) { }
 
     ngAfterViewInit() {
-        this.messageService.add({severity:'success', summary:'Game created', detail:'Via MessageService'});
+        ////this.alertService.success('game.added', true);
     }
 
     addGame() {
         return this.gameService.addGame(this.gameForm.value)
         .subscribe(success => {
-            //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+            this.alertService.success('game.added', true);
         });
     }
 

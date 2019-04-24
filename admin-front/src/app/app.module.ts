@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { 
     MatSidenavModule, 
     MatCheckboxModule, 
@@ -13,17 +16,15 @@ import {
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
+import { AlertModule } from './alert/alert.module';
+import { GameModule } from './game/game.module';
 
 import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
 
 import { NavService } from './services/nav.service';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-
-import { GameModule } from './game/game.module';
+////import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { GameModule } from './game/game.module';
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
+        AlertModule,
         FormsModule,
         MatSidenavModule,
         MatCheckboxModule,
@@ -50,7 +52,8 @@ import { GameModule } from './game/game.module';
                 deps: [HttpClient]
             }
         }),
-        GameModule        
+        GameModule,
+        ////CapitalizeFirstPipe       
     ],
     providers: [NavService],
     bootstrap: [AppComponent]
