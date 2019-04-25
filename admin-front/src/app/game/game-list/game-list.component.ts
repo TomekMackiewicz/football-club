@@ -62,12 +62,18 @@ export class GameListComponent implements AfterViewInit {
             this.data.forEach(row => this.selection.select(row));
     }
 
+    // @TODO
     applyFilter(filterValue: string) {
         //this.data.filter = filterValue.trim().toLowerCase();
 
         if (this.paginator) {
             this.paginator.firstPage();
         }
+    }
+    
+    // @TODO
+    redirectToEditPage() {
+        console.log(this.selection.selected[0].id);
     }
         
 }

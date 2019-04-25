@@ -12,10 +12,14 @@
     </mat-card>
 
     <mat-card>
-        <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-        </mat-form-field>
-
+        <mat-toolbar>
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <span class="fill-space"></span>
+            <button mat-flat-button color="primary" (click)=redirectToEditPage() [disabled]="selection.selected.length !=1">Edit</button>
+        </mat-toolbar>
+        
         <table mat-table [dataSource]="data"
                matSort matSortActive="date" matSortDisableClear matSortDirection="desc">
 

@@ -92,3 +92,7 @@ table {
     background-color:#f8d7da;
     border-color:#f5c6cb
 }
+
+.mat-toolbar .mat-form-field-label-wrapper, .mat-toolbar .mat-form-field-autofill-control {
+    font-size:14px;
+}

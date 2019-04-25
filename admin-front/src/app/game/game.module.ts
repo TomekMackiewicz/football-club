@@ -18,7 +18,8 @@ import {
     MatIconModule,
     MatSelectModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatToolbarModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -51,6 +52,7 @@ import { GameService } from './game.service';
         MatSelectModule,
         MatButtonModule,
         MatCardModule,
+        MatToolbarModule,
         FlexLayoutModule,
         HttpClientModule,
         ApplicationPipesModule,
