@@ -16,8 +16,6 @@ export class GameListComponent implements AfterViewInit {
     games: Array<Game>;
     selection = new SelectionModel<Game>(true, []);
     dataSource: MatTableDataSource<Game>;
-    total: number = 0;
-
     resultsLength = 0;
     isLoadingResults = true;
     isRateLimitReached = false;
@@ -30,7 +28,7 @@ export class GameListComponent implements AfterViewInit {
         private gameService: GameService
     ) {}
 
-    ngAfterViewInit() {
+    ngAfterViewInit() {       
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
         this.getGames(this.sort.active, this.sort.direction, this.paginator.pageIndex);
     }
@@ -59,8 +57,9 @@ export class GameListComponent implements AfterViewInit {
         this.gameService.getGames(sort, order, page).subscribe(
             (data: Games) => {
                 this.games = data.games;
-                this.total = data.total_count;
+                this.resultsLength = data.total_count;
                 this.dataSource = new MatTableDataSource(this.games);
+                this.dataSource.paginator = this.paginator;
                 this.isLoadingResults = false;
             },
             error => {
