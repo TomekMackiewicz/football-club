@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { merge, Observable, of as observableOf } from 'rxjs';
+import { MatPaginator, MatSort } from '@angular/material';
+import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { GameService } from '../game.service';
@@ -13,9 +12,8 @@ import { Game } from '../../model/game';
 })
 export class GameListComponent implements AfterViewInit {
     displayedColumns: string[] = ['select', 'date', 'location', 'game_type', 'host_team', 'guest_team', 'host_score', 'guest_score'];
-    games: Array<Game>;
+    data: Game[] = [];
     selection = new SelectionModel<Game>(true, []);
-    dataSource: MatTableDataSource<Game>;
     resultsLength = 0;
     isLoadingResults = true;
     isRateLimitReached = false;
@@ -23,26 +21,45 @@ export class GameListComponent implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(
-        private http: HttpClient,
-        private gameService: GameService
-    ) {}
+    constructor(private gameService: GameService) {}
 
     ngAfterViewInit() {       
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-        this.getGames(this.sort.active, this.sort.direction, this.paginator.pageIndex);
+
+    merge(this.sort.sortChange, this.paginator.page)
+        .pipe(
+            startWith({}),
+            switchMap(() => {
+                this.isLoadingResults = true;
+                return this.gameService.getGames(
+                    this.sort.active, this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize
+                );
+            }),
+            map(data => {
+                this.isLoadingResults = false;
+                this.isRateLimitReached = false;
+                this.resultsLength = data.total_count;
+
+                return data.games;
+            }),
+            catchError(() => {
+                this.isLoadingResults = false;
+                this.isRateLimitReached = true;
+                return observableOf([]);
+            })
+        ).subscribe(data => this.data = data);
     }
 
     isAllSelected() {
         const numSelected = this.selection.selected.length;
-        const numRows = this.games.length;
+        const numRows = this.data.length;
         return numSelected === numRows;
     }
 
     masterToggle() {
         this.isAllSelected() ?
             this.selection.clear() :
-            this.games.forEach(row => this.selection.select(row));
+            this.data.forEach(row => this.selection.select(row));
     }
 
     applyFilter(filterValue: string) {
@@ -52,24 +69,7 @@ export class GameListComponent implements AfterViewInit {
             this.paginator.firstPage();
         }
     }
-
-    getGames(sort: string, order: string, page: number): Observable<Games> {
-        this.gameService.getGames(sort, order, page).subscribe(
-            (data: Games) => {
-                this.games = data.games;
-                this.resultsLength = data.total_count;
-                this.dataSource = new MatTableDataSource(this.games);
-                this.dataSource.paginator = this.paginator;
-                this.isLoadingResults = false;
-            },
-            error => {
-                console.log(error);
-            }
-        );
         
-        return;
-    }
-          
 }
 // @TODO
 export interface Games {

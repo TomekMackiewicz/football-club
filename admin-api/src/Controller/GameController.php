@@ -20,11 +20,17 @@ class GameController extends FOSRestController
      * @Rest\Get("/all")
      * @return Response
      */
-    public function getGameAction()
-    {        
+    public function getGameAction(Request $request)
+    { 
+        $page = $request->query->get('page');
+        $size = $request->query->get('size');
+        $sort = $request->query->get('sort');
+        $order = $request->query->get('order');
+        $offset = ($page-1) * $size;
+       
         $repository = $this->getDoctrine()->getRepository(Game::class);
-        $games = $repository->findall();
-        
+        $games = $repository->findGames($size, $sort, $order, $offset);
+         
         $response['games'] = $games;
         $response['total_count'] = count($response['games']);
        
