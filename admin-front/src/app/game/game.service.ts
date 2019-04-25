@@ -12,8 +12,8 @@ export class GameService {
             
     constructor(private httpClient: HttpClient) {}
     
-    getGames(sort: string, order: string, page: number, size: number): Observable<Games> {
-        return this.httpClient.get<Games>(API_URL+'/game/all?sort='+sort+'&order='+order+'&page='+page + 1+'&size='+size)
+    getGames(sort: string, order: string, page: number, size: number): Observable<Games> {     
+        return this.httpClient.get<Games>(API_URL+'/game/all?sort='+sort+'&order='+order+'&page='+page+'&size='+size)
             .pipe(catchError(this.handleError));   
     }
 

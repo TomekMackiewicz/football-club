@@ -29,8 +29,15 @@ class GameRepository extends ServiceEntityRepository
             ->setMaxResults($size)
             ->setFirstResult($offset)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+    }
+    
+    public function countGames()
+    {
+        return $this->createQueryBuilder('g')
+            ->select('count(g.id)')
+            ->getQuery()
+            ->getSingleScalarResult();        
     }
 
 }

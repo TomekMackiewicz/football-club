@@ -27,13 +27,13 @@ class GameController extends FOSRestController
         $sort = $request->query->get('sort');
         $order = $request->query->get('order');
         $offset = ($page-1) * $size;
-       
+      
         $repository = $this->getDoctrine()->getRepository(Game::class);
         $games = $repository->findGames($size, $sort, $order, $offset);
          
         $response['games'] = $games;
-        $response['total_count'] = count($response['games']);
-       
+        $response['total_count'] = $repository->countGames();
+
         return $this->handleView($this->view($response));
     }
   
