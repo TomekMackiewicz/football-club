@@ -18,13 +18,12 @@ class GameType extends AbstractType
                 'format' => 'yyyy-MM-dd'
             ])
             ->add('location')
-            ->add('gameType')
-            ->add('hostTeam')
-            ->add('guestTeam')
-            ->add('hostScore')
-            ->add('guestScore')
-            ->add('save', SubmitType::class)
-            ;
+            ->add('game_type')
+            ->add('host_team')
+            ->add('guest_team')
+            ->add('host_score')
+            ->add('guest_score')
+            ->add('save', SubmitType::class);
     }
     
     public function configureOptions(OptionsResolver $resolver)

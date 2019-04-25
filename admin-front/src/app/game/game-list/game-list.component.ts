@@ -12,7 +12,7 @@ import { Game } from '../../model/game';
     templateUrl: './game-list.component.html',
 })
 export class GameListComponent implements AfterViewInit {
-    displayedColumns: string[] = ['select', 'date', 'location', 'type', 'hostTeam', 'guestTeam', 'hostScore', 'guestScore'];
+    displayedColumns: string[] = ['select', 'date', 'location', 'game_type', 'host_team', 'guest_team', 'host_score', 'guest_score'];
     games: Array<Game>;
     selection = new SelectionModel<Game>(true, []);
     dataSource: MatTableDataSource<Game>;

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from "@angular/router"
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -14,11 +14,11 @@ export class GameAddComponent {
     gameForm = this.fb.group({
         date: ['', Validators.required],
         location: ['', Validators.required],
-        gameType: ['', Validators.required],
-        hostTeam: ['', Validators.required],
-        guestTeam: ['', Validators.required],
-        hostScore: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-        guestScore: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
+        game_type: ['', Validators.required],
+        host_team: ['', Validators.required],
+        guest_team: ['', Validators.required],
+        host_score: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+        guest_score: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
     });
 
     constructor(

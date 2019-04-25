@@ -18,23 +18,22 @@ class GameController extends FOSRestController
     /**
      * Lists all games
      * @Rest\Get("/all")
-     *
      * @return Response
      */
-    public function getGameAction(Request $request)
+    public function getGameAction()
     {        
         $repository = $this->getDoctrine()->getRepository(Game::class);
         $games = $repository->findall();
         
         $response['games'] = $games;
-        $response['total_count'] = 2;
+        $response['total_count'] = count($response['games']);
        
         return $this->handleView($this->view($response));
     }
   
     /**
+     * Add new game
      * @Rest\Post("/new")
-     *
      * @return Response
      */
     public function postGameAction(Request $request)
