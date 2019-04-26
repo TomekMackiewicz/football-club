@@ -17,9 +17,14 @@
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{ 'filter' | translate | capitalizeFirst }}">
             </mat-form-field>
             <span class="fill-space"></span>
-            <button mat-flat-button color="primary" (click)=redirectToEditPage() [disabled]="selection.selected.length !=1">
-                {{ 'edit' | translate | capitalizeFirst }}
-            </button>
+            <div fxLayout="row" fxLayoutGap="16px">
+                <button mat-flat-button color="primary" (click)=redirectToEditPage() [disabled]="selection.selected.length != 1">
+                    {{ 'edit' | translate | capitalizeFirst }}
+                </button>
+                <button mat-flat-button color="warn" (click)=deleteGames() [disabled]="selection.selected.length < 1">
+                    {{ 'delete' | translate | capitalizeFirst }}
+                </button>
+            </div>
         </mat-toolbar>
         
         <table mat-table [dataSource]="data"

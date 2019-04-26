@@ -19,7 +19,8 @@ import {
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDialogModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -28,12 +29,15 @@ import { ApplicationPipesModule } from '../pipes/application-pipes.module';
 import { GameListComponent } from './game-list/game-list.component';
 import { GameAddComponent } from './game-add/game-add.component';
 
+import { ConfirmDialogComponent } from './confirm-dialog.component';
+
 import { GameService } from './game.service';
 
 @NgModule({
     declarations: [
         GameListComponent,
-        GameAddComponent
+        GameAddComponent,
+        ConfirmDialogComponent
     ],
     imports: [
         CommonModule,
@@ -53,6 +57,7 @@ import { GameService } from './game.service';
         MatButtonModule,
         MatCardModule,
         MatToolbarModule,
+        MatDialogModule,
         FlexLayoutModule,
         HttpClientModule,
         ApplicationPipesModule,
@@ -64,7 +69,8 @@ import { GameService } from './game.service';
             }
         })
     ],
-    providers: [GameService]
+    providers: [GameService],
+    entryComponents: [ConfirmDialogComponent]
 })
 export class GameModule { }
 

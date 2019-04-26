@@ -1,6 +1,9 @@
 {
     "add": "dodaj",
     "date": "data",
+    "delete": "usuń",
+    "delete.confirm.description": "jesteś pewien?",
+    "delete.confirm.title" : "usunąć?",
     "edit": "edytuj",
     "error": "ups, coś poszło nie tak :(",
     "filter": "filtruj",

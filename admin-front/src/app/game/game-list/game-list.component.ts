@@ -1,10 +1,11 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { Component, ViewChild, AfterViewInit, Inject } from '@angular/core';
+import { MatPaginator, MatSort, MatDialog, MatDialogConfig } from '@angular/material';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { GameService } from '../game.service';
 import { Game } from '../../model/game';
+import { ConfirmDialogComponent } from '../confirm-dialog.component';
 
 @Component({
     selector: 'app-game-list',
@@ -21,7 +22,10 @@ export class GameListComponent implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private gameService: GameService) {}
+    constructor(
+        private gameService: GameService,
+        public dialog: MatDialog
+    ) {}
 
     ngAfterViewInit() {       
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -75,7 +79,26 @@ export class GameListComponent implements AfterViewInit {
     redirectToEditPage() {
         console.log(this.selection.selected[0].id);
     }
+    
+    // @TODO
+    deleteGames() {
+        this.openConfirmDeleteDialog();
+    }
+
+    openConfirmDeleteDialog(): void {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
         
+        dialogConfig.data = {
+            id: 1,
+            title: 'delete.confirm.title',
+            description: 'delete.confirm.description'
+        };        
+        
+        this.dialog.open(ConfirmDialogComponent, dialogConfig);
+    }    
+            
 }
 // @TODO
 export interface Games {
