@@ -93,6 +93,10 @@ table {
     border-color:#f5c6cb
 }
 
-.mat-toolbar .mat-form-field-label-wrapper, .mat-toolbar .mat-form-field-autofill-control {
+#table-toolbar .mat-form-field-label-wrapper, .mat-toolbar .mat-form-field-autofill-control {
     font-size:14px;
+}
+
+#table-toolbar .mat-form-field-label {
+    top: 2em;
 }
