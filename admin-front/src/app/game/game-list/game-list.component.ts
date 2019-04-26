@@ -5,7 +5,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { GameService } from '../game.service';
 import { Game } from '../../model/game';
-import { ConfirmDialogComponent } from '../confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'app-game-list',
@@ -18,7 +18,7 @@ export class GameListComponent implements AfterViewInit {
     resultsLength = 0;
     isLoadingResults = true;
     isRateLimitReached = false;
-
+    
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
@@ -91,12 +91,19 @@ export class GameListComponent implements AfterViewInit {
         dialogConfig.autoFocus = true;
         
         dialogConfig.data = {
-            id: 1,
             title: 'delete.confirm.title',
             description: 'delete.confirm.description'
         };        
-        
-        this.dialog.open(ConfirmDialogComponent, dialogConfig);
+
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, dialogConfig);
+       
+        dialogRef.afterClosed().subscribe(
+            data => {
+                if (data === true) {
+                    console.log(this.selection.selected);
+                }
+            }
+        );
     }    
             
 }
