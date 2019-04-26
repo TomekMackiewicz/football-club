@@ -1,7 +1,9 @@
 {
     "add": "add",
     "date": "date",
+    "edit": "edit",
     "error": "something bad happened :(",
+    "filter": "filter",
     "game.added": "game added succesfully",
     "game.new" : "new game",
     "game.type": "game type",

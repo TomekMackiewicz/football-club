@@ -8,16 +8,18 @@
     </div>    
 
     <mat-card>
-        <h2>Games</h2>
+        <h2>{{ 'games' | translate | capitalizeFirst }}</h2>
     </mat-card>
 
     <mat-card>
         <mat-toolbar id="table-toolbar">
             <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{ 'filter' | translate | capitalizeFirst }}">
             </mat-form-field>
             <span class="fill-space"></span>
-            <button mat-flat-button color="primary" (click)=redirectToEditPage() [disabled]="selection.selected.length !=1">Edit</button>
+            <button mat-flat-button color="primary" (click)=redirectToEditPage() [disabled]="selection.selected.length !=1">
+                {{ 'edit' | translate | capitalizeFirst }}
+            </button>
         </mat-toolbar>
         
         <table mat-table [dataSource]="data"
@@ -39,37 +41,51 @@
             </ng-container>       
 
             <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Date</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    {{ 'date' | translate | capitalizeFirst }}
+                </th>
                 <td mat-cell *matCellDef="let row">{{ row.date | date: 'dd/MM/yyyy' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="location">
-                <th mat-header-cell *matHeaderCellDef>Location</th>
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'location' | translate | capitalizeFirst }}
+                </th>
                 <td mat-cell *matCellDef="let row">{{ row.location }}</td>
             </ng-container>
 
             <ng-container matColumnDef="game_type">
-                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'game.type' | translate | capitalizeFirst }}
+                </th>
                 <td mat-cell *matCellDef="let row">{{ row.game_type }}</td>
             </ng-container>
 
             <ng-container matColumnDef="host_team">
-                <th mat-header-cell *matHeaderCellDef>Host team</th>
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'team.host' | translate | capitalizeFirst }}
+                </th>
                 <td mat-cell *matCellDef="let row">{{ row.host_team }}</td>
             </ng-container>
 
             <ng-container matColumnDef="guest_team">
-                <th mat-header-cell *matHeaderCellDef>Guest team</th>
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'team.guest' | translate | capitalizeFirst }}
+                </th>
                 <td mat-cell *matCellDef="let row">{{ row.guest_team }}</td>
             </ng-container>
 
             <ng-container matColumnDef="host_score">
-                <th mat-header-cell *matHeaderCellDef>Host score</th>
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'host.score' | translate | capitalizeFirst }}
+                </th>
                 <td mat-cell *matCellDef="let row">{{ row.host_score }}</td>
             </ng-container>
 
             <ng-container matColumnDef="guest_score">
-                <th mat-header-cell *matHeaderCellDef>Guest score</th>
+                <th mat-header-cell *matHeaderCellDef>
+                    {{ 'guest.score' | translate | capitalizeFirst }}
+                </th>
                 <td mat-cell *matCellDef="let row">{{ row.guest_score }}</td>
             </ng-container>
 
