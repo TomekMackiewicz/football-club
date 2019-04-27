@@ -86,7 +86,6 @@ export class GameListComponent implements AfterViewInit {
         console.log(this.selection.selected[0].id);
     }
     
-    // @TODO
     deleteGames() {
         this.openConfirmDeleteDialog();
     }

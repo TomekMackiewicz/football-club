@@ -33,9 +33,9 @@
             </mat-menu>           
         </mat-toolbar>
         
-        <main>
+        <main [@fadeAnimation]="outlet.isActivated ? outlet.activatedRoute : ''">
             <alert></alert>
-            <router-outlet></router-outlet>
+            <router-outlet #outlet="outlet"></router-outlet>
         </main>
         
     </mat-sidenav-content>

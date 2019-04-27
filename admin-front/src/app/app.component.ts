@@ -4,18 +4,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { NavService } from './services/nav.service';
 import { NavItem } from './model/nav-item';
 import { NAV_ITEMS } from './constants/nav-items';
+import { fadeAnimation, indicatorRotate } from './constants/animations';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     animations: [
-        trigger('indicatorRotate', [
-            state('collapsed', style({transform: 'rotate(0deg)'})),
-            state('expanded', style({transform: 'rotate(180deg)'})),
-            transition('expanded <=> collapsed',
-                animate('225ms cubic-bezier(0.4,0.0,0.2,1)')
-            )
-        ])
+        fadeAnimation,
+        indicatorRotate
     ]
 })
 export class AppComponent implements AfterViewInit {
