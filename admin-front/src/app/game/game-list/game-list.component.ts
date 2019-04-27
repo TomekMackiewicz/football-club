@@ -1,9 +1,11 @@
 import { Component, ViewChild, AfterViewInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatPaginator, MatSort, MatDialog, MatDialogConfig } from '@angular/material';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { GameService } from '../game.service';
+import { AlertService } from '../../alert/alert.service';
 import { Game } from '../../model/game';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 
@@ -23,15 +25,19 @@ export class GameListComponent implements AfterViewInit {
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(
+        private router: Router,
         private gameService: GameService,
+        private alertService: AlertService,
         public dialog: MatDialog
     ) {}
 
     ngAfterViewInit() {       
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-    merge(this.sort.sortChange, this.paginator.page)
-        .pipe(
+        this.getItems();
+    }
+    
+    getItems() {
+        merge(this.sort.sortChange, this.paginator.page).pipe(
             startWith({}),
             switchMap(() => {
                 this.isLoadingResults = true;
@@ -51,7 +57,7 @@ export class GameListComponent implements AfterViewInit {
                 this.isRateLimitReached = true;
                 return observableOf([]);
             })
-        ).subscribe(data => this.data = data);
+        ).subscribe(data => this.data = data);        
     }
 
     isAllSelected() {
@@ -100,13 +106,23 @@ export class GameListComponent implements AfterViewInit {
         dialogRef.afterClosed().subscribe(
             data => {
                 if (data === true) {
-                    console.log(this.selection.selected);
+                    var ids = this.selection.selected.map(({ id }) => id);
+                    this.gameService.deleteGames(ids).subscribe(
+                        success => {
+                            this.alertService.success(success, true);
+                            this.getItems();
+                        },
+                        error => {
+                            this.alertService.error(error, true);
+                        }
+                    );
                 }
             }
         );
     }    
             
 }
+
 // @TODO
 export interface Games {
     games: Game[];

@@ -14,7 +14,7 @@ class GameRepository extends ServiceEntityRepository
     }
 
     /**
-     * Game games for paginator
+     * Game games for pagination
      * 
      * @param int $size
      * @param string $sort
@@ -32,12 +32,30 @@ class GameRepository extends ServiceEntityRepository
             ->getResult();
     }
     
+    /**
+     * Count games
+     * @return integer
+     */
     public function countGames()
     {
         return $this->createQueryBuilder('g')
             ->select('count(g.id)')
             ->getQuery()
             ->getSingleScalarResult();        
+    }
+    
+    /**
+     * Find games with given id's
+     * @param array $ids
+     * @return array
+     */
+    public function findGamesByIds($ids)
+    {
+        return $this->createQueryBuilder('g')
+            ->where("g.id IN(:ids)")
+            ->setParameter('ids', $ids['ids'])
+            ->getQuery()
+            ->getResult();        
     }
 
 }

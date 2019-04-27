@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Game } from '../model/game';
@@ -17,10 +17,19 @@ export class GameService {
             .pipe(catchError(this.handleError));   
     }
 
-    addGame(game: Game): Observable<Game> {
-        return this.httpClient.post<Game>(API_URL+'/game/new', game, HTTP_OPTIONS)
+    addGame(game: Game): Observable<string> {
+        return this.httpClient.post<string>(API_URL+'/game/new', game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
-    }    
+    }
+    
+    editGame() {
+        
+    }
+        
+    deleteGames(ids: Array<number>): Observable<string> {            
+        return this.httpClient.request<string>('delete', API_URL+'/game/delete', { body: { ids }})
+            .pipe(catchError(this.handleError));
+    }
 
     private handleError(error: HttpErrorResponse) {
         var errorMsgDev;

@@ -11,6 +11,7 @@
     "game.new" : "new game",
     "game.type": "game type",
     "games": "games",
+    "games.deleted": "games successfully removed",
     "list" : "list",
     "location": "location",
     "players": "players",

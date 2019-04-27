@@ -11,6 +11,7 @@
     "game.new" : "dodaj mecz",
     "game.type": "rodzaj meczu",
     "games": "mecze",
+    "games.deleted": "mecze zostały usunięty",
     "list" : "lista",
     "location": "lokalizacja",
     "players": "gracze",
