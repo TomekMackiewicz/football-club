@@ -8,6 +8,7 @@
     "error": "ups, coś poszło nie tak :(",
     "filter": "filtruj",
     "game.added": "mecz został dodany",
+    "game.edit": "edycja meczu",
     "game.new" : "dodaj mecz",
     "game.type": "rodzaj meczu",
     "games": "mecze",

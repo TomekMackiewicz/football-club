@@ -81,9 +81,9 @@ export class GameListComponent implements AfterViewInit {
         }
     }
     
-    // @TODO
     redirectToEditPage() {
-        console.log(this.selection.selected[0].id);
+        var id = this.selection.selected.map(({ id }) => id);
+        this.router.navigate(['/games/edit/'+id[0]]);
     }
     
     deleteGames() {

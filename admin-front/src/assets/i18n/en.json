@@ -8,6 +8,7 @@
     "error": "something bad happened :(",
     "filter": "filter",
     "game.added": "game added succesfully",
+    "game.edit": "edit game",
     "game.new" : "new game",
     "game.type": "game type",
     "games": "games",

@@ -11,7 +11,12 @@ import { HTTP_OPTIONS, API_URL } from '../constants/http';
 export class GameService {
             
     constructor(private httpClient: HttpClient) {}
-    
+
+    getGame(id: number): Observable<Game> {     
+        return this.httpClient.get<Game>(API_URL+'/game/'+id)
+            .pipe(catchError(this.handleError));   
+    }    
+        
     getGames(sort: string, order: string, page: number, size: number): Observable<Games> {     
         return this.httpClient.get<Games>(API_URL+'/game/all?sort='+sort+'&order='+order+'&page='+page+'&size='+size)
             .pipe(catchError(this.handleError));   
@@ -25,7 +30,8 @@ export class GameService {
     editGame() {
         
     }
-        
+    
+    // @TODO pass id's as flat array    
     deleteGames(ids: Array<number>): Observable<string> {            
         return this.httpClient.request<string>('delete', API_URL+'/game/delete', { body: { ids }})
             .pipe(catchError(this.handleError));

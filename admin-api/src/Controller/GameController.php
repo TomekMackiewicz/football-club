@@ -30,7 +30,7 @@ class GameController extends FOSRestController
     {
         return $this->getDoctrine()->getManager();
     }
-    
+
     /**
      * Lists all games
      * @Rest\Get("/all")
@@ -55,7 +55,23 @@ class GameController extends FOSRestController
 
         return $this->handleView($this->view($response, Response::HTTP_OK));
     }
-  
+
+    /**
+     * Get game
+     * @Rest\Get("/{id}")
+     * @return Response
+     */
+    public function getGameAction(int $id)
+    { 
+        $game = $this->repository()->findOneBy(['id' => $id]);
+
+        if (!$game) {
+            return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
+        }
+
+        return $this->handleView($this->view($game, Response::HTTP_OK));
+    }    
+    
     /**
      * Add new game
      * @Rest\Post("/new")

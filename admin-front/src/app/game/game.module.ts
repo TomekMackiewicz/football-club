@@ -28,6 +28,7 @@ import { ApplicationPipesModule } from '../pipes/application-pipes.module';
 
 import { GameListComponent } from './game-list/game-list.component';
 import { GameAddComponent } from './game-add/game-add.component';
+import { GameEditComponent } from './game-edit/game-edit.component';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 
 import { GameService } from './game.service';
@@ -36,6 +37,7 @@ import { GameService } from './game.service';
     declarations: [
         GameListComponent,
         GameAddComponent,
+        GameEditComponent,
         ConfirmDialogComponent
     ],
     imports: [
