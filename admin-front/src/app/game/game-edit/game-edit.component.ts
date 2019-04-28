@@ -16,6 +16,7 @@ export class GameEditComponent implements OnInit {
     game: Game;
 
     gameForm = this.fb.group({
+        id: [''],
         date: ['', Validators.required],
         location: ['', Validators.required],
         game_type: ['', Validators.required],
@@ -39,12 +40,24 @@ export class GameEditComponent implements OnInit {
                 const id = +params['id'];
                 this.gameService.getGame(id).subscribe(game => {
                     this.game = game;
-                    this.gameForm.patchValue(this.game);
+                    this.gameForm.setValue(this.game);
                 });
             } else {
                 this.alertService.error('error');
             }
         });
+    }
+
+    updateGame() {
+        return this.gameService.updateGame(this.gameForm.value).subscribe(
+            success => {
+                this.alertService.success(success, true);
+                this.router.navigate(['/games/list']);
+            },
+            error => {
+                this.alertService.error(error, true);
+            }
+        );
     }
 
 }

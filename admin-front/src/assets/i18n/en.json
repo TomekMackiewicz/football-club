@@ -9,6 +9,7 @@
     "filter": "filter",
     "game.added": "game added succesfully",
     "game.edit": "edit game",
+    "game.edited": "game edited succesfully",
     "game.new" : "new game",
     "game.type": "game type",
     "games": "games",

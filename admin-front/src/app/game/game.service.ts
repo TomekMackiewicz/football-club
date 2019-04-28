@@ -21,14 +21,16 @@ export class GameService {
         return this.httpClient.get<Games>(API_URL+'/game/all?sort='+sort+'&order='+order+'&page='+page+'&size='+size)
             .pipe(catchError(this.handleError));   
     }
-
+    
+    // @TODO or object?
     addGame(game: Game): Observable<string> {
         return this.httpClient.post<string>(API_URL+'/game/new', game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
     
-    editGame() {
-        
+    updateGame(game: Game): Observable<string> {
+        return this.httpClient.patch<string>(API_URL+'/game/update', game, HTTP_OPTIONS)
+            .pipe(catchError(this.handleError));
     }
     
     // @TODO pass id's as flat array    

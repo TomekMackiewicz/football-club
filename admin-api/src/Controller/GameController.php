@@ -92,6 +92,33 @@ class GameController extends FOSRestController
 
         return $this->handleView($this->view($form->getErrors(), Response::HTTP_BAD_REQUEST));
     }
+
+    /**
+     * Update game
+     * @Rest\Patch("/update")
+     * @return Response
+     */
+    public function patchGameAction(Request $request)
+    {
+        $data = $request->request->all();
+        $game = $this->repository()->find($data['id']);
+
+        if (!$game) {
+            return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
+        }
+        
+        $form = $this->createForm(GameType::class, $game);
+        $form->submit($data);
+      
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em()->persist($game);
+            $this->em()->flush();
+
+            return $this->handleView($this->view('game.edited', Response::HTTP_CREATED));
+        }
+
+        return $this->handleView($this->view($form->getErrors(), Response::HTTP_BAD_REQUEST));
+    }
     
     /**
      * Delete one or multiple games

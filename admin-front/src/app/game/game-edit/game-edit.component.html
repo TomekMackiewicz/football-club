@@ -4,7 +4,8 @@
     </mat-card>
 
     <mat-card>
-        <form [formGroup]="gameForm" (ngSubmit)="addGame()" fxLayout="column" fxLayoutAlign="none">
+        <form [formGroup]="gameForm" (ngSubmit)="updateGame()" fxLayout="column" fxLayoutAlign="none">
+            <input type="hidden" formControlName="id">
             <mat-form-field appearance="outline">
                 <mat-label>{{ 'date' | translate | capitalizeFirst }}</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="date" placeholder="{{ 'date' | translate | capitalizeFirst }}" required>
@@ -109,7 +110,7 @@
             </mat-form-field> 
 
             <button mat-raised-button type="submit" [disabled]="!gameForm.valid">
-                {{ 'add' | translate | capitalizeFirst }}
+                {{ 'edit' | translate | capitalizeFirst }}
             </button>
         </form>
 
