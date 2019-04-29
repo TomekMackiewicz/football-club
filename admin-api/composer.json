@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/rest-bundle": "^2.5",
+        "guzzlehttp/guzzle": "^6.3",
         "jms/serializer-bundle": "^3.2",
         "nelmio/cors-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.3",
@@ -67,6 +68,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "symfony/phpunit-bridge": "4.2.*",
         "symfony/web-server-bundle": "4.2.*"
     }
 }

@@ -114,7 +114,7 @@ class GameController extends FOSRestController
             $this->em()->persist($game);
             $this->em()->flush();
 
-            return $this->handleView($this->view('game.edited', Response::HTTP_CREATED));
+            return $this->handleView($this->view('game.edited', Response::HTTP_OK));
         }
 
         return $this->handleView($this->view($form->getErrors(), Response::HTTP_BAD_REQUEST));
