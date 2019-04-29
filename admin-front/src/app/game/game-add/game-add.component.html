@@ -1,118 +1,118 @@
 <div fxFlex.gt-sm="40" fxFlex.sm="100" fxFlexOffset.gt-sm="30" fxLayout="column" fxLayoutGap="16px">
     <mat-card>
-        <h2>{{ 'game.new' | translate | capitalizeFirst }}</h2>
-    </mat-card>
+        <mat-card-title>
+            {{ 'game.new' | translate | capitalizeFirst }}
+        </mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="gameForm" (ngSubmit)="addGame()" fxLayout="column" fxLayoutAlign="none">
 
-    <mat-card>
-        <form [formGroup]="gameForm" (ngSubmit)="addGame()" fxLayout="column" fxLayoutAlign="none">
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'date' | translate | capitalizeFirst }}</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date" placeholder="{{ 'date' | translate | capitalizeFirst }}" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="gameForm.get('date').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>{{ 'date' | translate | capitalizeFirst }}</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date" placeholder="{{ 'date' | translate | capitalizeFirst }}" required>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="gameForm.get('date').hasError('required')">
-                    {{ 'validation.required' | translate | capitalizeFirst }}
-                </mat-error>
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'location' | translate | capitalizeFirst }}</mat-label>
+                    <input matInput placeholder="{{ 'location' | translate | capitalizeFirst }}" formControlName="location" required>
+                    <mat-error *ngIf="gameForm.get('location').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>    
 
-            <mat-form-field appearance="outline">
-                <mat-label>{{ 'location' | translate | capitalizeFirst }}</mat-label>
-                <input matInput placeholder="{{ 'location' | translate | capitalizeFirst }}" formControlName="location" required>
-                <mat-error *ngIf="gameForm.get('location').hasError('required')">
-                    {{ 'validation.required' | translate | capitalizeFirst }}
-                </mat-error>
-            </mat-form-field>    
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'game.type' | translate | capitalizeFirst }}</mat-label>
+                  <mat-select formControlName="game_type" required>
+                <!--    <mat-option *ngFor="let food of foods" [value]="food.value">
+                      {{ food.viewValue }}
+                    </mat-option>-->
+                    <mat-option [value]="1">
+                      option 1
+                    </mat-option>
+                    <mat-option [value]="2">
+                      option 2
+                    </mat-option>
+                    <mat-option [value]="3">
+                      option 3
+                    </mat-option>
+                  </mat-select>
+                    <mat-error *ngIf="gameForm.get('game_type').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'game.type' | translate | capitalizeFirst }}</mat-label>
-              <mat-select formControlName="game_type" required>
-            <!--    <mat-option *ngFor="let food of foods" [value]="food.value">
-                  {{ food.viewValue }}
-                </mat-option>-->
-                <mat-option [value]="1">
-                  option 1
-                </mat-option>
-                <mat-option [value]="2">
-                  option 2
-                </mat-option>
-                <mat-option [value]="3">
-                  option 3
-                </mat-option>
-              </mat-select>
-                <mat-error *ngIf="gameForm.get('game_type').hasError('required')">
-                    {{ 'validation.required' | translate | capitalizeFirst }}
-                </mat-error>
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'team.host' | translate | capitalizeFirst }}</mat-label>
+                  <mat-select formControlName="host_team" required>
+                <!--    <mat-option *ngFor="let food of foods" [value]="food.value">
+                      {{ food.viewValue }}
+                    </mat-option>-->
+                    <mat-option [value]="1">
+                      option 1
+                    </mat-option>
+                    <mat-option [value]="2">
+                      option 2
+                    </mat-option>
+                    <mat-option [value]="3">
+                      option 3
+                    </mat-option>
+                  </mat-select>
+                    <mat-error *ngIf="gameForm.get('host_team').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'team.host' | translate | capitalizeFirst }}</mat-label>
-              <mat-select formControlName="host_team" required>
-            <!--    <mat-option *ngFor="let food of foods" [value]="food.value">
-                  {{ food.viewValue }}
-                </mat-option>-->
-                <mat-option [value]="1">
-                  option 1
-                </mat-option>
-                <mat-option [value]="2">
-                  option 2
-                </mat-option>
-                <mat-option [value]="3">
-                  option 3
-                </mat-option>
-              </mat-select>
-                <mat-error *ngIf="gameForm.get('host_team').hasError('required')">
-                    {{ 'validation.required' | translate | capitalizeFirst }}
-                </mat-error>
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'team.guest' | translate | capitalizeFirst }}</mat-label>
+                  <mat-select formControlName="guest_team" required>
+                <!--    <mat-option *ngFor="let food of foods" [value]="food.value">
+                      {{ food.viewValue }}
+                    </mat-option>-->
+                    <mat-option [value]="1">
+                      option 1
+                    </mat-option>
+                    <mat-option [value]="2">
+                      option 2
+                    </mat-option>
+                    <mat-option [value]="3">
+                      option 3
+                    </mat-option>
+                  </mat-select>
+                    <mat-error *ngIf="gameForm.get('guest_team').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>   
 
-            <mat-form-field appearance="outline">
-              <mat-label>{{ 'team.guest' | translate | capitalizeFirst }}</mat-label>
-              <mat-select formControlName="guest_team" required>
-            <!--    <mat-option *ngFor="let food of foods" [value]="food.value">
-                  {{ food.viewValue }}
-                </mat-option>-->
-                <mat-option [value]="1">
-                  option 1
-                </mat-option>
-                <mat-option [value]="2">
-                  option 2
-                </mat-option>
-                <mat-option [value]="3">
-                  option 3
-                </mat-option>
-              </mat-select>
-                <mat-error *ngIf="gameForm.get('guest_team').hasError('required')">
-                    {{ 'validation.required' | translate | capitalizeFirst }}
-                </mat-error>
-            </mat-form-field>   
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'host.score' | translate | capitalizeFirst }}</mat-label>
+                    <input matInput placeholder="{{ 'host.score' | translate | capitalizeFirst }}" formControlName="host_score" required>
+                    <mat-error *ngIf="gameForm.get('host_score').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                    <mat-error *ngIf="gameForm.get('host_score').hasError('pattern')">
+                        {{ 'validation.digits' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>             
 
-            <mat-form-field appearance="outline">
-                <mat-label>{{ 'host.score' | translate | capitalizeFirst }}</mat-label>
-                <input matInput placeholder="{{ 'host.score' | translate | capitalizeFirst }}" formControlName="host_score" required>
-                <mat-error *ngIf="gameForm.get('host_score').hasError('required')">
-                    {{ 'validation.required' | translate | capitalizeFirst }}
-                </mat-error>
-                <mat-error *ngIf="gameForm.get('host_score').hasError('pattern')">
-                    {{ 'validation.digits' | translate | capitalizeFirst }}
-                </mat-error>
-            </mat-form-field>             
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'guest.score' | translate | capitalizeFirst }}</mat-label>
+                    <input matInput placeholder="{{ 'guest.score' | translate | capitalizeFirst }}" formControlName="guest_score" required>
+                    <mat-error *ngIf="gameForm.get('guest_score').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                    <mat-error *ngIf="gameForm.get('guest_score').hasError('pattern')">
+                        {{ 'validation.digits' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field> 
 
-            <mat-form-field appearance="outline">
-                <mat-label>{{ 'guest.score' | translate | capitalizeFirst }}</mat-label>
-                <input matInput placeholder="{{ 'guest.score' | translate | capitalizeFirst }}" formControlName="guest_score" required>
-                <mat-error *ngIf="gameForm.get('guest_score').hasError('required')">
-                    {{ 'validation.required' | translate | capitalizeFirst }}
-                </mat-error>
-                <mat-error *ngIf="gameForm.get('guest_score').hasError('pattern')">
-                    {{ 'validation.digits' | translate | capitalizeFirst }}
-                </mat-error>
-            </mat-form-field> 
-
-            <button mat-raised-button type="submit" [disabled]="!gameForm.valid">
-                {{ 'add' | translate | capitalizeFirst }}
-            </button>
-        </form>
-
+                <button mat-raised-button type="submit" [disabled]="!gameForm.valid">
+                    {{ 'add' | translate | capitalizeFirst }}
+                </button>
+            </form>
+        </mat-card-content>
     </mat-card>
 </div>
