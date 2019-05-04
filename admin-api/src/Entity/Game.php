@@ -79,7 +79,7 @@ class Game
     }
     
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
     public function getDate(): ?\DateTimeInterface
     {
@@ -98,7 +98,7 @@ class Game
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getLocation(): ?string
     {
@@ -117,7 +117,7 @@ class Game
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getGameType(): ?int
     {
@@ -136,7 +136,7 @@ class Game
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getHostTeam(): ?int
     {
@@ -155,13 +155,17 @@ class Game
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getGuestTeam(): ?int
     {
         return $this->guestTeam;
     }
 
+    /**
+     * @param int $guestTeam
+     * @return \self
+     */
     public function setGuestTeam(int $guestTeam): self
     {
         $this->guestTeam = $guestTeam;
@@ -169,11 +173,18 @@ class Game
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getHostScore(): ?int
     {
         return $this->hostScore;
     }
 
+    /**
+     * @param int $hostScore
+     * @return \self
+     */
     public function setHostScore(int $hostScore): self
     {
         $this->hostScore = $hostScore;
@@ -182,7 +193,7 @@ class Game
     }
     
     /**
-     * @return int
+     * @return int|null
      */
     public function getGuestScore(): ?int
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -14,7 +15,7 @@ class GameRepository extends ServiceEntityRepository
     }
 
     /**
-     * Game games for pagination
+     * Games for pagination
      * 
      * @param int $size
      * @param string $sort
@@ -22,7 +23,7 @@ class GameRepository extends ServiceEntityRepository
      * @param int $offset
      * @return Game[]
      */
-    public function findGames($size, $sort, $order, $offset)
+    public function findGames(int $size, string $sort, string $order, int $offset)
     {
         return $this->createQueryBuilder('g')
             ->orderBy('g.'.$sort, $order)
@@ -49,7 +50,7 @@ class GameRepository extends ServiceEntityRepository
      * @param array $ids
      * @return array
      */
-    public function findGamesByIds($ids)
+    public function findGamesByIds(array $ids)
     {
         return $this->createQueryBuilder('g')
             ->where("g.id IN(:ids)")

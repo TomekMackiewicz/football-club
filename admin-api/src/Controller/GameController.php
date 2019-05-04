@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -25,7 +26,7 @@ class GameController extends FOSRestController
 
     /**
      * @return ObjectManager
-     */    
+     */
     private function em()
     {
         return $this->getDoctrine()->getManager();
@@ -37,9 +38,9 @@ class GameController extends FOSRestController
      * @return Response
      */
     public function getGamesAction(Request $request)
-    { 
+    {
         $page = $request->query->get('page');
-        $size = $request->query->get('size');
+        $size = (int) $request->query->get('size');
         $sort = $request->query->get('sort');
         $order = $request->query->get('order');
         $offset = ($page-1) * $size;
@@ -47,13 +48,17 @@ class GameController extends FOSRestController
         $games = $this->repository()->findGames($size, $sort, $order, $offset);
 
         if (!$games) {
-            return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
+            return $this->handleView(
+                $this->view(null, Response::HTTP_NO_CONTENT)
+            );
         }
-        
+
         $response['games'] = $games;
         $response['total_count'] = $this->repository()->countGames();
 
-        return $this->handleView($this->view($response, Response::HTTP_OK));
+        return $this->handleView(
+            $this->view($response, Response::HTTP_OK)
+        );
     }
 
     /**
@@ -62,16 +67,20 @@ class GameController extends FOSRestController
      * @return Response
      */
     public function getGameAction(int $id)
-    { 
+    {
         $game = $this->repository()->findOneBy(['id' => $id]);
 
         if (!$game) {
-            return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
+            return $this->handleView(
+                $this->view(null, Response::HTTP_NO_CONTENT)
+            );
         }
 
-        return $this->handleView($this->view($game, Response::HTTP_OK));
-    }    
-    
+        return $this->handleView(
+            $this->view($game, Response::HTTP_OK)
+        );
+    }
+
     /**
      * Add new game
      * @Rest\Post("/new")
@@ -87,10 +96,14 @@ class GameController extends FOSRestController
             $this->em()->persist($game);
             $this->em()->flush();
 
-            return $this->handleView($this->view('game.added', Response::HTTP_CREATED));
+            return $this->handleView(
+                $this->view('game.added', Response::HTTP_CREATED)
+            );
         }
 
-        return $this->handleView($this->view($form->getErrors(), Response::HTTP_BAD_REQUEST));
+        return $this->handleView(
+            $this->view($form->getErrors(), Response::HTTP_BAD_REQUEST)
+        );
     }
 
     /**
@@ -104,22 +117,28 @@ class GameController extends FOSRestController
         $game = $this->repository()->find($data['id']);
 
         if (!$game) {
-            return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
+            return $this->handleView(
+                $this->view(null, Response::HTTP_NO_CONTENT)
+            );
         }
-        
+
         $form = $this->createForm(GameType::class, $game);
         $form->submit($data);
-      
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em()->persist($game);
             $this->em()->flush();
 
-            return $this->handleView($this->view('game.edited', Response::HTTP_OK));
+            return $this->handleView(
+                $this->view('game.edited', Response::HTTP_OK)
+            );
         }
 
-        return $this->handleView($this->view($form->getErrors(), Response::HTTP_BAD_REQUEST));
+        return $this->handleView(
+            $this->view($form->getErrors(), Response::HTTP_BAD_REQUEST)
+        );
     }
-    
+
     /**
      * Delete one or multiple games
      * @Rest\Delete("/delete")
@@ -130,15 +149,19 @@ class GameController extends FOSRestController
         $games = $this->repository()->findGamesByIds($request->request->all());
 
         if (!$games) {
-            return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
+            return $this->handleView(
+                $this->view(null, Response::HTTP_NO_CONTENT)
+            );
         }
 
-        foreach ($games as $game) {            
+        foreach ($games as $game) {
             $this->em()->remove($game);
-            $this->em()->flush();            
+            $this->em()->flush();
         }
 
-        return $this->handleView($this->view('games.deleted', Response::HTTP_OK));
+        return $this->handleView(
+            $this->view('games.deleted', Response::HTTP_OK)
+        );
     }
-    
+
 }

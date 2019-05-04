@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -10,13 +11,11 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < 200; $i++) {
-            
+        for ($i = 0; $i < 200; $i++) {            
             $min=1;
             $max=9;
             $startDate = new \DateTime('2019-01-01');
-            $endDate = new \DateTime('2019-12-30');
-            
+            $endDate = new \DateTime('2019-12-30');            
             $game = new Game();
             $game->setDate($this->randomDateInRange($startDate, $endDate));
             $game->setLocation($this->randomLocation());
@@ -32,7 +31,8 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
     
-    private function randomDateInRange(\DateTime $start, \DateTime $end) {
+    private function randomDateInRange(\DateTime $start, \DateTime $end) 
+    {
         $randomTimestamp = mt_rand($start->getTimestamp(), $end->getTimestamp());
         $randomDate = new \DateTime();
         $randomDate->setTimestamp($randomTimestamp);
@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
     
     private function randomGameType()
     {
-        $gameTypes = ["liga", "sparing", "turniej"];        
+        $gameTypes = ["league", "sparring", "tournament"];        
         return array_rand($gameTypes, 1);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -29,10 +30,10 @@ class GameType extends AbstractType
     
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Game::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true
-        ));
+        ]);
     }
 }
