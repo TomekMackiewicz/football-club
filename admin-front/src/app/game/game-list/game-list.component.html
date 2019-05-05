@@ -12,10 +12,77 @@
             {{ 'games' | translate | capitalizeFirst }}
         </mat-card-title>
         <mat-card-content>
-            <mat-toolbar id="table-toolbar">
-                <mat-form-field>
-                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{ 'filter' | translate | capitalizeFirst }}">
-                </mat-form-field>
+
+            <mat-expansion-panel (opened)="filterPanelOpenState = false" (closed)="filterPanelOpenState = true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ 'filter' | translate | capitalizeFirst }}
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="filterPanelOpenState">
+                        {{ 'expand.to.filter' | translate | capitalizeFirst }}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                
+                    <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+                        <div fxLayout.gt-md="row" fxLayout.lt-lg="column" fxLayoutAlign.gt-md="space-between start" fxLayoutAlign.lt-lg="space-between stretch">
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{ 'date.from' | translate | capitalizeFirst }}</mat-label>
+                                <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" placeholder="{{ 'date.from' | translate | capitalizeFirst }}">
+                                <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+                                <mat-datepicker #dateFrom></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{ 'date.to' | translate | capitalizeFirst }}</mat-label>
+                                <input matInput [matDatepicker]="dateTo" formControlName="dateTo" placeholder="{{ 'date.to' | translate | capitalizeFirst }}">
+                                <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+                                <mat-datepicker #dateTo></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{ 'location' | translate | capitalizeFirst }}</mat-label>
+                                <input matInput formControlName="location" placeholder="{{ 'location' | translate | capitalizeFirst }}">
+                            </mat-form-field>                           
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{ 'game.type' | translate | capitalizeFirst }}</mat-label>
+                                <mat-select formControlName="gameType">
+                                    <mat-option [value]="1">
+                                        option 1
+                                    </mat-option>
+                                    <mat-option [value]="2">
+                                        option 2
+                                    </mat-option>
+                                    <mat-option [value]="3">
+                                        option 3
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>                            
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{ 'team' | translate | capitalizeFirst }}</mat-label>
+                                <mat-select formControlName="team">
+                                    <mat-option [value]="1">
+                                        option 1
+                                    </mat-option>
+                                    <mat-option [value]="2">
+                                        option 2
+                                    </mat-option>
+                                    <mat-option [value]="3">
+                                        option 3
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field> 
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="16px">
+                            <button mat-flat-button type="submit" color="primary">
+                                {{ 'filter' | translate | capitalizeFirst }}
+                            </button>
+                            <button mat-flat-button type="button" color="accent" (click)=resetFilter()>
+                                {{ 'filter.clear' | translate | capitalizeFirst }}
+                            </button>
+                        </div>
+                    </form>
+                
+            </mat-expansion-panel>            
+
+            <mat-toolbar class="table-toolbar">
                 <span class="fill-space"></span>
                 <div fxLayout="row" fxLayoutGap="16px">
                     <button mat-flat-button color="primary" (click)=redirectToEditPage() [disabled]="selection.selected.length != 1">

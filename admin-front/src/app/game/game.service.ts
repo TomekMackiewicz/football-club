@@ -28,6 +28,7 @@ export class GameService {
             .pipe(catchError(this.handleError));
     }
     
+    // @TODO or object?
     updateGame(game: Game): Observable<string> {
         return this.httpClient.patch<string>(API_URL+'/game/update', game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));

@@ -4,6 +4,7 @@ import { MatPaginator, MatSort, MatDialog, MatDialogConfig } from '@angular/mate
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
+import { FormBuilder } from '@angular/forms';
 import { GameService } from '../game.service';
 import { AlertService } from '../../alert/alert.service';
 import { Game } from '../../model/game';
@@ -21,6 +22,15 @@ export class GameListComponent implements AfterViewInit {
     isLoadingResults = true;
     isRateLimitReached = false;
     
+    filterForm = this.fb.group({
+        dateFrom: [''],
+        dateTo: [''],
+        location: [''],
+        gameType: [''],
+        team: ['']
+    });
+    filterPanelOpenState = true;
+    
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
@@ -28,15 +38,16 @@ export class GameListComponent implements AfterViewInit {
         private router: Router,
         private gameService: GameService,
         private alertService: AlertService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private fb: FormBuilder
     ) {}
 
     ngAfterViewInit() {       
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-        this.getItems();
+        this.getGames();
     }
     
-    getItems() {
+    getGames() {
         merge(this.sort.sortChange, this.paginator.page).pipe(
             startWith({}),
             switchMap(() => {
@@ -72,13 +83,13 @@ export class GameListComponent implements AfterViewInit {
             this.data.forEach(row => this.selection.select(row));
     }
 
-    // @TODO
-    applyFilter(filterValue: string) {
-        //this.data.filter = filterValue.trim().toLowerCase();
-
-        if (this.paginator) {
-            this.paginator.firstPage();
-        }
+    applyFilter() {
+        this.getGames();
+    }
+    
+    resetFilter() {
+        this.filterForm.reset();
+        this.getGames();
     }
     
     redirectToEditPage() {
@@ -109,7 +120,7 @@ export class GameListComponent implements AfterViewInit {
                     this.gameService.deleteGames(ids).subscribe(
                         success => {
                             this.alertService.success(success, true);
-                            this.getItems();
+                            this.getGames();
                         },
                         error => {
                             this.alertService.error(error, true);

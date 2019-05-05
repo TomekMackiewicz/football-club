@@ -93,14 +93,14 @@ table {
     border-color:#f5c6cb
 }
 
-#table-toolbar {
+.table-toolbar {
     background: #fff;
 }
 
-#table-toolbar .mat-form-field-label-wrapper, .mat-toolbar .mat-form-field-autofill-control {
+.table-toolbar .mat-form-field-label-wrapper, .mat-toolbar .mat-form-field-autofill-control, .mat-toolbar .mat-select-value-text {
     font-size:14px;
 }
 
-#table-toolbar .mat-form-field-label {
+.table-toolbar .mat-form-field-label {
     top: 2em;
 }
