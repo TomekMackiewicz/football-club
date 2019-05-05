@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 import { Game } from '../model/game';
 import { HTTP_OPTIONS, API_URL } from '../constants/http';
 
@@ -10,15 +11,22 @@ import { HTTP_OPTIONS, API_URL } from '../constants/http';
 })
 export class GameService {
             
-    constructor(private httpClient: HttpClient) {}
+    constructor(
+        private httpClient: HttpClient,
+        public datepipe: DatePipe
+    ) {}
 
     getGame(id: number): Observable<Game> {     
         return this.httpClient.get<Game>(API_URL+'/game/'+id)
             .pipe(catchError(this.handleError));   
     }    
         
-    getGames(sort: string, order: string, page: number, size: number): Observable<Games> {   
-        return this.httpClient.get<Games>(API_URL+'/game/all?sort='+sort+'&order='+order+'&page='+page+'&size='+size)
+    getGames(sort: string, order: string, page: number, size: number, filters: any): Observable<Games> {
+        filters.dateFrom = this.datepipe.transform(filters.dateFrom, 'yyyy-MM-dd');
+        filters.dateTo = this.datepipe.transform(filters.dateTo, 'yyyy-MM-dd');  
+        let params = 'sort='+sort+'&order='+order+'&page='+page+'&size='+size+'&filters='+JSON.stringify(filters); 
+               
+        return this.httpClient.get<Games>(API_URL+'/game/all?'+params)
             .pipe(catchError(this.handleError));   
     }
     

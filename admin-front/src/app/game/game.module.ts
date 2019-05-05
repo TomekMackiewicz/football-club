@@ -25,6 +25,7 @@ import {
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { DatePipe } from '@angular/common'
 import { ApplicationPipesModule } from '../pipes/application-pipes.module';
 
 import { GameListComponent } from './game-list/game-list.component';
@@ -72,7 +73,7 @@ import { GameService } from './game.service';
             }
         })
     ],
-    providers: [GameService],
+    providers: [DatePipe, GameService],
     entryComponents: [ConfirmDialogComponent]
 })
 export class GameModule { }

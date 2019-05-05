@@ -38,14 +38,15 @@ class GameController extends FOSRestController
      * @return Response
      */
     public function getGamesAction(Request $request)
-    {
+    {       
         $page = $request->query->get('page');
         $size = (int) $request->query->get('size');
         $sort = $request->query->get('sort');
         $order = $request->query->get('order');
         $offset = ($page-1) * $size;
+        $filters = json_decode($request->query->get('filters'), true);
 
-        $games = $this->repository()->findGames($size, $sort, $order, $offset);
+        $games = $this->repository()->findGames($size, $sort, $order, $offset, $filters);
 
         if (!$games) {
             return $this->handleView(

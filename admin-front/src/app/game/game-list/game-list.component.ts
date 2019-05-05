@@ -53,7 +53,11 @@ export class GameListComponent implements AfterViewInit {
             switchMap(() => {
                 this.isLoadingResults = true;
                 return this.gameService.getGames(
-                    this.sort.active, this.sort.direction, this.paginator.pageIndex+1, this.paginator.pageSize
+                    this.sort.active, 
+                    this.sort.direction, 
+                    this.paginator.pageIndex+1, 
+                    this.paginator.pageSize,
+                    this.filterForm.value
                 );
             }),
             map(data => {
