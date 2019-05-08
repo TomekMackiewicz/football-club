@@ -1,12 +1,5 @@
 <div fxLayout="column" fxLayoutGap="16px">
 
-    <div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
-        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-        <div *ngIf="isRateLimitReached">
-            Limit has been reached. It will be reset in one minute.
-        </div>
-    </div>    
-
     <mat-card>
         <mat-card-title>
             {{ 'games' | translate | capitalizeFirst }}
@@ -165,7 +158,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [length]="resultsLength" [pageSizeOptions]="[20, 50, 100, 500]" showFirstLastButtons></mat-paginator>
         </mat-card-content>
     </mat-card>
 </div>

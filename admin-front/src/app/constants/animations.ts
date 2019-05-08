@@ -28,20 +28,20 @@ export const indicatorRotate = trigger('indicatorRotate', [
 //    ])
 //]);
 
-export const fadeAnimation =
-  trigger('fadeAnimation', [
-    transition('* <=> *', [
-      query(':enter, :leave', [
-        style({
-          position: 'absolute',
-          right: '16px',
-          left: '16px',
-          opacity: 0,
-          transform: 'scale(0) translateY(100%)',
-        }),
-      ], { optional: true }),
-      query(':enter', [
-        animate('600ms ease', style({ opacity: 1, transform: 'scale(1) translateY(0)' })),
-      ], { optional: true })
-    ]),
-]);
+//export const fadeAnimation =
+//  trigger('fadeAnimation', [
+//    transition('* <=> *', [
+//      query(':enter, :leave', [
+//        style({
+//          position: 'absolute',
+//          right: '16px',
+//          left: '16px',
+//          opacity: 0,
+//          transform: 'scale(0) translateY(100%)',
+//        }),
+//      ], { optional: true }),
+//      query(':enter', [
+//        animate('600ms ease', style({ opacity: 1, transform: 'scale(1) translateY(0)' })),
+//      ], { optional: true })
+//    ]),
+//]);

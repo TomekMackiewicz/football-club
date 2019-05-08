@@ -36,7 +36,8 @@
             </mat-menu>           
         </mat-toolbar>
         
-        <main [@fadeAnimation]="outlet.isActivated ? outlet.activatedRoute : ''">
+        <main>
+            <app-loader></app-loader>
             <alert></alert>
             <router-outlet #outlet="outlet"></router-outlet>
         </main>

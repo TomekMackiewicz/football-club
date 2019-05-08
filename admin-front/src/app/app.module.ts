@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { 
     MatSidenavModule, 
     MatCheckboxModule, 
@@ -12,7 +12,9 @@ import {
     MatButtonModule, 
     MatIconModule, 
     MatMenuModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,13 +23,18 @@ import { GameModule } from './game/game.module';
 
 import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 import { NavService } from './services/nav.service';
+import { LoaderService } from './services/loader.service';
+
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
 
 @NgModule({
     declarations: [
         AppComponent,
-        MenuListItemComponent
+        MenuListItemComponent,
+        LoaderComponent
     ],
     imports: [
         BrowserModule,
@@ -42,6 +49,8 @@ import { NavService } from './services/nav.service';
         MatIconModule,
         MatMenuModule,
         MatListModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
         HttpClientModule,
         TranslateModule.forRoot({
             loader: {
@@ -52,7 +61,7 @@ import { NavService } from './services/nav.service';
         }),
         GameModule       
     ],
-    providers: [NavService],
+    providers: [NavService, LoaderService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
