@@ -21,30 +21,27 @@ export class GameService {
             .pipe(catchError(this.handleError));   
     }    
         
-    getGames(sort: string, order: string, page: number, size: number, filters: any): Observable<Games> {
+    getGames(sort: string, order: string, page: number, size: number, filters: any): Observable<GamesWithCount> {
         filters.dateFrom = this.datepipe.transform(filters.dateFrom, 'yyyy-MM-dd');
         filters.dateTo = this.datepipe.transform(filters.dateTo, 'yyyy-MM-dd');  
         let params = 'sort='+sort+'&order='+order+'&page='+page+'&size='+size+'&filters='+JSON.stringify(filters); 
                
-        return this.httpClient.get<Games>(API_URL+'/game/all?'+params)
+        return this.httpClient.get<GamesWithCount>(API_URL+'/game/all?'+params)
             .pipe(catchError(this.handleError));   
     }
     
-    // @TODO or object?
     addGame(game: Game): Observable<string> {
         return this.httpClient.post<string>(API_URL+'/game/new', game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
     
-    // @TODO or object?
     updateGame(game: Game): Observable<string> {
         return this.httpClient.patch<string>(API_URL+'/game/update', game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
-    
-    // @TODO pass id's as flat array    
+       
     deleteGames(ids: Array<number>): Observable<string> {            
-        return this.httpClient.request<string>('delete', API_URL+'/game/delete', { body: { ids }})
+        return this.httpClient.request<string>('delete', API_URL+'/game/delete', { body: ids })
             .pipe(catchError(this.handleError));
     }
 
@@ -65,8 +62,7 @@ export class GameService {
                  
 }
 
-// @TODO
-export interface Games {
+export interface GamesWithCount {
     games: Game[];
     total_count: number;
 }

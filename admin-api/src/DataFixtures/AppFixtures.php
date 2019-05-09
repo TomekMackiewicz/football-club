@@ -11,7 +11,7 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < 200; $i++) {            
+        for ($i = 0; $i < 1000; $i++) {            
             $min=1;
             $max=9;
             $startDate = new \DateTime('2019-01-01');
@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
     private function randomLocation()
     {
         $locations = ["Location1", "Location2", "Location3", "Location4", "Location5", "Location6", "Location7"];        
-        return array_rand($locations, 1);
+        return (string) array_rand($locations, 1);
     }
     
     private function randomGameType()

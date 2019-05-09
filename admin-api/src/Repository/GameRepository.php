@@ -30,26 +30,33 @@ class GameRepository extends ServiceEntityRepository
         $qb->select('g')->from('App:Game', 'g');
         
         if ($filters['dateFrom']) {
-            $qb->andWhere('g.date >= :dateFrom')->setParameter(":dateFrom", $filters['dateFrom']);
+            $qb->andWhere('g.date >= :dateFrom')
+                ->setParameter(":dateFrom", $filters['dateFrom']);
         }
 
         if ($filters['dateTo']) {
-            $qb->andWhere('g.date <= :dateTo')->setParameter(":dateTo", $filters['dateTo']);
+            $qb->andWhere('g.date <= :dateTo')
+                ->setParameter(":dateTo", $filters['dateTo']);
         }
         
         if ($filters['location']) {
-            $qb->andWhere('g.location LIKE :location')->setParameter(":location", '%'.$filters['location'].'%');
+            $qb->andWhere('g.location LIKE :location')
+                ->setParameter(":location", '%'.$filters['location'].'%');
         }
 
         if ($filters['gameType']) {
-            $qb->andWhere('g.gameType = :gameType')->setParameter(":gameType", $filters['gameType']);
+            $qb->andWhere('g.gameType = :gameType')
+                ->setParameter(":gameType", $filters['gameType']);
         }
 
         if ($filters['team']) {
-            $qb->andWhere('g.hostTeam = :team OR g.guestTeam = :team')->setParameter(":team", $filters['team']);
+            $qb->andWhere('g.hostTeam = :team OR g.guestTeam = :team')
+                ->setParameter(":team", $filters['team']);
         }
         
-        $qb->orderBy('g.'.$sort, $order)->setMaxResults($size)->setFirstResult($offset);
+        $qb->orderBy('g.'.$sort, $order)
+            ->setMaxResults($size)
+            ->setFirstResult($offset);
         
         return $qb->getQuery()->getResult();
     }
@@ -75,7 +82,7 @@ class GameRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('g')
             ->where("g.id IN(:ids)")
-            ->setParameter('ids', $ids['ids'])
+            ->setParameter('ids', $ids)
             ->getQuery()
             ->getResult();        
     }

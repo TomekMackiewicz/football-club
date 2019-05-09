@@ -125,6 +125,7 @@ export class GameListComponent implements AfterViewInit {
                         success => {
                             this.alertService.success(success, true);
                             this.getGames();
+                            this.selection.clear();
                         },
                         error => {
                             this.alertService.error(error, true);
@@ -135,10 +136,4 @@ export class GameListComponent implements AfterViewInit {
         );
     }    
             
-}
-
-// @TODO
-export interface Games {
-    games: Game[];
-    total_count: number;
 }
