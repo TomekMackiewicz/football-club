@@ -22,7 +22,7 @@ class GameControllerTest extends WebTestCase
     public function testGetGamesEmptyResult()
     {
         $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10');
+        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
         $this->assertEquals(204, $response->getStatusCode());
     }
 
@@ -52,7 +52,7 @@ class GameControllerTest extends WebTestCase
     public function testGetGames()
     {
         $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10');
+        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
         $this->assertEquals(200, $response->getStatusCode());
     }    
     
