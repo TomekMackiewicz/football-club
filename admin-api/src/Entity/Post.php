@@ -11,11 +11,10 @@ use App\Entity\Category;
 use App\Entity\File;
 
 /**
- * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  * @UniqueEntity(
  *     fields={"slug"},
- *     message="validation.slug"
+ *     message="validation.unique"
  * )
  */
 class Post
