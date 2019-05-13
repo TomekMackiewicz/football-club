@@ -8,20 +8,21 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use App\Entity\Game;
-use App\Form\GameType;
+use App\Entity\Post;
+use App\Form\PostType;
 
 /**
  * @Route("/api/v1")
  */
-class GameController extends FOSRestController
+class PostController extends FOSRestController
 {
+    
     /**
-     * @return GameRepository
+     * @return PostRepository
      */
     private function repository()
     {
-        return $this->getDoctrine()->getRepository(Game::class);
+        return $this->getDoctrine()->getRepository(Post::class);
     }
 
     /**
@@ -31,9 +32,9 @@ class GameController extends FOSRestController
     {
         return $this->getDoctrine()->getManager();
     }
-
+    
     /**
-     * @Rest\Get("/game")
+     * @Rest\Get("/post")
      * @return Response
      */
     public function cgetAction(Request $request)
@@ -45,16 +46,16 @@ class GameController extends FOSRestController
         $offset = ($page-1) * $size;
         $filters = json_decode($request->query->get('filters'), true);
 
-        $games = $this->repository()->findGames($size, $sort, $order, $offset, $filters);
+        $posts = $this->repository()->findPosts($size, $sort, $order, $offset, $filters);
 
-        if (!$games) {
+        if (!$posts) {
             return $this->handleView(
                 $this->view(null, Response::HTTP_NO_CONTENT)
             );
         }
 
-        $response['games'] = $games;
-        $response['total_count'] = $this->repository()->countGames();
+        $response['posts'] = $posts;
+        $response['total_count'] = $this->repository()->countPosts();
 
         return $this->handleView(
             $this->view($response, Response::HTTP_OK)
@@ -62,40 +63,40 @@ class GameController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/game/{id}")
+     * @Rest\Get("/post/{id}")
      * @return Response
      */
     public function getAction(int $id)
     {
-        $game = $this->repository()->findOneBy(['id' => $id]);
+        $post = $this->repository()->findOneBy(['id' => $id]);
 
-        if (!$game) {
+        if (!$post) {
             return $this->handleView(
                 $this->view(null, Response::HTTP_NO_CONTENT)
             );
         }
 
         return $this->handleView(
-            $this->view($game, Response::HTTP_OK)
+            $this->view($post, Response::HTTP_OK)
         );
     }
 
     /**
-     * @Rest\Post("/game")
+     * @Rest\Post("/post")
      * @return Response
      */
     public function postAction(Request $request)
     {
-        $game = new Game();
-        $form = $this->createForm(GameType::class, $game);
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
         $form->submit($request->request->all());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->persist($game);
+            $this->em()->persist($post);
             $this->em()->flush();
 
             return $this->handleView(
-                $this->view('game.added', Response::HTTP_CREATED)
+                $this->view('post.added', Response::HTTP_CREATED)
             );
         }
 
@@ -105,29 +106,29 @@ class GameController extends FOSRestController
     }
 
     /**
-     * @Rest\Patch("/game")
+     * @Rest\Patch("/post")
      * @return Response
      */
     public function patchAction(Request $request)
     {
         $data = $request->request->all();
-        $game = $this->repository()->find($data['id']);
+        $post = $this->repository()->find($data['id']);
 
-        if (!$game) {
+        if (!$post) {
             return $this->handleView(
                 $this->view(null, Response::HTTP_NO_CONTENT)
             );
         }
 
-        $form = $this->createForm(GameType::class, $game);
+        $form = $this->createForm(PostType::class, $post);
         $form->submit($data);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->persist($game);
+            $this->em()->persist($post);
             $this->em()->flush();
 
             return $this->handleView(
-                $this->view('game.edited', Response::HTTP_OK)
+                $this->view('post.edited', Response::HTTP_OK)
             );
         }
 
@@ -137,28 +138,28 @@ class GameController extends FOSRestController
     }
 
     /**
-     * Delete one or multiple games
-     * @Rest\Delete("/game")
+     * Delete one or multiple posts
+     * @Rest\Delete("/post")
      * @return Response
      */
     public function deleteAction(Request $request)
     {
-        $games = $this->repository()->findGamesByIds($request->request->all());
+        $posts = $this->repository()->findPostsByIds($request->request->all());
 
-        if (!$games) {
+        if (!$posts) {
             return $this->handleView(
                 $this->view(null, Response::HTTP_NO_CONTENT)
             );
         }
 
-        foreach ($games as $game) {
-            $this->em()->remove($game);
+        foreach ($posts as $post) {
+            $this->em()->remove($post);
             $this->em()->flush();
         }
 
         return $this->handleView(
-            $this->view('games.deleted', Response::HTTP_OK)
+            $this->view('posts.deleted', Response::HTTP_OK)
         );
     }
-
+    
 }

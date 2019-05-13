@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 
 class PostControllerTest extends WebTestCase
 { 
-    public static $apiUrl = 'http://localhost:8000/api/post';
+    public static $apiUrl = 'http://localhost:8000/api/v1/post';
     
     public static function setUpBeforeClass(): void
     {
@@ -22,7 +22,7 @@ class PostControllerTest extends WebTestCase
     public function testGetPostEmptyResult()
     {
         $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""}');
+        $response = $client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""}');
         $this->assertEquals(204, $response->getStatusCode());
     }
 
@@ -31,15 +31,13 @@ class PostControllerTest extends WebTestCase
         $client = new \GuzzleHttp\Client();
 
         $date = new \DateTime();        
-        $response = $client->post(self::$apiUrl.'/new', [
+        $response = $client->post(self::$apiUrl, [
             'json' => [
-                'date' => $date->format('Y-m-d'),
-                'location' => 'Test location',
-                'game_type' => '1',
-                'host_team' => '1',
-                'guest_team' => '1',
-                'host_score' => '1',
-                'guest_score' => '1' 
+                'title' => 'Title',
+                'body' => 'Lorem ipsum...',
+                'slug' => 'test-slug',
+                'publishDate' => $date->format('Y-m-d'),
+                'modifyDate' => $date->format('Y-m-d')
              ]
         ]); 
         $msg = json_decode($response->getBody(true), true);
@@ -49,37 +47,13 @@ class PostControllerTest extends WebTestCase
 
     }
 
-//    public function testGetGames()
-//    {
-//        $client = new \GuzzleHttp\Client();
-//        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
-//        $this->assertEquals(200, $response->getStatusCode());
-//    }    
-//    
-//    public function testAddNewGameScoreRegex()
-//    {
-//        $client = new \GuzzleHttp\Client();
-//
-//        $date = new \DateTime();        
-//        
-//        $response = $client->post(self::$apiUrl.'/new', [
-//            'json' => [
-//                'date' => $date->format('Y-m-d'),
-//                'location' => 'Test location',
-//                'game_type' => '1',
-//                'host_team' => '1',
-//                'guest_team' => '1',
-//                'host_score' => 'a',
-//                'guest_score' => 'b' 
-//             ],
-//             'http_errors' => false
-//        ]);
-//        //$msg = json_decode($response->getBody(true), true);
-//
-//        $this->assertEquals(500, $response->getStatusCode());
-//        //$this->assertContains('validation.digits', $msg['errors']);       
-//        
-//    }    
+    public function testGetPosts()
+    {
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""}');
+        $this->assertEquals(200, $response->getStatusCode());
+    }    
+   
 //
 //    public function testAddNewGameNullValuesRegex()
 //    {

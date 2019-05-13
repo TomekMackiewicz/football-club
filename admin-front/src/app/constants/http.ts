@@ -6,4 +6,4 @@ export const HTTP_OPTIONS = {
     })
 };
 
-export const API_URL = 'http://localhost:8000/api';
+export const API_URL = 'http://localhost:8000/api/v1';

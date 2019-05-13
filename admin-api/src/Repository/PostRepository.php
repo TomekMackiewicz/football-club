@@ -19,32 +19,41 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    // /**
-    //  * @return Post[] Returns an array of Post objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Posts for pagination
+     * 
+     * @param int $size
+     * @param string $sort
+     * @param string $order
+     * @param int $offset
+     * @param array $filters
+     * @return Post[]
+     */
+    // sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""
+    public function findPosts(int $size, string $sort, string $order, int $offset, array $filters)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('p')->from('App:Post', 'p');
+        
+        if ($filters['dateFrom']) {
+            $qb->andWhere('p.publishDate >= :dateFrom')
+                ->setParameter(":dateFrom", $filters['dateFrom']);
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Post
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($filters['dateTo']) {
+            $qb->andWhere('p.publishDate <= :dateTo')
+                ->setParameter(":dateTo", $filters['dateTo']);
+        }
+        
+        if ($filters['title']) {
+            $qb->andWhere('p.title LIKE :title')
+                ->setParameter(":title", '%'.$filters['title'].'%');
+        }
+        
+        $qb->orderBy('p.'.$sort, $order)
+            ->setMaxResults($size)
+            ->setFirstResult($offset);
+        
+        return $qb->getQuery()->getResult();
     }
-    */
 }

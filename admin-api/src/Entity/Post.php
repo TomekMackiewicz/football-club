@@ -183,9 +183,9 @@ class Post
     }
 
     /**
-     * @return array
+     * @return ArrayCollection
      */
-    public function getCategories(): ?array
+    public function getCategories(): ?ArrayCollection
     {
         return $this->categories;
     }
@@ -207,9 +207,9 @@ class Post
     } 
 
     /**
-     * @return File
+     * @return ArrayCollection
      */
-    public function getImages(): ?array
+    public function getImages(): ?ArrayCollection
     {
         return $this->images;
     }
