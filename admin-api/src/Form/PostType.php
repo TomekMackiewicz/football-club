@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -18,8 +19,8 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('slug')
             ->add('body')
+            ->add('slug')
             ->add('publishDate', DateTimeType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd'
@@ -40,14 +41,15 @@ class PostType extends AbstractType
                 'multiple' => true,
                 'expanded' => true
             ))
-            ->add('save', SubmitType::class)
-        ;
+            ->add('save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Post::class,
+            'csrf_protection' => false,
+            'allow_extra_fields' => true
         ]);
     }
 }

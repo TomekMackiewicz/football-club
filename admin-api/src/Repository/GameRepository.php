@@ -62,7 +62,6 @@ class GameRepository extends ServiceEntityRepository
     }
     
     /**
-     * Count games
      * @return integer
      */
     public function countGames()

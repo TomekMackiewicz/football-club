@@ -52,9 +52,9 @@ class Game
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="validation.required")
      * @Assert\Regex(
-     *     pattern="/[^0-9]/",
-     *     match=false,
-     *     message="validation.digits"
+     *   pattern="/[^0-9]/",
+     *   match=false,
+     *   message="validation.digits"
      * )
      */
     private $hostScore;
@@ -63,9 +63,9 @@ class Game
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="validation.required")
      * @Assert\Regex(
-     *     pattern="/[^0-9]/",
-     *     match=false,
-     *     message="validation.digits"
+     *   pattern="/[^0-9]/",
+     *   match=false,
+     *   message="validation.digits"
      * )
      */
     private $guestScore;

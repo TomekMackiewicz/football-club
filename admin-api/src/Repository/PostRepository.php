@@ -56,4 +56,30 @@ class PostRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->getResult();
     }
+    
+    /**
+     * @return integer
+     */
+    public function countPosts()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();        
+    }    
+
+    /**
+     * Find posts with given id's
+     * @param array $ids
+     * @return array
+     */
+    public function findPostsByIds(array $ids)
+    {
+        return $this->createQueryBuilder('p')
+            ->where("p.id IN(:ids)")
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();        
+    }
+    
 }

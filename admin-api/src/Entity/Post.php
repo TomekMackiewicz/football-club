@@ -7,14 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Entity\Category;
 use App\Entity\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  * @UniqueEntity(
- *     fields={"slug"},
- *     message="validation.unique"
+ *   fields={"slug"},
+ *   message="validation.unique"
  * )
  */
 class Post
@@ -27,25 +28,25 @@ class Post
     private $id;
 
     /**
-     * @Assert\NotBlank(message = "validation.required")
      * @ORM\Column(name="title", type="string")
+     * @Assert\NotBlank(message="validation.required")
      */
     private $title;
 
     /**
-     * @Assert\NotBlank(message = "validation.required")
+     * @ORM\Column(name="slug", type="string", unique=true)
+     * @Assert\NotBlank(message="validation.required")
      * @Assert\Regex(
      *   pattern = "/^[a-z0-9]+(?:-[a-z0-9]+)*$/",
      *   match = true,
      *   message = "validation.slug"
      * )
-     * @ORM\Column(name="slug", type="string", unique=true)
      */
     private $slug;    
     
     /**
-     * @Assert\NotBlank(message = "validation.required")
      * @ORM\Column(name="body", type="text")
+     * @Assert\NotBlank(message="validation.required")
      */
     private $body;   
     
@@ -183,9 +184,9 @@ class Post
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getCategories(): ?ArrayCollection
+    public function getCategories(): ?Collection
     {
         return $this->categories;
     }
@@ -207,9 +208,9 @@ class Post
     } 
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getImages(): ?ArrayCollection
+    public function getImages(): ?Collection
     {
         return $this->images;
     }

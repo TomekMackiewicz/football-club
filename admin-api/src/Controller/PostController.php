@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use App\Entity\Post;
@@ -14,7 +14,7 @@ use App\Form\PostType;
 /**
  * @Route("/api/v1")
  */
-class PostController extends FOSRestController
+class PostController extends AbstractFOSRestController
 {
     
     /**
@@ -101,7 +101,7 @@ class PostController extends FOSRestController
         }
 
         return $this->handleView(
-            $this->view($form->getErrors(), Response::HTTP_BAD_REQUEST)
+            $this->view($form->getErrors(true), Response::HTTP_BAD_REQUEST)
         );
     }
 
@@ -111,7 +111,7 @@ class PostController extends FOSRestController
      */
     public function patchAction(Request $request)
     {
-        $data = $request->request->all();
+        $data = $request->request->all();        
         $post = $this->repository()->find($data['id']);
 
         if (!$post) {
@@ -133,7 +133,7 @@ class PostController extends FOSRestController
         }
 
         return $this->handleView(
-            $this->view($form->getErrors(), Response::HTTP_BAD_REQUEST)
+            $this->view($form->getErrors(true), Response::HTTP_BAD_REQUEST)
         );
     }
 

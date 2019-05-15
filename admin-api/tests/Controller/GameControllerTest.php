@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 
 class GameControllerTest extends WebTestCase
 { 
-    public static $apiUrl = 'http://localhost:8000/api/game';
+    public static $apiUrl = 'http://localhost:8000/api/v1/game';
     
     public static function setUpBeforeClass(): void
     {
@@ -22,7 +22,7 @@ class GameControllerTest extends WebTestCase
     public function testGetGamesEmptyResult()
     {
         $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
+        $response = $client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
         $this->assertEquals(204, $response->getStatusCode());
     }
 
@@ -31,7 +31,7 @@ class GameControllerTest extends WebTestCase
         $client = new \GuzzleHttp\Client();
 
         $date = new \DateTime();        
-        $response = $client->post(self::$apiUrl.'/new', [
+        $response = $client->post(self::$apiUrl, [
             'json' => [
                 'date' => $date->format('Y-m-d'),
                 'location' => 'Test location',
@@ -52,7 +52,7 @@ class GameControllerTest extends WebTestCase
     public function testGetGames()
     {
         $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'/all?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
+        $response = $client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
         $this->assertEquals(200, $response->getStatusCode());
     }    
     
@@ -62,7 +62,7 @@ class GameControllerTest extends WebTestCase
 
         $date = new \DateTime();        
         
-        $response = $client->post(self::$apiUrl.'/new', [
+        $response = $client->post(self::$apiUrl, [
             'json' => [
                 'date' => $date->format('Y-m-d'),
                 'location' => 'Test location',
@@ -87,7 +87,7 @@ class GameControllerTest extends WebTestCase
 
         $date = new \DateTime();        
         
-        $response = $client->post(self::$apiUrl.'/new', [
+        $response = $client->post(self::$apiUrl, [
             'json' => [
                 'date' => $date->format('Y-m-d'),
                 'location' => '',
@@ -111,7 +111,7 @@ class GameControllerTest extends WebTestCase
         $client = new \GuzzleHttp\Client();
 
         $date = new \DateTime();        
-        $response = $client->patch(self::$apiUrl.'/update', [
+        $response = $client->patch(self::$apiUrl, [
             'json' => [
                 'id' => 1,
                 'date' => $date->format('Y-m-d'),
@@ -127,6 +127,19 @@ class GameControllerTest extends WebTestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('game.edited', $msg);        
+    }
+    
+    public function testDeleteGame()
+    {
+        $client = new \GuzzleHttp\Client();
+        
+        $response = $client->delete(self::$apiUrl, [
+            'json' => [1,2,3]
+        ]); 
+        $msg = json_decode($response->getBody(true), true);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('games.deleted', $msg);         
     }
     
     private static function buildDb()
