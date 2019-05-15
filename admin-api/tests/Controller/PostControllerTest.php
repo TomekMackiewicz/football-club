@@ -4,15 +4,18 @@
 
 namespace App\Tests\Controller;
 
-use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-//use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class PostControllerTest extends WebTestCase
 { 
-    public static $apiUrl = 'http://localhost:8000/api/v1/post';
+    private static $apiUrl = 'http://localhost:8000/api/v1/post';
+    private $client;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->client = new \GuzzleHttp\Client();
+    }
     
     public static function setUpBeforeClass(): void
     {
@@ -21,17 +24,14 @@ class PostControllerTest extends WebTestCase
     
     public function testGetPostEmptyResult()
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'?sort=publishDate&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""}');
+        $response = $this->client->get(self::$apiUrl.'?sort=publishDate&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""}');
         $this->assertEquals(204, $response->getStatusCode());
     }
 
     public function testAddNewPost()
     {
-        $client = new \GuzzleHttp\Client();
-
         $date = new \DateTime();        
-        $response = $client->post(self::$apiUrl, [
+        $response = $this->client->post(self::$apiUrl, [
             'json' => [
                 'title' => 'Title',
                 'body' => 'Lorem ipsum...',
@@ -41,7 +41,6 @@ class PostControllerTest extends WebTestCase
              ]
         ]); 
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertEquals('post.added', $msg);
 
@@ -49,19 +48,15 @@ class PostControllerTest extends WebTestCase
 
     public function testGetPosts()
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'?sort=publishDate&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""}');
+        $response = $this->client->get(self::$apiUrl.'?sort=publishDate&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"title":""}');
         $this->assertEquals(200, $response->getStatusCode());
     }    
    
 
     public function testAddNewPostNullValuesRegex()
     {
-        $client = new \GuzzleHttp\Client();
-
-        $date = new \DateTime();        
-        
-        $response = $client->post(self::$apiUrl, [
+        $date = new \DateTime();
+        $response = $this->client->post(self::$apiUrl, [
             'json' => [
                 'title' => '',
                 'body' => '',
@@ -74,15 +69,12 @@ class PostControllerTest extends WebTestCase
         $msg = json_decode($response->getBody(true), true);
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertContains('validation.required', $msg['errors']);       
-        
     }
     
     public function testEditPost()
     {
-        $client = new \GuzzleHttp\Client();
-
         $date = new \DateTime();
-        $response = $client->patch(self::$apiUrl, [
+        $response = $this->client->patch(self::$apiUrl, [
             'json' => [
                 'id' => 1,
                 'title' => 'New title',
@@ -92,19 +84,15 @@ class PostControllerTest extends WebTestCase
                 'modifyDate' => $date->format('Y-m-d') 
              ]
         ]);
-
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('post.edited', $msg);        
     }
 
     public function testUniqueSlug()
     {
-        $client = new \GuzzleHttp\Client();
-
         $date = new \DateTime();        
-        $response = $client->post(self::$apiUrl, [
+        $response = $this->client->post(self::$apiUrl, [
             'json' => [
                 'title' => 'Title',
                 'body' => 'Lorem ipsum...',
@@ -115,21 +103,16 @@ class PostControllerTest extends WebTestCase
             'http_errors' => false
         ]); 
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertContains('validation.unique', $msg['errors']); 
-
     }    
     
     public function testDeletePost()
     {
-        $client = new \GuzzleHttp\Client();
-        
-        $response = $client->delete(self::$apiUrl, [
+        $response = $this->client->delete(self::$apiUrl, [
             'json' => [1,2,3]
         ]); 
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('posts.deleted', $msg);         
     }

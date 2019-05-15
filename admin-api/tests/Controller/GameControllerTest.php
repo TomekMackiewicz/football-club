@@ -8,12 +8,18 @@ use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
-//use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class GameControllerTest extends WebTestCase
 { 
-    public static $apiUrl = 'http://localhost:8000/api/v1/game';
+    private static $apiUrl = 'http://localhost:8000/api/v1/game';
+    private $client;
     
+    public function __construct()
+    {
+        parent::__construct();
+        $this->client = new \GuzzleHttp\Client();
+    }
+
     public static function setUpBeforeClass(): void
     {
         self::buildDb();
@@ -21,17 +27,14 @@ class GameControllerTest extends WebTestCase
     
     public function testGetGamesEmptyResult()
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
+        $response = $this->client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
         $this->assertEquals(204, $response->getStatusCode());
     }
 
     public function testAddNewGame()
     {
-        $client = new \GuzzleHttp\Client();
-
         $date = new \DateTime();        
-        $response = $client->post(self::$apiUrl, [
+        $response = $this->client->post(self::$apiUrl, [
             'json' => [
                 'date' => $date->format('Y-m-d'),
                 'location' => 'Test location',
@@ -43,26 +46,20 @@ class GameControllerTest extends WebTestCase
              ]
         ]); 
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertEquals('game.added', $msg);
-
     }
 
     public function testGetGames()
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
+        $response = $this->client->get(self::$apiUrl.'?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
         $this->assertEquals(200, $response->getStatusCode());
     }    
     
     public function testAddNewGameScoreRegex()
     {
-        $client = new \GuzzleHttp\Client();
-
-        $date = new \DateTime();        
-        
-        $response = $client->post(self::$apiUrl, [
+        $date = new \DateTime();                
+        $response = $this->client->post(self::$apiUrl, [
             'json' => [
                 'date' => $date->format('Y-m-d'),
                 'location' => 'Test location',
@@ -74,20 +71,13 @@ class GameControllerTest extends WebTestCase
              ],
              'http_errors' => false
         ]);
-        //$msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(500, $response->getStatusCode());
-        //$this->assertContains('validation.digits', $msg['errors']);       
-        
     }    
 
     public function testAddNewGameNullValuesRegex()
     {
-        $client = new \GuzzleHttp\Client();
-
         $date = new \DateTime();        
-        
-        $response = $client->post(self::$apiUrl, [
+        $response = $this->client->post(self::$apiUrl, [
             'json' => [
                 'date' => $date->format('Y-m-d'),
                 'location' => '',
@@ -100,7 +90,6 @@ class GameControllerTest extends WebTestCase
              'http_errors' => false
         ]);
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertContains('validation.required', $msg['errors']);       
         
@@ -108,10 +97,8 @@ class GameControllerTest extends WebTestCase
     
     public function testEditGame()
     {
-        $client = new \GuzzleHttp\Client();
-
         $date = new \DateTime();        
-        $response = $client->patch(self::$apiUrl, [
+        $response = $this->client->patch(self::$apiUrl, [
             'json' => [
                 'id' => 1,
                 'date' => $date->format('Y-m-d'),
@@ -124,31 +111,25 @@ class GameControllerTest extends WebTestCase
              ]
         ]); 
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('game.edited', $msg);        
     }
     
     public function testDeleteGame()
     {
-        $client = new \GuzzleHttp\Client();
-        
-        $response = $client->delete(self::$apiUrl, [
+        $response = $this->client->delete(self::$apiUrl, [
             'json' => [1,2,3]
         ]); 
         $msg = json_decode($response->getBody(true), true);
-
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('games.deleted', $msg);         
     }
-    
+
     private static function buildDb()
     {
         $kernel = new Kernel('test', true);
         $kernel->boot();
-
         $application = new Application($kernel);
-
         $application->setAutoExit(false);    
 
         $application->run(new ArrayInput(array(
