@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Post;
 
@@ -63,9 +64,9 @@ class Category
     }
     
     /**
-     * @return Post
+     * @return Collection
      */
-    public function getPosts(): ?Post
+    public function getPosts(): ?Collection
     {
         return $this->posts;
     }     

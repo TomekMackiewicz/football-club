@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -6,12 +7,6 @@ use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * @method Category|null find($id, $lockMode = null, $lockVersion = null)
- * @method Category|null findOneBy(array $criteria, array $orderBy = null)
- * @method Category[]    findAll()
- * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
@@ -19,32 +14,55 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    // /**
-    //  * @return Category[] Returns an array of Category objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Categories for pagination
+     * 
+     * @param int $size
+     * @param string $sort
+     * @param string $order
+     * @param int $offset
+     * @param array $filters
+     * @return Category[]
+     */
+    public function findCategories(int $size, string $sort, string $order, int $offset, array $filters)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('c')->from('App:Category', 'c');
+        
+        if ($filters['name']) {
+            $qb->andWhere('c.name LIKE :name')
+                ->setParameter(":name", '%'.$filters['name'].'%');
+        }
+        
+        $qb->orderBy('c.'.$sort, $order)
+            ->setMaxResults($size)
+            ->setFirstResult($offset);
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    /**
+     * @return integer
+     */
+    public function countCategories()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('count(c.id)')
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+            ->getSingleScalarResult();        
+    }    
 
-    /*
-    public function findOneBySomeField($value): ?Category
+    /**
+     * Find categories with given id's
+     * @param array $ids
+     * @return array
+     */
+    public function findCategoriesByIds(array $ids)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where("c.id IN(:ids)")
+            ->setParameter('ids', $ids)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();        
     }
-    */
 }

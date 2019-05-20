@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -18,6 +19,8 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
+            'csrf_protection' => false,
+            'allow_extra_fields' => true
         ]);
     }
 }
