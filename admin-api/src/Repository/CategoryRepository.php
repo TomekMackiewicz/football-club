@@ -29,14 +29,22 @@ class CategoryRepository extends ServiceEntityRepository
         $qb = $this->_em->createQueryBuilder();
         $qb->select('c')->from('App:Category', 'c');
         
-        if ($filters['name']) {
+        if (!empty($filters) && $filters['name']) {
             $qb->andWhere('c.name LIKE :name')
                 ->setParameter(":name", '%'.$filters['name'].'%');
         }
+
+        if (!empty($sort) && !empty($order)) {
+           $qb->orderBy('c.'.$sort, $order);
+        }
+               
+        if (!empty($size)) {
+           $qb->setMaxResults($size); 
+        }
         
-        $qb->orderBy('c.'.$sort, $order)
-            ->setMaxResults($size)
-            ->setFirstResult($offset);
+        if (!empty($offset)) {
+           $qb->setFirstResult($offset);
+        }            
         
         return $qb->getQuery()->getResult();
     }

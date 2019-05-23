@@ -1,33 +1,61 @@
-export const NAV_ITEMS = [{
-    displayName: 'players',
-    iconName: 'people_outline',
-    //route: 'players',
-    children: [
-        {
-            displayName: 'list',
-            iconName: 'group',
-            route: 'players',
-        },
-        {
-            displayName: 'add',
-            iconName: 'person_add',
-            route: 'players/add',
-        }
-    ]
-  },
-  {
-    displayName: 'games',
-    iconName: 'games',
-    children: [
-        {
-            displayName: 'list',
-            iconName: 'ballot',
-            route: 'games/list'
-        },
-        {
-            displayName: 'add',
-            iconName: 'create',
-            route: 'games/add'
-        }
-    ]
-}];
+export const NAV_ITEMS = [
+    {
+        displayName: 'players',
+        iconName: 'people_outline',
+        //route: 'players',
+        children: [
+            {
+                displayName: 'list',
+                iconName: 'group',
+                route: 'players',
+            },
+            {
+                displayName: 'add',
+                iconName: 'person_add',
+                route: 'players/add',
+            }
+        ]
+    },
+    {
+        displayName: 'games',
+        iconName: 'games',
+        children: [
+            {
+                displayName: 'list',
+                iconName: 'ballot',
+                route: 'games/list'
+            },
+            {
+                displayName: 'add',
+                iconName: 'create',
+                route: 'games/add'
+            }
+        ]
+    },
+    {
+        displayName: 'posts',
+        iconName: 'create',
+        children: [
+            {
+                displayName: 'list',
+                iconName: 'ballot',
+                route: 'posts/list'
+            },
+            {
+                displayName: 'add',
+                iconName: 'create',
+                route: 'posts/add'
+            },
+            {
+                displayName: 'categories',
+                iconName: 'ballot',
+                route: 'categories/list'
+            },
+            {
+                displayName: 'add category',
+                iconName: 'create',
+                route: 'categories/add'
+            }
+        ]
+    },    
+];

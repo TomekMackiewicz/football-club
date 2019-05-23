@@ -87,12 +87,14 @@ class PostController extends AbstractFOSRestController
      */
     public function postAction(Request $request)
     {
+        $data = $request->request->all();
         $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
-        $form->submit($request->request->all());
+        $form = $this->createForm(PostType::class, $post, ['categories' => $data['categories']]);
+        $form->submit($data);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->persist($post);
+        if ($form->isSubmitted() && $form->isValid()) {           
+            $post->setPublishDate(new \DateTime());           
+            $this->em()->persist($post); 
             $this->em()->flush();
 
             return $this->handleView(

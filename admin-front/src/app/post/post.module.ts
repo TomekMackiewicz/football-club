@@ -28,17 +28,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DatePipe } from '@angular/common'
 import { ApplicationPipesModule } from '../pipes/application-pipes.module';
 
-import { GameListComponent } from './game-list/game-list.component';
-import { GameAddComponent } from './game-add/game-add.component';
-import { GameEditComponent } from './game-edit/game-edit.component';
+import { PostListComponent } from './post-list/post-list.component';
+import { PostAddComponent } from './post-add/post-add.component';
+import { PostEditComponent } from './post-edit/post-edit.component';
 
-import { GameService } from './game.service';
+import { PostService } from './post.service';
 
 @NgModule({
     declarations: [
-        GameListComponent,
-        GameAddComponent,
-        GameEditComponent
+        PostListComponent,
+        PostAddComponent,
+        PostEditComponent
     ],
     imports: [
         CommonModule,
@@ -71,9 +71,9 @@ import { GameService } from './game.service';
             }
         })
     ],
-    providers: [DatePipe, GameService]
+    providers: [DatePipe, PostService]
 })
-export class GameModule { }
+export class PostModule { }
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);

@@ -14,19 +14,25 @@ import {
     MatMenuModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDialogModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AlertModule } from './alert/alert.module';
 import { GameModule } from './game/game.module';
+import { PostModule } from './post/post.module';
+import { CategoryModule } from './category/category.module';
 
 import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
 import { LoaderComponent } from './shared/loader/loader.component';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 
 import { NavService } from './services/nav.service';
 import { LoaderService } from './services/loader.service';
+
+import { ApplicationPipesModule } from './pipes/application-pipes.module';
 
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 
@@ -34,7 +40,8 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     declarations: [
         AppComponent,
         MenuListItemComponent,
-        LoaderComponent
+        LoaderComponent,
+        ConfirmDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -51,7 +58,9 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         MatListModule,
         MatProgressSpinnerModule,
         MatProgressBarModule,
+        MatDialogModule,
         HttpClientModule,
+        ApplicationPipesModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -59,9 +68,12 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
                 deps: [HttpClient]
             }
         }),
-        GameModule       
+        GameModule,
+        PostModule,
+        CategoryModule      
     ],
     providers: [NavService, LoaderService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
+    entryComponents: [ConfirmDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
