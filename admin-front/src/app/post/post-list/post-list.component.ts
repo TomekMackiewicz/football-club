@@ -15,7 +15,7 @@ import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dia
     templateUrl: './post-list.component.html',
 })
 export class PostListComponent implements AfterViewInit {
-    displayedColumns: string[] = ['select', 'publish_date', 'title'];
+    displayedColumns: string[] = ['select', 'publishDate', 'title'];
     data: Post[] = [];
     selection = new SelectionModel<Post>(true, []);
     resultsLength = 0;

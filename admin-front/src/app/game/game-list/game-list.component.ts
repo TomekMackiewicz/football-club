@@ -15,7 +15,7 @@ import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dia
     templateUrl: './game-list.component.html',
 })
 export class GameListComponent implements AfterViewInit {
-    displayedColumns: string[] = ['select', 'date', 'location', 'game_type', 'host_team', 'guest_team', 'host_score', 'guest_score'];
+    displayedColumns: string[] = ['select', 'date', 'location', 'gameType', 'hostTeam', 'guestTeam', 'hostScore', 'guestScore'];
     data: Game[] = [];
     selection = new SelectionModel<Game>(true, []);
     resultsLength = 0;
