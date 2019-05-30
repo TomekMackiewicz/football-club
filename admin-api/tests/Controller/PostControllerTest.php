@@ -72,7 +72,7 @@ class PostControllerTest extends WebTestCase
    
     public function testEditPost()
     {
-        $response = $this->client->patch(self::$apiUrl, [
+        $response = $this->client->patch(self::$apiUrl.'/1', [
             'json' => [
                 'id' => 1,
                 'title' => 'New title',

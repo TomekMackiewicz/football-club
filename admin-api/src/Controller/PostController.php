@@ -108,13 +108,13 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/post")
+     * @Rest\Patch("/post/{id}")
      * @return Response
      */
-    public function patchAction(Request $request)
+    public function patchAction(Request $request, int $id)
     {
         $data = $request->request->all();        
-        $post = $this->repository()->find($data['id']);
+        $post = $this->repository()->find($id);
 
         if (!$post) {
             return $this->handleView(

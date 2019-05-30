@@ -36,7 +36,7 @@ export class GameService {
     }
     
     updateGame(game: Game): Observable<string> {
-        return this.httpClient.patch<string>(API_URL+'/game', game, HTTP_OPTIONS)
+        return this.httpClient.patch<string>(API_URL+'/game/'+game.id, game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
        

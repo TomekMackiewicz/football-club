@@ -33,12 +33,12 @@ class PostType extends AbstractType
                 'multiple' => true,
                 'expanded' => true
             ))
-            ->add('images', EntityType::class, array(
-                'class' => File::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true
-            ))
+//            ->add('images', EntityType::class, array(
+//                'class' => File::class,
+//                'choice_label' => 'name',
+//                'multiple' => true,
+//                'expanded' => true
+//            ))
             ->add('save', SubmitType::class);
         
         $builder->get('categories')->addModelTransformer($this->transformer);

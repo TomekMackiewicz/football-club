@@ -98,7 +98,7 @@ class GameControllerTest extends WebTestCase
     public function testEditGame()
     {
         $date = new \DateTime();        
-        $response = $this->client->patch(self::$apiUrl, [
+        $response = $this->client->patch(self::$apiUrl.'/1', [
             'json' => [
                 'id' => 1,
                 'date' => $date->format('Y-m-d'),

@@ -34,7 +34,7 @@ export class CategoryService {
     }
     
     updateCategory(category: Category): Observable<string> {
-        return this.httpClient.patch<string>(API_URL+'/category', category, HTTP_OPTIONS)
+        return this.httpClient.patch<string>(API_URL+'/category/'+category.id, category, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
        

@@ -36,7 +36,7 @@ export class PostService {
     }
     
     updatePost(post: Post): Observable<string> {
-        return this.httpClient.patch<string>(API_URL+'/post', post, HTTP_OPTIONS)
+        return this.httpClient.patch<string>(API_URL+'/post/'+post.id, post, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
        

@@ -106,13 +106,13 @@ class CategoryController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/category")
+     * @Rest\Patch("/category/{id}")
      * @return Response
      */
-    public function patchAction(Request $request)
+    public function patchAction(Request $request, int $id)
     {
         $data = $request->request->all();        
-        $category = $this->repository()->find($data['id']);
+        $category = $this->repository()->find($id);
 
         if (!$category) {
             return $this->handleView(

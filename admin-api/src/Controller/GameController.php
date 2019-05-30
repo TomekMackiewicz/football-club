@@ -105,13 +105,13 @@ class GameController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/game")
+     * @Rest\Patch("/game/{id}")
      * @return Response
      */
-    public function patchAction(Request $request)
+    public function patchAction(Request $request, int $id)
     {
         $data = $request->request->all();
-        $game = $this->repository()->find($data['id']);
+        $game = $this->repository()->find($id);
 
         if (!$game) {
             return $this->handleView(

@@ -65,7 +65,7 @@ class CategoryControllerTest extends WebTestCase
     
     public function testEditCategory()
     {       
-        $response = $this->client->patch(self::$apiUrl, [
+        $response = $this->client->patch(self::$apiUrl.'/1', [
             'json' => [
                 'id' => 1,
                 'name' => 'New' 
