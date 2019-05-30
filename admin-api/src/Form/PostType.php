@@ -11,13 +11,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use App\Form\DataTransformer\IdToCategoryTransformer;
+use App\Form\DataTransformer\CategoryTransformer;
 
 class PostType extends AbstractType
 {
     private $transformer;
 
-    public function __construct(IdToCategoryTransformer $transformer)
+    public function __construct(CategoryTransformer $transformer)
     {
         $this->transformer = $transformer;
     }
@@ -50,10 +50,9 @@ class PostType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Post::class,
             'csrf_protection' => false,
-            'allow_extra_fields' => true
-        ])
-        ->setDefault('categories', null)
-        ->setRequired('categories')
-        ->setAllowedTypes('categories', array('array'));
+            'allow_extra_fields' => true,
+            'categories' => [],
+            'images' => []
+        ]);
     }
 }

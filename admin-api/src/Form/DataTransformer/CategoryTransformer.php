@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class IdToCategoryTransformer implements DataTransformerInterface
+class CategoryTransformer implements DataTransformerInterface
 {
     private $entityManager;
 
@@ -46,9 +46,9 @@ class IdToCategoryTransformer implements DataTransformerInterface
      * @throws TransformationFailedException if object is not found
      */
     public function reverseTransform($ids)
-    {       
-        if (!$ids) {
-            return;
+    {        
+        if (empty($ids)) {
+            return [];
         }
         
         $categories = $this->entityManager->getRepository(Category::class)->findById($ids);

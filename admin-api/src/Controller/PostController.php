@@ -86,7 +86,7 @@ class PostController extends AbstractFOSRestController
      * @return Response
      */
     public function postAction(Request $request)
-    {
+    {        
         $data = $request->request->all();
         $post = new Post();
         $form = $this->createForm(PostType::class, $post, ['categories' => $data['categories']]);
@@ -122,7 +122,7 @@ class PostController extends AbstractFOSRestController
             );
         }
 
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(PostType::class, $post, ['categories' => $data['categories']]);
         $form->submit($data);
 
         if ($form->isSubmitted() && $form->isValid()) {
