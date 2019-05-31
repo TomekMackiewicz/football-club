@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use GuzzleHttp\Client;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CategoryControllerTest extends WebTestCase
 { 
