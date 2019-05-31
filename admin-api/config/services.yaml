@@ -1,5 +1,6 @@
 parameters:
     locale: 'en'
+    base_url: '%env(resolve:BASE_URL)%'
 
 services:
     _defaults:
