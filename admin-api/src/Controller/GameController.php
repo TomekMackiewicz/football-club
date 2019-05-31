@@ -12,7 +12,7 @@ use App\Entity\Game;
 use App\Form\GameType;
 
 /**
- * @Route("/api/v1")
+ * @Route("/api/v1/games")
  */
 class GameController extends AbstractFOSRestController
 {
@@ -33,7 +33,7 @@ class GameController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/game")
+     * @Rest\Get("")
      * @return Response
      */
     public function cgetAction(Request $request)
@@ -62,7 +62,7 @@ class GameController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/game/{id}")
+     * @Rest\Get("/{id}")
      * @return Response
      */
     public function getAction(int $id)
@@ -81,7 +81,7 @@ class GameController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/game")
+     * @Rest\Post("")
      * @return Response
      */
     public function postAction(Request $request)
@@ -105,7 +105,7 @@ class GameController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/game/{id}")
+     * @Rest\Patch("/{id}")
      * @return Response
      */
     public function patchAction(Request $request, int $id)
@@ -138,7 +138,7 @@ class GameController extends AbstractFOSRestController
 
     /**
      * Delete one or multiple games
-     * @Rest\Delete("/game")
+     * @Rest\Delete("")
      * @return Response
      */
     public function deleteAction(Request $request)

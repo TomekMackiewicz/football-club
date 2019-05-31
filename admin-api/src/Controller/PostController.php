@@ -12,7 +12,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 
 /**
- * @Route("/api/v1")
+ * @Route("/api/v1/posts")
  */
 class PostController extends AbstractFOSRestController
 {
@@ -34,7 +34,7 @@ class PostController extends AbstractFOSRestController
     }
     
     /**
-     * @Rest\Get("/post")
+     * @Rest\Get("")
      * @return Response
      */
     public function cgetAction(Request $request)
@@ -63,7 +63,7 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/post/{id}")
+     * @Rest\Get("/{id}")
      * @return Response
      */
     public function getAction(int $id)
@@ -82,7 +82,7 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/post")
+     * @Rest\Post("")
      * @return Response
      */
     public function postAction(Request $request)
@@ -108,7 +108,7 @@ class PostController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/post/{id}")
+     * @Rest\Patch("/{id}")
      * @return Response
      */
     public function patchAction(Request $request, int $id)
@@ -141,7 +141,7 @@ class PostController extends AbstractFOSRestController
 
     /**
      * Delete one or multiple posts
-     * @Rest\Delete("/post")
+     * @Rest\Delete("")
      * @return Response
      */
     public function deleteAction(Request $request)

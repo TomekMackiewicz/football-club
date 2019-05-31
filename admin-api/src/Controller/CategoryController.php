@@ -12,7 +12,7 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 
 /**
- * @Route("/api/v1")
+ * @Route("/api/v1/categories")
  */
 class CategoryController extends AbstractFOSRestController
 {
@@ -34,7 +34,7 @@ class CategoryController extends AbstractFOSRestController
     }
     
     /**
-     * @Rest\Get("/category")
+     * @Rest\Get("")
      * @return Response
      */
     public function cgetAction(Request $request)
@@ -63,7 +63,7 @@ class CategoryController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/category/{id}")
+     * @Rest\Get("/{id}")
      * @return Response
      */
     public function getAction(int $id)
@@ -82,7 +82,7 @@ class CategoryController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/category")
+     * @Rest\Post("")
      * @return Response
      */
     public function postAction(Request $request)
@@ -106,7 +106,7 @@ class CategoryController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/category/{id}")
+     * @Rest\Patch("/{id}")
      * @return Response
      */
     public function patchAction(Request $request, int $id)
@@ -139,7 +139,7 @@ class CategoryController extends AbstractFOSRestController
 
     /**
      * Delete one or multiple categories
-     * @Rest\Delete("/category")
+     * @Rest\Delete("")
      * @return Response
      */
     public function deleteAction(Request $request)
