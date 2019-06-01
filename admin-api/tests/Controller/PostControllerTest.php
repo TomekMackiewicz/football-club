@@ -1,5 +1,5 @@
 <?php
-//declare(strict_types=1);
+declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
@@ -29,11 +29,12 @@ class PostControllerTest extends WebTestCase
     public static function setUpBeforeClass(): void
     {
         self::buildDb(self::$kernel, self::$application);
+        // TODO add c before test
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::clearSchema(self::$application);
+        self::dropSchema(self::$application);
     }
     
     public function testGetPostEmptyResult()
@@ -43,17 +44,17 @@ class PostControllerTest extends WebTestCase
     }
 
     public function testAddNewPost()
-    {
-        $date = new \DateTime();        
+    {        
         $response = $this->client->post($this->apiUrl.'/posts', [
             'json' => [
                 'title' => 'Title',
                 'body' => 'Lorem ipsum...',
                 'slug' => 'test-slug',
                 'categories' => [1]
-             ]
+             ],
+            'http_errors' => false
         ]); 
-        $msg = json_decode($response->getBody(true), true);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertEquals('post.added', $msg);
 
@@ -76,7 +77,7 @@ class PostControllerTest extends WebTestCase
              ],
              'http_errors' => false
         ]);
-        $msg = json_decode($response->getBody(true), true);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertContains('validation.required', $msg['errors']);       
     }
@@ -89,10 +90,11 @@ class PostControllerTest extends WebTestCase
                 'title' => 'New title',
                 'body' => 'Lorem ipsum dolor si emet...',
                 'slug' => 'test-slug',
-                'categories' => [1]
-             ]
+                'categories' => [1] 
+             ],
+            'http_errors' => false
         ]);
-        $msg = json_decode($response->getBody(true), true);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('post.edited', $msg);        
     }
@@ -108,7 +110,7 @@ class PostControllerTest extends WebTestCase
              ],
             'http_errors' => false
         ]); 
-        $msg = json_decode($response->getBody(true), true);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertContains('validation.unique', $msg['errors']); 
     }    
@@ -116,9 +118,10 @@ class PostControllerTest extends WebTestCase
     public function testDeletePost()
     {
         $response = $this->client->delete($this->apiUrl.'/posts', [
-            'json' => [1,2,3]
+            'json' => [1,2,3],
+            'http_errors' => false
         ]); 
-        $msg = json_decode($response->getBody(true), true);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('posts.deleted', $msg);         
     }
@@ -143,7 +146,7 @@ class PostControllerTest extends WebTestCase
 
     }
 
-    private static function clearSchema($application): void
+    private static function dropSchema($application): void
     {
         $application->setAutoExit(false);
         $application->run(new ArrayInput(array(

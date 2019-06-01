@@ -1,5 +1,5 @@
 <?php
-//declare(strict_types=1);
+declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use GuzzleHttp\Client;
 
 class GameControllerTest extends WebTestCase
-{ 
+{
     private $apiUrl;
     private $client;
     protected static $kernel;
@@ -33,9 +33,9 @@ class GameControllerTest extends WebTestCase
 
     public static function tearDownAfterClass(): void
     {
-        self::clearSchema(self::$application);
+        self::dropSchema(self::$application);
     }
-    
+
     public function testGetGamesEmptyResult(): void
     {
         $response = $this->client->get($this->apiUrl.'/games?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
@@ -44,7 +44,7 @@ class GameControllerTest extends WebTestCase
 
     public function testAddNewGame(): void
     {
-        $date = new \DateTime();        
+        $date = new \DateTime();
         $response = $this->client->post($this->apiUrl.'/games', [
             'json' => [
                 'date' => $date->format('Y-m-d'),
@@ -54,9 +54,10 @@ class GameControllerTest extends WebTestCase
                 'guest_team' => '1',
                 'host_score' => '1',
                 'guest_score' => '1' 
-             ]
-        ]); 
-        $msg = json_decode($response->getBody(true), true);
+             ],
+            'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertEquals('game.added', $msg);
     }
@@ -65,11 +66,11 @@ class GameControllerTest extends WebTestCase
     {
         $response = $this->client->get($this->apiUrl.'/games?sort=date&order=desc&page=1&size=10&filters={"dateFrom":null,"dateTo":null,"location":"","gameType":"","team":""}');
         $this->assertEquals(200, $response->getStatusCode());
-    }    
-    
+    }
+
     public function testAddNewGameScoreRegex(): void
     {
-        $date = new \DateTime();                
+        $date = new \DateTime();
         $response = $this->client->post($this->apiUrl.'/games', [
             'json' => [
                 'date' => $date->format('Y-m-d'),
@@ -78,16 +79,16 @@ class GameControllerTest extends WebTestCase
                 'host_team' => '1',
                 'guest_team' => '1',
                 'host_score' => 'a',
-                'guest_score' => 'b' 
+                'guest_score' => 'b'
              ],
              'http_errors' => false
         ]);
         $this->assertEquals(500, $response->getStatusCode());
-    }    
+    }
 
     public function testAddNewGameNullValuesRegex(): void
     {
-        $date = new \DateTime();        
+        $date = new \DateTime();
         $response = $this->client->post($this->apiUrl.'/games', [
             'json' => [
                 'date' => $date->format('Y-m-d'),
@@ -100,15 +101,14 @@ class GameControllerTest extends WebTestCase
              ],
              'http_errors' => false
         ]);
-        $msg = json_decode($response->getBody(true), true);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(400, $response->getStatusCode());
-        $this->assertContains('validation.required', $msg['errors']);       
-        
+        $this->assertContains('validation.required', $msg['errors']);
     }
-    
+
     public function testEditGame(): void
     {
-        $date = new \DateTime();        
+        $date = new \DateTime();
         $response = $this->client->patch($this->apiUrl.'/games/1', [
             'json' => [
                 'id' => 1,
@@ -118,29 +118,31 @@ class GameControllerTest extends WebTestCase
                 'host_team' => '1',
                 'guest_team' => '1',
                 'host_score' => '1',
-                'guest_score' => '1' 
-             ]
-        ]); 
-        $msg = json_decode($response->getBody(true), true);
+                'guest_score' => '1'
+             ],
+            'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('game.edited', $msg);        
+        $this->assertEquals('game.edited', $msg);
     }
-    
+
     public function testDeleteGame(): void
     {
         $response = $this->client->delete($this->apiUrl.'/games', [
-            'json' => [1,2,3]
-        ]); 
-        $msg = json_decode($response->getBody(true), true);
+            'json' => [1,2,3],
+            'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('games.deleted', $msg);         
+        $this->assertEquals('games.deleted', $msg);
     }
 
     private static function buildDb($kernel, $application): void
     {
-        $kernel->boot();        
+        $kernel->boot();
         $application->setAutoExit(false);
-        $doctrine = $kernel->getContainer()->get('doctrine');       
+        $doctrine = $kernel->getContainer()->get('doctrine');
         $schemaManager = $doctrine->getConnection()->getSchemaManager();
         
         if ($schemaManager->tablesExist(array('game')) === false) {
@@ -151,17 +153,17 @@ class GameControllerTest extends WebTestCase
 
             $application->run(new ArrayInput(array(
                 'doctrine:schema:create'
-            )));          
+            )));
         }
-    } 
-    
-    private static function clearSchema($application): void
+    }
+
+    private static function dropSchema($application): void
     {
         $application->setAutoExit(false);
         $application->run(new ArrayInput(array(
             'doctrine:schema:drop',
             '--force' => true
-        )));        
-    }    
-    
-}       
+        )));
+    }
+
+}
