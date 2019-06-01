@@ -17,29 +17,29 @@ export class CategoryService {
     ) {}
 
     getCategory(id: number): Observable<Category> {     
-        return this.httpClient.get<Category>(API_URL+'/category/'+id)
+        return this.httpClient.get<Category>(API_URL+'/categories/'+id)
             .pipe(catchError(this.handleError));   
     }    
         
     getCategories(sort: string = '', order: string = '', page: number = 0, size: number = 0, filters: any = []): Observable<CategoriesWithCount> { 
         let params = 'sort='+sort+'&order='+order+'&page='+page+'&size='+size+'&filters='+JSON.stringify(filters); 
                
-        return this.httpClient.get<CategoriesWithCount>(API_URL+'/category?'+params)
+        return this.httpClient.get<CategoriesWithCount>(API_URL+'/categories?'+params)
             .pipe(catchError(this.handleError));   
     }
         
     addCategory(category: Category): Observable<string> {
-        return this.httpClient.post<string>(API_URL+'/category', category, HTTP_OPTIONS)
+        return this.httpClient.post<string>(API_URL+'/categories', category, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
     
     updateCategory(category: Category): Observable<string> {
-        return this.httpClient.patch<string>(API_URL+'/category/'+category.id, category, HTTP_OPTIONS)
+        return this.httpClient.patch<string>(API_URL+'/categories/'+category.id, category, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
        
     deleteCategories(ids: Array<number>): Observable<string> {            
-        return this.httpClient.request<string>('delete', API_URL+'/category', { body: ids })
+        return this.httpClient.request<string>('delete', API_URL+'/categories', { body: ids })
             .pipe(catchError(this.handleError));
     }
 
