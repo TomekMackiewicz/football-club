@@ -29,7 +29,7 @@ class PostControllerTest extends WebTestCase
     public static function setUpBeforeClass(): void
     {
         self::buildDb(self::$kernel, self::$application);
-        // TODO add c before test
+        // TODO add category? (test for non existing cat?)
     }
 
     public static function tearDownAfterClass(): void

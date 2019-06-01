@@ -7,7 +7,7 @@ use App\Entity\Game;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture
+class GameFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
