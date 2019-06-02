@@ -31,7 +31,8 @@ class PostType extends AbstractType
             ->add('categories', ChoiceType::class, array(
                 'choices' => $options['categories'],
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
+                'invalid_message' => 'validation.missing'
             ))
 //            ->add('images', EntityType::class, array(
 //                'class' => File::class,
@@ -44,7 +45,6 @@ class PostType extends AbstractType
         $builder->get('categories')->addModelTransformer($this->transformer);
     }
 
-    // TODO - tak?
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

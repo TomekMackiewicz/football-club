@@ -63,6 +63,7 @@ class Post
     /**
      * @ORM\ManyToMany(targetEntity="Category", inversedBy="posts")
      * @ORM\JoinTable(name="posts_categories")
+     * @Assert\Count(min="1", minMessage = "validation.required")
      */
     private $categories;    
     

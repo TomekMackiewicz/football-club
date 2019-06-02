@@ -24,8 +24,8 @@ class CategoryTransformer implements DataTransformerInterface
      */
     public function transform($collection)
     {
-        if (!$collection) {
-            return;
+        if (empty($collection)) {
+            return null;
         }
         
         $categories = $collection->toArray();
@@ -46,20 +46,20 @@ class CategoryTransformer implements DataTransformerInterface
      * @throws TransformationFailedException if object is not found
      */
     public function reverseTransform($ids)
-    {        
-        if (empty($ids)) {
+    {
+        if (empty($ids[0])) {
             return [];
         }
         
         $categories = $this->entityManager->getRepository(Category::class)->findById($ids);
-
-        if (null === $categories) {
+        
+        if (empty($categories[0])) {
             throw new TransformationFailedException(sprintf(
-                'Categories cannot be null',
+                'Categories does not exists',
                 $categories
             ));
         }
-       
+        
         return $categories;
     }
 }
