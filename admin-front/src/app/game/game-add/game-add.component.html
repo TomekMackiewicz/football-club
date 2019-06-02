@@ -27,17 +27,8 @@
                 <mat-form-field appearance="outline">
                   <mat-label>{{ 'game.type' | translate | capitalizeFirst }}</mat-label>
                   <mat-select formControlName="game_type" required>
-                <!--    <mat-option *ngFor="let food of foods" [value]="food.value">
-                      {{ food.viewValue }}
-                    </mat-option>-->
-                    <mat-option [value]="1">
-                      option 1
-                    </mat-option>
-                    <mat-option [value]="2">
-                      option 2
-                    </mat-option>
-                    <mat-option [value]="3">
-                      option 3
+                    <mat-option *ngFor="let type of gameTypes" [value]="type.value">
+                      {{ type.label | translate | capitalizeFirst }}
                     </mat-option>
                   </mat-select>
                     <mat-error *ngIf="gameForm.get('game_type').hasError('required')">

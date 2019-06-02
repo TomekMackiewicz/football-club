@@ -4,12 +4,15 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { GameService } from '../game.service';
 import { AlertService } from '../../alert/alert.service';
+import { GAME_TYPES } from '../../constants/gameTypes';
 
 @Component({
     selector: 'app-game-add',
     templateUrl: './game-add.component.html'
 })
 export class GameAddComponent {
+    
+    gameTypes = GAME_TYPES;
 
     gameForm = this.fb.group({
         date: ['', Validators.required],

@@ -11,6 +11,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Game
 {
+    const LEAGUE_GAME = 1;
+    const SPARRING_GAME = 2;
+    const TOURNAMENT_GAME = 3;
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
