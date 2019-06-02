@@ -138,7 +138,7 @@ class TrainerControllerTest extends WebTestCase
         $this->assertEquals('trainer.edited', $msg);
     }
 
-    public function testDeleteTrainer(): void
+    public function testDeleteTrainers(): void
     {
         $response = $this->client->delete($this->apiUrl.'/trainers', [
             'json' => [1,2,3],
