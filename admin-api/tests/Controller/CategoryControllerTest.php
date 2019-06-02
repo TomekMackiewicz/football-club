@@ -28,7 +28,7 @@ class CategoryControllerTest extends WebTestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::buildDb(self::$kernel, self::$application);
+        self::createSchema(self::$kernel, self::$application);
     }
     
     public static function tearDownAfterClass(): void
@@ -99,7 +99,7 @@ class CategoryControllerTest extends WebTestCase
         $this->assertEquals('categories.deleted', $msg);
     }
 
-    private static function buildDb($kernel, $application): void
+    private static function createSchema($kernel, $application): void
     {
         $application->setAutoExit(false);
         $doctrine = $kernel->getContainer()->get('doctrine');

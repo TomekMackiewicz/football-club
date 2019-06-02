@@ -28,8 +28,7 @@ class PostControllerTest extends WebTestCase
     
     public static function setUpBeforeClass(): void
     {
-        self::buildDb(self::$kernel, self::$application);
-        // TODO add category? (test for non existing cat?)
+        self::createSchema(self::$kernel, self::$application);
     }
 
     public static function tearDownAfterClass(): void
@@ -44,7 +43,9 @@ class PostControllerTest extends WebTestCase
     }
 
     public function testAddNewPost()
-    {        
+    { 
+        $this->prepareCategory(); 
+        
         $response = $this->client->post($this->apiUrl.'/posts', [
             'json' => [
                 'title' => 'Title',
@@ -126,14 +127,24 @@ class PostControllerTest extends WebTestCase
         $this->assertEquals('posts.deleted', $msg);         
     }
 
-    private static function buildDb($kernel, $application)
+    private function prepareCategory()
+    {
+        $this->client->post($this->apiUrl.'/categories', [
+            'json' => [
+                'name' => 'Default'
+             ],
+            'http_errors' => false
+        ]); 
+    }    
+
+    private static function createSchema($kernel, $application)
     {
         $kernel->boot();        
         $application->setAutoExit(false);
         $doctrine = $kernel->getContainer()->get('doctrine');       
         $schemaManager = $doctrine->getConnection()->getSchemaManager();
         
-        if ($schemaManager->tablesExist(array('game')) === false) {
+        if ($schemaManager->tablesExist(array('post')) === false) {
             $application->run(new ArrayInput(array(
                 'doctrine:schema:drop',
                 '--force' => true
