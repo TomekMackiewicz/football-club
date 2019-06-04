@@ -45,16 +45,16 @@ class ContainsOverlapingTrainingDateForLocationValidator extends ConstraintValid
             throw new UnexpectedValueException($training, 'Training');
         }
 
-        $trainings = $this->repository->findAll();
+        $otherTrainings = $this->repository->findAllTrainingsExceptOne($training->getId());
 
-        foreach ($trainings as $otherTraining) {
+        foreach ($otherTrainings as $otherTraining) {
             $datesOverlaps = $this->datesOverlap(
                 $training->getStartDate()->getTimestamp(), 
                 $training->getEndDate()->getTimestamp(), 
                 $otherTraining->getStartDate()->getTimestamp(), 
                 $otherTraining->getEndDate()->getTimestamp(),
             );
-            if ($otherTraining->getLocation() === $training->getLocation() && $datesOverlaps) {
+            if ($otherTraining->getLocation() === $training->getLocation() && $datesOverlaps) {                
                 $this->context->buildViolation($constraint->message)
                     ->atPath('location')
                     ->addViolation();                

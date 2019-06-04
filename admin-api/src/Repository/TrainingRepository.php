@@ -72,4 +72,13 @@ class TrainingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();        
     }
+    
+    public function findAllTrainingsExceptOne($id)
+    {
+        return $this->createQueryBuilder('t')
+            ->where("t.id !=:id")
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult(); 
+    }
 }
