@@ -5,14 +5,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints as CustomAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainingRepository")
- * @UniqueEntity(
- *   fields={"startDate", "location"},
- *   message="validation.overlapingDateAndLocation"
- * )
+ * @CustomAssert\ContainsOverlapingTrainingDateForLocation
  */
 class Training
 {
@@ -27,7 +24,7 @@ class Training
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="validation.required")
      */
-    private $startDate;
+    private $startDate; 
 
     /**
      * @ORM\Column(type="datetime")

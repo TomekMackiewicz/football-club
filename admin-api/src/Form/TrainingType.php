@@ -14,12 +14,10 @@ class TrainingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('startDate')
             ->add('startDate', DateTimeType::class, [
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy HH:mm'
             ])
-            //->add('endDate')
             ->add('endDate', DateTimeType::class, [
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy HH:mm'
