@@ -75,10 +75,13 @@ class TrainingRepository extends ServiceEntityRepository
     
     public function findAllTrainingsExceptOne($id)
     {
-        return $this->createQueryBuilder('t')
-            ->where("t.id !=:id")
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult(); 
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('t')->from('App:Training', 't');
+
+        if (null !== $id) {
+            $qb->andWhere("t.id !=:id")->setParameter('id', $id);
+        }
+        
+        return $qb->getQuery()->getResult(); 
     }
 }

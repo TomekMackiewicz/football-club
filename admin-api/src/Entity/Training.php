@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as CustomAssert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainingRepository")
@@ -91,4 +92,28 @@ class Training
 
         return $this;
     }
+    
+    /**
+     * @return Collection
+     */
+    public function getTrainers(): ?Collection
+    {
+        return $this->trainers;
+    }
+    
+    /**
+     * @param Trainer $trainer
+     */
+    public function addTrainer(Trainer $trainer)
+    {        
+        $this->trainers->add($trainer);
+    }
+    
+    /**
+     * @param Trainer $trainer
+     */
+    public function removeTrainer(Trainer $trainer)
+    {
+        $this->trainers->removeElement($trainer);
+    } 
 }

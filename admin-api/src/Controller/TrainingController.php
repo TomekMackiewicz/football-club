@@ -15,8 +15,7 @@ use App\Form\TrainingType;
  * @Route("/api/v1/trainings")
  */
 class TrainingController extends AbstractFOSRestController
-{
-    
+{   
     /**
      * @return TrainingRepository
      */
@@ -87,10 +86,11 @@ class TrainingController extends AbstractFOSRestController
      */
     public function postAction(Request $request)
     {
+        $data = $request->request->all();
         $training = new Training();
-        $form = $this->createForm(TrainingType::class, $training);
-        $form->submit($request->request->all());
-
+        $form = $this->createForm(TrainingType::class, $training, ['trainers' => $data['trainers']]);
+        $form->submit($data);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em()->persist($training);
             $this->em()->flush();
@@ -120,7 +120,7 @@ class TrainingController extends AbstractFOSRestController
             );
         }
 
-        $form = $this->createForm(TrainingType::class, $training);
+        $form = $this->createForm(TrainingType::class, $training, ['trainers' => $data['trainers']]);
         $form->submit($data);
 
         if ($form->isSubmitted() && $form->isValid()) {

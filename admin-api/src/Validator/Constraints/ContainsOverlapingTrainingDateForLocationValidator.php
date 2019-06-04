@@ -53,11 +53,12 @@ class ContainsOverlapingTrainingDateForLocationValidator extends ConstraintValid
                 $training->getEndDate()->getTimestamp(), 
                 $otherTraining->getStartDate()->getTimestamp(), 
                 $otherTraining->getEndDate()->getTimestamp(),
-            );
+            );            
             if ($otherTraining->getLocation() === $training->getLocation() && $datesOverlaps) {                
                 $this->context->buildViolation($constraint->message)
                     ->atPath('location')
-                    ->addViolation();                
+                    ->addViolation();
+                return;
             }
         }
     }

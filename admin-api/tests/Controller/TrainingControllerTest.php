@@ -48,12 +48,15 @@ class TrainingControllerTest extends WebTestCase
     }
 
     public function testAddNewTraining(): void
-    { 
+    {
+        $this->prepareTrainer();
+        
         $response = $this->client->post($this->apiUrl.'/trainings', [
             'json' => [
                 'startDate' => $this->startDate->format('d-m-Y H:i'),
                 'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => 'Warsaw'
+                'location' => 'Warsaw',
+                'trainers' => [1]
              ],
             'http_errors' => false
         ]);
@@ -62,6 +65,38 @@ class TrainingControllerTest extends WebTestCase
         $this->assertEquals('training.added', $msg);
     }
 
+    public function testAddNewTrainingOverlapingDates(): void
+    { 
+        $response = $this->client->post($this->apiUrl.'/trainings', [
+            'json' => [
+                'startDate' => $this->startDate->format('d-m-Y H:i'),
+                'endDate' => $this->endDate->format('d-m-Y H:i'),
+                'location' => 'Warsaw',
+                'trainers' => []
+             ],
+             'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertContains('validation.overlapingDateForLocation', $msg['errors']);
+    } 
+
+    public function testEditTrainingOverlapingDates(): void
+    { 
+        $response = $this->client->patch($this->apiUrl.'/trainings/1', [
+            'json' => [
+                'startDate' => $this->startDate->format('d-m-Y H:i'),
+                'endDate' => $this->endDate->format('d-m-Y H:i'),
+                'location' => 'Warsaw',
+                'trainers' => []
+             ],
+             'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('training.edited', $msg);
+    }
+    
     public function testGetTrainings(): void
     {
         $response = $this->client->get(
@@ -76,7 +111,8 @@ class TrainingControllerTest extends WebTestCase
             'json' => [
                 'startDate' => $this->startDate->format('d-m-Y H:i'),
                 'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => ''
+                'location' => '',
+                'trainers' => []
              ],
              'http_errors' => false
         ]);
@@ -91,7 +127,8 @@ class TrainingControllerTest extends WebTestCase
             'json' => [
                 'startDate' => $this->startDate->format('d-m-Y H:i'),
                 'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => 'Berlin'
+                'location' => 'Berlin',
+                'trainers' => []
              ],
             'http_errors' => false
         ]);
@@ -99,7 +136,9 @@ class TrainingControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('training.edited', $msg);
     }
-
+   
+    // test trainer overlaping dates
+    
     public function testDeleteTrainings(): void
     {
         $response = $this->client->delete($this->apiUrl.'/trainings', [
@@ -111,6 +150,20 @@ class TrainingControllerTest extends WebTestCase
         $this->assertEquals('trainings.deleted', $msg);
     }
 
+    private function prepareTrainer()
+    {
+        $this->client->post($this->apiUrl.'/trainers', [
+            'json' => [
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'login' => 'JD',
+                'email' => 'john@gmail.com',
+                'status' => 1
+             ],
+            'http_errors' => false
+        ]);
+    }    
+    
     private static function createSchema($kernel, $application): void
     {
         $application->setAutoExit(false);
