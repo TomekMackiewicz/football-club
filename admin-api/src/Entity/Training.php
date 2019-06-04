@@ -6,6 +6,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as CustomAssert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainingRepository")
@@ -38,6 +39,18 @@ class Training
      */
     private $location;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Trainer", inversedBy="trainings")
+     * @ORM\JoinTable(name="training_trainer")
+     * @Assert\NotBlank(message="validation.required")
+     */
+    private $trainers;    
+
+    public function __construct() {
+        //$this->teams = new ArrayCollection();
+        $this->trainers = new ArrayCollection();
+    } 
+    
     public function getId(): ?int
     {
         return $this->id;

@@ -6,6 +6,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainerRepository")
@@ -52,6 +53,16 @@ class Trainer
      */
     private $status;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Training", mappedBy="trainers", cascade={"persist"})
+     */
+    private $trainings;
+
+    public function __construct() {
+        //$this->teams = new ArrayCollection();
+        $this->trainings = new ArrayCollection();
+    } 
+    
     public function getId(): ?int
     {
         return $this->id;

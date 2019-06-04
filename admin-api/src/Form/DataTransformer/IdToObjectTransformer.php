@@ -1,19 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Form\DataTransformer;
 
-use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class CategoryTransformer implements DataTransformerInterface
+class IdToObjectTransformer implements DataTransformerInterface
 {
     private $entityManager;
+    private $class;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, $class)
     {
         $this->entityManager = $entityManager;
+        $this->class = $class;
     }
 
     /**
@@ -46,12 +48,18 @@ class CategoryTransformer implements DataTransformerInterface
      * @throws TransformationFailedException if object is not found
      */
     public function reverseTransform($ids)
-    {
+    {       
         if (empty($ids[0])) {
             return [];
         }
-        
-        $categories = $this->entityManager->getRepository(Category::class)->findById($ids);
+//ob_start();
+//var_dump('class');
+//var_dump(Category::class);
+//var_dump($this->class);
+//$textualRepresentation = ob_get_contents();
+//ob_end_clean();
+//file_put_contents("/var/www/html/log.log", $textualRepresentation);         
+        $categories = $this->entityManager->getRepository($this->class)->findById($ids);
         
         if (empty($categories[0])) {
             throw new TransformationFailedException(sprintf(

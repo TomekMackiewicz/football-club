@@ -4,22 +4,23 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\Post;
-use App\Entity\File;
+use App\Entity\Category;
+//use App\Entity\File;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use App\Form\DataTransformer\CategoryTransformer;
+use App\Form\DataTransformer\IdToObjectTransformer;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PostType extends AbstractType
 {
     private $transformer;
 
-    public function __construct(CategoryTransformer $transformer)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->transformer = $transformer;
+        $this->transformer = new IdToObjectTransformer($em, Category::class);
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
