@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainingRepository")
- * @CustomAssert\ContainsOverlapingTrainingDateForLocation
+ * @CustomAssert\ContainsOverlapingTrainingDate
  */
 class Training
 {
