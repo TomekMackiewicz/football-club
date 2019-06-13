@@ -53,9 +53,9 @@ class TrainingControllerTest extends WebTestCase
         
         $response = $this->client->post($this->apiUrl.'/trainings', [
             'json' => [
-                'startDate' => $this->startDate->format('d-m-Y H:i'),
-                'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => 'Warsaw',
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location1',
                 'trainers' => [1]
              ],
             'http_errors' => false
@@ -69,9 +69,9 @@ class TrainingControllerTest extends WebTestCase
     { 
         $response = $this->client->post($this->apiUrl.'/trainings', [
             'json' => [
-                'startDate' => $this->startDate->format('d-m-Y H:i'),
-                'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => 'Warsaw',
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location1',
                 'trainers' => []
              ],
              'http_errors' => false
@@ -85,9 +85,9 @@ class TrainingControllerTest extends WebTestCase
     { 
         $response = $this->client->patch($this->apiUrl.'/trainings/1', [
             'json' => [
-                'startDate' => $this->startDate->format('d-m-Y H:i'),
-                'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => 'Warsaw',
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location1',
                 'trainers' => [1]
              ],
              'http_errors' => false
@@ -101,9 +101,9 @@ class TrainingControllerTest extends WebTestCase
     { 
         $response = $this->client->post($this->apiUrl.'/trainings', [
             'json' => [
-                'startDate' => $this->startDate->format('d-m-Y H:i'),
-                'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => 'Paris',
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location2',
                 'trainers' => [1]
              ],
              'http_errors' => false
@@ -117,9 +117,9 @@ class TrainingControllerTest extends WebTestCase
     { 
         $response = $this->client->patch($this->apiUrl.'/trainings/1', [
             'json' => [
-                'startDate' => $this->startDate->format('d-m-Y H:i'),
-                'endDate' => $this->endDate->format('d-m-Y H:i'),
-                'location' => 'Paris',
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location2',
                 'trainers' => [1]
              ],
              'http_errors' => false
@@ -141,8 +141,8 @@ class TrainingControllerTest extends WebTestCase
     { 
         $response = $this->client->post($this->apiUrl.'/trainings', [
             'json' => [
-                'startDate' => $this->startDate->format('d-m-Y H:i'),
-                'endDate' => $this->endDate->format('d-m-Y H:i'),
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => '',
                 'trainers' => []
              ],
@@ -157,8 +157,8 @@ class TrainingControllerTest extends WebTestCase
     {
         $response = $this->client->patch($this->apiUrl.'/trainings/1', [
             'json' => [
-                'startDate' => $this->startDate->format('d-m-Y H:i'),
-                'endDate' => $this->endDate->format('d-m-Y H:i'),
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => 'Berlin',
                 'trainers' => []
              ],

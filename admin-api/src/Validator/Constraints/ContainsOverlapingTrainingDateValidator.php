@@ -35,8 +35,7 @@ class ContainsOverlapingTrainingDateValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, ContainsOverlapingTrainingDate::class);
         }
 
-        // custom constraints should ignore null and empty values to allow
-        // other constraints (NotBlank, NotNull, etc.) take care of that
+        // Ignore null and empty values to allow other constraints (NotBlank, NotNull, etc.) take care of that
         if (null === $currentTraining || '' === $currentTraining) {
             return;
         }
@@ -44,32 +43,25 @@ class ContainsOverlapingTrainingDateValidator extends ConstraintValidator
         if (!$currentTraining instanceof Training) {
             throw new UnexpectedValueException($currentTraining, 'Training');
         }
+
+        $overlapingTraining = $this->repository->findTrainingWithOverlapingDates($currentTraining);
         
+        if (!$overlapingTraining instanceof Training) {
+            return;
+        }
+        
+        $datesOverlaps = $this->datesOverlaps($overlapingTraining);        
         $currentTrainers = $this->getTrainersIds($currentTraining);
-        $trainings = $this->repository->findAllTrainingsExceptOne($currentTraining->getId());
-
-        foreach ($trainings as $training) {
-            $datesOverlaps = $this->datesOverlap(
-                $currentTraining->getStartDate()->getTimestamp(), 
-                $currentTraining->getEndDate()->getTimestamp(), 
-                $training->getStartDate()->getTimestamp(), 
-                $training->getEndDate()->getTimestamp(),
-            );
-            $trainers = $this->getTrainersIds($training);
+        $trainers = $this->getTrainersIds($overlapingTraining);
             
-            // Check overlaping dates for given location
-            if ($this->trainingsHaveCommonLocation($currentTraining->getLocation(), $training->getLocation()) && $datesOverlaps) {                
-                $this->context->buildViolation('validation.overlapingDateForLocation')
-                    ->atPath('location')
-                    ->addViolation();
-            }
+        // Check overlaping dates for training location
+        if ($this->trainingsHaveCommonLocation($currentTraining->getLocation(), $overlapingTraining->getLocation()) && $datesOverlaps) {                
+            $this->context->buildViolation('validation.overlapingDateForLocation')->atPath('location')->addViolation();
+        }
 
-            // Check overlaping dates for trainer
-            if ($this->trainingsHaveCommonTrainers($currentTrainers, $trainers) && $datesOverlaps) {                
-                $this->context->buildViolation('validation.overlapingDateForTrainer')
-                    ->atPath('trainers')
-                    ->addViolation();
-            }
+        // Check overlaping dates for trainer
+        if ($this->trainingsHaveCommonTrainers($currentTrainers, $trainers) && $datesOverlaps) {                
+            $this->context->buildViolation('validation.overlapingDateForTrainer')->atPath('trainers')->addViolation();
         }
     }
 
@@ -83,15 +75,15 @@ class ContainsOverlapingTrainingDateValidator extends ConstraintValidator
         return !empty(array_intersect($currentTrainers, $trainers)) ? true : false;
     }
     
-    private function datesOverlap($start1, $end1, $start2, $end2) 
+    private function datesOverlaps($overlapingTraining) 
     {   
-        return ($start1 <= $end2 && $end1 >= $start2) ? true : false;
+        return $overlapingTraining === null ? false : true;
     }
 
-    private function getTrainersIds($training)
+    private function getTrainersIds($overlapingTraining)
     {
         $ids = [];
-        foreach ($training->getTrainers() as $trainer) {
+        foreach ($overlapingTraining->getTrainers() as $trainer) {
             $ids[] = $trainer->getId();
         }
         

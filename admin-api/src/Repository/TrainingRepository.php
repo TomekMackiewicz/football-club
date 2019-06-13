@@ -61,6 +61,7 @@ class TrainingRepository extends ServiceEntityRepository
 
     /**
      * Find trainings with given id's
+     * 
      * @param array $ids
      * @return array
      */
@@ -73,15 +74,29 @@ class TrainingRepository extends ServiceEntityRepository
             ->getResult();        
     }
     
-    public function findAllTrainingsExceptOne($id)
+    /**
+     * Helper function for training validation
+     * 
+     * @param Training $training
+     * @return array|null
+     */
+    public function findTrainingWithOverlapingDates($training)
     {
+        $id = $training->getId();
+        $startDate = $training->getStartDate();
+        $endDate = $training->getEndDate();
+        
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('t')->from('App:Training', 't');
+        $qb->select('t')->from('App:Training', 't');        
+        $qb->andWhere('t.endDate >= :from AND t.startDate <= :to')
+           ->setParameter('from', $startDate)
+           ->setParameter('to', $endDate);
 
+        // To omit same training during update
         if (null !== $id) {
             $qb->andWhere("t.id !=:id")->setParameter('id', $id);
         }
         
-        return $qb->getQuery()->getResult(); 
+        return $qb->getQuery()->setMaxResults(1)->getOneOrNullResult();        
     }
 }

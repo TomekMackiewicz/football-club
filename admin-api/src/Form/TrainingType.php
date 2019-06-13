@@ -28,11 +28,11 @@ class TrainingType extends AbstractType
         $builder
             ->add('startDate', DateTimeType::class, [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy HH:mm'
+                'format' => 'yyyy-MM-dd HH:mm'
             ])
             ->add('endDate', DateTimeType::class, [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy HH:mm'
+                'format' => 'yyyy-MM-dd HH:mm'
             ])
             ->add('location')
             ->add('trainers', ChoiceType::class, array(
