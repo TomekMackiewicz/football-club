@@ -7,20 +7,20 @@ use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use App\Entity\Training;
-use App\Form\TrainingType;
+use App\Entity\Team;
+use App\Form\TeamType;
 
 /**
- * @Route("/api/v1/trainings")
+ * @Route("/api/v1/teams")
  */
-class TrainingController extends AbstractFOSRestController
+class TeamController extends AbstractFOSRestController
 {   
     /**
-     * @return TrainingRepository
+     * @return TeamRepository
      */
     private function repository()
     {
-        return $this->getDoctrine()->getRepository(Training::class);
+        return $this->getDoctrine()->getRepository(Team::class);
     }
 
     /**
@@ -44,16 +44,16 @@ class TrainingController extends AbstractFOSRestController
         $offset = ($page-1) * $size;
         $filters = json_decode($request->query->get('filters'), true);
 
-        $trainings = $this->repository()->findTrainings($size, $sort, $order, $offset, $filters);
+        $teams = $this->repository()->findTeams($size, $sort, $order, $offset, $filters);
 
-        if (!$trainings) {
+        if (!$teams) {
             return $this->handleView(
                 $this->view(null, Response::HTTP_NO_CONTENT)
             );
         }
 
-        $response['trainings'] = $trainings;
-        $response['total_count'] = $this->repository()->countTrainings();
+        $response['teams'] = $teams;
+        $response['total_count'] = $this->repository()->countTeams();
 
         return $this->handleView(
             $this->view($response, Response::HTTP_OK)
@@ -66,16 +66,16 @@ class TrainingController extends AbstractFOSRestController
      */
     public function getAction(int $id)
     {
-        $training = $this->repository()->findOneBy(['id' => $id]);
+        $team = $this->repository()->findOneBy(['id' => $id]);
 
-        if (!$training) {
+        if (!$team) {
             return $this->handleView(
                 $this->view(null, Response::HTTP_NO_CONTENT)
             );
         }
 
         return $this->handleView(
-            $this->view($training, Response::HTTP_OK)
+            $this->view($team, Response::HTTP_OK)
         );
     }
 
@@ -86,19 +86,16 @@ class TrainingController extends AbstractFOSRestController
     public function postAction(Request $request)
     {
         $data = $request->request->all();
-        $training = new Training();
-        $form = $this->createForm(TrainingType::class, $training, [
-            'trainers' => $data['trainers'], 
-            'teams' => $data['teams']
-        ]);
+        $team = new Team();
+        $form = $this->createForm(TeamType::class, $team);
         $form->submit($data);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->persist($training);
+            $this->em()->persist($team);
             $this->em()->flush();
 
             return $this->handleView(
-                $this->view('training.added', Response::HTTP_CREATED)
+                $this->view('team.added', Response::HTTP_CREATED)
             );
         }
 
@@ -114,24 +111,21 @@ class TrainingController extends AbstractFOSRestController
     public function patchAction(Request $request, int $id)
     {
         $data = $request->request->all();        
-        $training = $this->repository()->find($id);
+        $team = $this->repository()->find($id);
 
-        if (!$training) {
+        if (!$team) {
             return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
         }
 
-        $form = $this->createForm(TrainingType::class, $training, [
-            'trainers' => $data['trainers'], 
-            'teams' => $data['teams']
-        ]);
+        $form = $this->createForm(TeamType::class, $team);
         $form->submit($data);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->persist($training);
+            $this->em()->persist($team);
             $this->em()->flush();
 
             return $this->handleView(
-                $this->view('training.edited', Response::HTTP_OK)
+                $this->view('team.edited', Response::HTTP_OK)
             );
         }
 
@@ -141,27 +135,27 @@ class TrainingController extends AbstractFOSRestController
     }
 
     /**
-     * Delete one or multiple trainings
+     * Delete one or multiple teams
      * @Rest\Delete("")
      * @return Response
      */
     public function deleteAction(Request $request)
     {
-        $trainings = $this->repository()->findTrainingsByIds($request->request->all());
+        $teams = $this->repository()->findTeamsByIds($request->request->all());
 
-        if (!$trainings) {
+        if (!$teams) {
             return $this->handleView(
                 $this->view(null, Response::HTTP_NO_CONTENT)
             );
         }
 
-        foreach ($trainings as $training) {
-            $this->em()->remove($training);
+        foreach ($teams as $team) {
+            $this->em()->remove($team);
             $this->em()->flush();
         }
 
         return $this->handleView(
-            $this->view('trainings.deleted', Response::HTTP_OK)
+            $this->view('teams.deleted', Response::HTTP_OK)
         );
     }
     

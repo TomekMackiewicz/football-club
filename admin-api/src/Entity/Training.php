@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -45,10 +44,17 @@ class Training
      * @ORM\JoinTable(name="training_trainer")
      * @Assert\NotBlank(message="validation.required")
      */
-    private $trainers;    
+    private $trainers; 
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Team", inversedBy="trainings")
+     * @ORM\JoinTable(name="training_team")
+     * @Assert\NotBlank(message="validation.required")
+     */
+    private $teams;
 
     public function __construct() {
-        //$this->teams = new ArrayCollection();
+        $this->teams = new ArrayCollection();
         $this->trainers = new ArrayCollection();
     } 
     
@@ -116,4 +122,28 @@ class Training
     {
         $this->trainers->removeElement($trainer);
     } 
+    
+    /**
+     * @return Collection
+     */
+    public function getTeams(): ?Collection
+    {
+        return $this->teams;
+    }
+    
+    /**
+     * @param Team $team
+     */
+    public function addTeam(Team $team)
+    {        
+        $this->teams->add($team);
+    }
+    
+    /**
+     * @param Team $team
+     */
+    public function removeTeam(Team $team)
+    {
+        $this->teams->removeElement($team);
+    }    
 }

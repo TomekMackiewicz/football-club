@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Validator\Constraints;
 
@@ -22,7 +21,6 @@ class ContainsOverlapingTrainingDateValidator extends ConstraintValidator
     }    
     
     /**
-     * 
      * @param Training $currentTraining
      * @param Constraint $constraint
      * @return null
@@ -53,7 +51,9 @@ class ContainsOverlapingTrainingDateValidator extends ConstraintValidator
         $datesOverlaps = $this->datesOverlaps($overlapingTraining);        
         $currentTrainers = $this->getTrainersIds($currentTraining);
         $trainers = $this->getTrainersIds($overlapingTraining);
-            
+        $currentTeams = $this->getTeamsIds($currentTraining);
+        $teams = $this->getTeamsIds($overlapingTraining);
+        
         // Check overlaping dates for training location
         if ($this->trainingsHaveCommonLocation($currentTraining->getLocation(), $overlapingTraining->getLocation()) && $datesOverlaps) {                
             $this->context->buildViolation('validation.overlapingDateForLocation')->atPath('location')->addViolation();
@@ -62,6 +62,11 @@ class ContainsOverlapingTrainingDateValidator extends ConstraintValidator
         // Check overlaping dates for trainer
         if ($this->trainingsHaveCommonTrainers($currentTrainers, $trainers) && $datesOverlaps) {                
             $this->context->buildViolation('validation.overlapingDateForTrainer')->atPath('trainers')->addViolation();
+        }
+        
+        // Check overlaping dates for teams
+        if ($this->trainingsHaveCommonTeams($currentTeams, $teams) && $datesOverlaps) {                
+            $this->context->buildViolation('validation.overlapingDateForTeam')->atPath('teams')->addViolation();
         }
     }
 
@@ -74,19 +79,34 @@ class ContainsOverlapingTrainingDateValidator extends ConstraintValidator
     {
         return !empty(array_intersect($currentTrainers, $trainers)) ? true : false;
     }
+
+    private function trainingsHaveCommonTeams($currentTeams, $teams)
+    {
+        return !empty(array_intersect($currentTeams, $teams)) ? true : false;
+    }
     
     private function datesOverlaps($overlapingTraining) 
     {   
         return $overlapingTraining === null ? false : true;
     }
 
-    private function getTrainersIds($overlapingTraining)
+    private function getTrainersIds($training)
     {
         $ids = [];
-        foreach ($overlapingTraining->getTrainers() as $trainer) {
+        foreach ($training->getTrainers() as $trainer) {
             $ids[] = $trainer->getId();
         }
         
         return $ids;
-    }    
+    }
+
+    private function getTeamsIds($training)
+    {
+        $ids = [];
+        foreach ($training->getTeams() as $team) {
+            $ids[] = $team->getId();
+        }
+        
+        return $ids;
+    }     
 }

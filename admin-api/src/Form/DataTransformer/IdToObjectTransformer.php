@@ -30,11 +30,11 @@ class IdToObjectTransformer implements DataTransformerInterface
             return null;
         }
         
-        $categories = $collection->toArray();
+        $objects = $collection->toArray();
         
         $ids = [];        
-        foreach ($categories as $category) {
-            $ids[] = $category->getId();
+        foreach ($objects as $object) {
+            $ids[] = $object->getId();
         }
  
         return $ids;
@@ -52,22 +52,16 @@ class IdToObjectTransformer implements DataTransformerInterface
         if (empty($ids[0])) {
             return [];
         }
-//ob_start();
-//var_dump('class');
-//var_dump(Category::class);
-//var_dump($this->class);
-//$textualRepresentation = ob_get_contents();
-//ob_end_clean();
-//file_put_contents("/var/www/html/log.log", $textualRepresentation);         
-        $categories = $this->entityManager->getRepository($this->class)->findById($ids);
+         
+        $objects = $this->entityManager->getRepository($this->class)->findById($ids);
         
-        if (empty($categories[0])) {
+        if (empty($objects[0])) {
             throw new TransformationFailedException(sprintf(
-                'Categories does not exists',
-                $categories
+                'Objects does not exists',
+                $objects
             ));
         }
         
-        return $categories;
+        return $objects;
     }
 }

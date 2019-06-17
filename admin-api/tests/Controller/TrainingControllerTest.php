@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
@@ -50,13 +49,15 @@ class TrainingControllerTest extends WebTestCase
     public function testAddNewTraining(): void
     {
         $this->prepareTrainer();
+        $this->prepareTeam();
         
         $response = $this->client->post($this->apiUrl.'/trainings', [
             'json' => [
                 'startDate' => $this->startDate->format('Y-m-d H:i'),
                 'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => 'Location1',
-                'trainers' => [1]
+                'trainers' => [1],
+                'teams' => [1]
              ],
             'http_errors' => false
         ]);
@@ -72,7 +73,8 @@ class TrainingControllerTest extends WebTestCase
                 'startDate' => $this->startDate->format('Y-m-d H:i'),
                 'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => 'Location1',
-                'trainers' => []
+                'trainers' => [],
+                'teams' => []
              ],
              'http_errors' => false
         ]);
@@ -88,7 +90,8 @@ class TrainingControllerTest extends WebTestCase
                 'startDate' => $this->startDate->format('Y-m-d H:i'),
                 'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => 'Location1',
-                'trainers' => [1]
+                'trainers' => [1],
+                'teams' => []
              ],
              'http_errors' => false
         ]);
@@ -104,7 +107,8 @@ class TrainingControllerTest extends WebTestCase
                 'startDate' => $this->startDate->format('Y-m-d H:i'),
                 'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => 'Location2',
-                'trainers' => [1]
+                'trainers' => [1],
+                'teams' => []
              ],
              'http_errors' => false
         ]);
@@ -120,7 +124,42 @@ class TrainingControllerTest extends WebTestCase
                 'startDate' => $this->startDate->format('Y-m-d H:i'),
                 'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => 'Location2',
-                'trainers' => [1]
+                'trainers' => [1],
+                'teams' => [1]
+             ],
+             'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('training.edited', $msg);
+    }
+
+    public function testAddNewTrainingOverlapingDatesForTeam(): void
+    { 
+        $response = $this->client->post($this->apiUrl.'/trainings', [
+            'json' => [
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location2',
+                'trainers' => [],
+                'teams' => [1]
+             ],
+             'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertContains('validation.overlapingDateForTeam', $msg['errors']);
+    } 
+
+    public function testEditTrainingOverlapingDatesForTeam(): void
+    { 
+        $response = $this->client->patch($this->apiUrl.'/trainings/1', [
+            'json' => [
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location2',
+                'trainers' => [],
+                'teams' => [1]
              ],
              'http_errors' => false
         ]);
@@ -144,7 +183,8 @@ class TrainingControllerTest extends WebTestCase
                 'startDate' => $this->startDate->format('Y-m-d H:i'),
                 'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => '',
-                'trainers' => []
+                'trainers' => [],
+                'teams' => []
              ],
              'http_errors' => false
         ]);
@@ -160,7 +200,8 @@ class TrainingControllerTest extends WebTestCase
                 'startDate' => $this->startDate->format('Y-m-d H:i'),
                 'endDate' => $this->endDate->format('Y-m-d H:i'),
                 'location' => 'Berlin',
-                'trainers' => []
+                'trainers' => [],
+                'teams' => []
              ],
             'http_errors' => false
         ]);
@@ -193,6 +234,19 @@ class TrainingControllerTest extends WebTestCase
             'http_errors' => false
         ]);
     }    
+
+    private function prepareTeam()
+    {
+        $this->client->post($this->apiUrl.'/teams', [
+            'json' => [
+                'name' => 'TeamOne',
+                'year' => 2008,
+                'belongsToUser' => true,
+                'playsLeague' => true
+             ],
+            'http_errors' => false
+        ]);
+    }
     
     private static function createSchema($kernel, $application): void
     {
