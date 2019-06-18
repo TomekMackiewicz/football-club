@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class ContainsOverlapingTrainingDate extends Constraint
+class ContainsStartDateGreaterThanEndDate extends Constraint
 {
-    public $message = 'validation.overlapingDate';
+    public $message = 'validation.startDateGreaterThanEndDate';
     
     public function getTargets()
     {

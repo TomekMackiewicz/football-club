@@ -220,6 +220,24 @@ class TrainingControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('trainings.deleted', $msg);
     }
+    
+    public function testStartDateGreaterThanEndDate(): void
+    {
+        $this->startDate->add(new \DateInterval('PT2H'));
+        $response = $this->client->post($this->apiUrl.'/trainings', [
+            'json' => [
+                'startDate' => $this->startDate->format('Y-m-d H:i'),
+                'endDate' => $this->endDate->format('Y-m-d H:i'),
+                'location' => 'Location2',
+                'trainers' => [],
+                'teams' => []
+             ],
+             'http_errors' => false
+        ]);
+        $msg = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertContains('validation.startDateGreaterThanEndDate', $msg['errors']);
+    }
 
     private function prepareTrainer()
     {

@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrainingRepository")
  * @CustomAssert\ContainsOverlapingTrainingDate
+ * @CustomAssert\ContainsStartDateGreaterThanEndDate
  */
 class Training
 {
