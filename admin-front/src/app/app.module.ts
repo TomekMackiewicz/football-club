@@ -23,6 +23,7 @@ import { AlertModule } from './alert/alert.module';
 import { GameModule } from './game/game.module';
 import { PostModule } from './post/post.module';
 import { CategoryModule } from './category/category.module';
+import { FileModule } from './file/file.module';
 
 import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
@@ -31,6 +32,7 @@ import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.
 
 import { NavService } from './services/nav.service';
 import { LoaderService } from './services/loader.service';
+import { FileService } from './services/file.service';
 
 import { ApplicationPipesModule } from './pipes/application-pipes.module';
 
@@ -70,9 +72,15 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         }),
         GameModule,
         PostModule,
-        CategoryModule      
+        CategoryModule,
+        FileModule
     ],
-    providers: [NavService, LoaderService, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
+    providers: [
+        NavService, 
+        FileService, 
+        LoaderService, 
+        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+    ],
     entryComponents: [ConfirmDialogComponent],
     bootstrap: [AppComponent]
 })

@@ -9,6 +9,7 @@ import { PostEditComponent } from './post/post-edit/post-edit.component';
 import { CategoryListComponent } from './category/category-list/category-list.component';
 import { CategoryAddComponent } from './category/category-add/category-add.component';
 import { CategoryEditComponent } from './category/category-edit/category-edit.component';
+import { FileComponent } from './file/file.component';
 
 const routes: Routes = [
     {path: 'games/list', 
@@ -37,6 +38,9 @@ const routes: Routes = [
     },
     {path: 'categories/edit/:id', 
         component: CategoryEditComponent                      
+    },
+    {path: 'files', 
+        component: FileComponent                      
     },          
 ];
 

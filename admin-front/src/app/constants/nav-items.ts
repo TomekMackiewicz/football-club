@@ -57,5 +57,10 @@ export const NAV_ITEMS = [
                 route: 'categories/add'
             }
         ]
-    },    
+    },
+    {
+        displayName: 'files',
+        iconName: 'perm_media',
+        route: 'files'
+    },     
 ];
