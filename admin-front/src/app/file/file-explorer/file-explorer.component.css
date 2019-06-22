@@ -13,6 +13,7 @@
 .file-or-folder {
     padding: 8px;
     overflow: hidden;
+/*    border: 1px dotted gray;*/
 }
 
 .file-or-folder-icon {
@@ -21,10 +22,3 @@
     font-size: 50px;
 }
 
-.pointer {
-    cursor: pointer;
-}
-
-.spacer {
-    flex: 1 1 auto;
-}

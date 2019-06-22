@@ -61,7 +61,6 @@ import { PostService } from './post.service';
         MatDialogModule,//?
         MatExpansionModule,
         FlexLayoutModule,
-        HttpClientModule,
         ApplicationPipesModule,
         TranslateModule.forRoot({
             loader: {

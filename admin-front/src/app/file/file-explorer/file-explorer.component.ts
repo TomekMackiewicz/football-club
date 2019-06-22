@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatMenuTrigger } from '@angular/material';
+//import { DragulaService } from 'ng2-dragula';
 import { FileElement } from '../model/element';
 import { NewFolderDialogComponent } from '../modals/new-folder-dialog/new-folder-dialog.component';
 import { RenameDialogComponent } from '../modals/rename-dialog/rename-dialog.component';
@@ -25,7 +26,14 @@ export class FileExplorerComponent {
     @Output() navigatedDown = new EventEmitter<FileElement>()
     @Output() navigatedUp = new EventEmitter()
     
-    constructor(public dialog: MatDialog) {}
+    constructor(
+        public dialog: MatDialog,
+        //private dragulaService: DragulaService
+    ) {
+        //this.dragulaService.createGroup("REVERT", {
+        //  revertOnSpill: true
+        //});
+    }
     
     deleteElement(element: FileElement) {
         this.elementRemoved.emit(element);

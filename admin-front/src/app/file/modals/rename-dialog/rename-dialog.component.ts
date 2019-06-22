@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
     selector: 'app-rename-dialog',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class RenameDialogComponent implements OnInit {
+    //@Input('name') folderName: string;
     folderName: string;
     
     constructor() { }

@@ -108,3 +108,22 @@ table {
 .table-toolbar .mat-form-field-label {
     top: 2em;
 }
+
+.file-handle {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #ccc;
+    cursor: move;
+    width: 24px;
+    height: 24px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+mat-list-item:hover {
+    font-weight: bold;
+    background-color: #f5f5f5;
+}

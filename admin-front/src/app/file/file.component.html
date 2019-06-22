@@ -1,15 +1,20 @@
-<div style="padding: 100px; height: 100%; box-sizing: border-box;">
-    <mat-card style="height: 100%; box-sizing: border-box; padding:0">
-        <file-explorer
-          [fileElements]="fileElements | async"
-          [path]="currentPath"
-          [canNavigateUp]="canNavigateUp"
-          (folderAdded)="addFolder($event)"
-          (elementRemoved)="removeElement($event)"
-          (navigatedDown)="navigateToFolder($event)"
-          (navigatedUp)="navigateUp()"
-          (elementRenamed)="renameElement($event)"
-          (elementMoved)="moveElement($event)">
-        </file-explorer>
+<div fxLayout="column" fxLayoutGap="16px">
+    <mat-card>
+        <mat-card-title>
+            {{ 'files' | translate | capitalizeFirst }}
+        </mat-card-title>
+        <mat-card-content>        
+            <file-explorer
+              [fileElements]="fileElements | async"
+              [path]="currentPath"
+              [canNavigateUp]="canNavigateUp"
+              (folderAdded)="addFolder($event)"
+              (elementRemoved)="removeElement($event)"
+              (navigatedDown)="navigateToFolder($event)"
+              (navigatedUp)="navigateUp()"
+              (elementRenamed)="renameElement($event)"
+              (elementMoved)="moveElement($event)">
+            </file-explorer>
+        </mat-card-content>
     </mat-card>
 </div>
