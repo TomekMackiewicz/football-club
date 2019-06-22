@@ -25,7 +25,9 @@ export class FileExplorerComponent {
     }>()
     @Output() navigatedDown = new EventEmitter<FileElement>()
     @Output() navigatedUp = new EventEmitter()
-    
+
+    displayedColumns: string[] = ['preview', 'name', 'type', 'size'];
+        
     constructor(
         public dialog: MatDialog,
         //private dragulaService: DragulaService

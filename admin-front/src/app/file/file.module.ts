@@ -5,11 +5,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
 import {
+    MatDialogModule,
     MatToolbarModule,
-    MatIconModule, 
-    MatListModule,
+    MatIconModule,
+    MatTableModule,
     MatGridListModule,
     MatMenuModule,
     MatInputModule,
@@ -36,7 +36,7 @@ import { ApplicationPipesModule } from '../pipes/application-pipes.module';
         MatToolbarModule,
         FlexLayoutModule,
         MatIconModule,
-        MatListModule,
+        MatTableModule,
         MatGridListModule,
         MatMenuModule,
         BrowserAnimationsModule,
