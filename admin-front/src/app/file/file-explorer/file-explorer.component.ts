@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatMenuTrigger } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 //import { DragulaService } from 'ng2-dragula';
 import { FileElement } from '../model/element';
 import { NewFolderDialogComponent } from '../modals/new-folder-dialog/new-folder-dialog.component';
@@ -26,7 +27,9 @@ export class FileExplorerComponent {
     @Output() navigatedDown = new EventEmitter<FileElement>()
     @Output() navigatedUp = new EventEmitter()
 
-    displayedColumns: string[] = ['preview', 'name', 'type', 'size'];
+    displayedColumns: string[] = ['select', 'preview', 'name', 'type', 'size'];
+    //data: FileElement[] = [];
+    selection = new SelectionModel<FileElement>(true, []);
         
     constructor(
         public dialog: MatDialog,
@@ -78,5 +81,16 @@ export class FileExplorerComponent {
         event.preventDefault();
         viewChild.openMenu();
     }    
-    
+
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.fileElements.length;
+        return numSelected === numRows;
+    }
+
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.fileElements.forEach(row => this.selection.select(row));
+    }    
 }
