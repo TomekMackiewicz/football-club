@@ -51,18 +51,25 @@ export class FileComponent implements OnInit {
     }
 
     moveElement(event: { element: FileElement; moveTo: FileElement }) {
-        this.fileService.update(event.element.id, { parent: event.moveTo.id });
+        this.fileService.updateFolder(event.element.id, { parent: event.moveTo.id });
         this.updateFileElementQuery();
     }
 
     renameElement(element: FileElement) {
-        this.fileService.update(element.id, { name: element.name });
+        this.fileService.updateFolder(element.id, { name: element.name }).subscribe(
+            success => {
+                console.log(success);
+            },
+            error => {
+                console.log(error);
+            }
+        );
         this.updateFileElementQuery();
     }
     
     updateFileElementQuery() {
         this.fileElements = this.fileService.queryInFolder(this.currentRoot ? this.currentRoot.id : 'root');
-     }  
+    }  
      
     navigateUp() {
         if (this.currentRoot && this.currentRoot.parent === 'root') {

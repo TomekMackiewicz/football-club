@@ -25,16 +25,25 @@ export class FileService {
         this.add(fileElement);
         return this.httpClient.post<FileElement>(API_URL+'/files', { fileElement: fileElement }, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
-    }            
+    }
+
+    updateFolder(id: string, update: Partial<FileElement>, moveTo: FileElement = null) {
+        let element = this.map.get(id);
+        let oldName = element.name;
+        element = Object.assign(element, update);
+        this.map.set(element.id, element);
+        return this.httpClient.patch<FileElement>(API_URL+'/files', 
+            { 
+                file: element, 
+                oldName: oldName, 
+                moveTo: moveTo 
+            }, 
+            HTTP_OPTIONS
+        ).pipe(catchError(this.handleError));
+    }
 
     delete(id: string) {
         this.map.delete(id);
-    }
-
-    update(id: string, update: Partial<FileElement>) {
-        let element = this.map.get(id);
-        element = Object.assign(element, update);
-        this.map.set(element.id, element);
     }
 
     private querySubject: BehaviorSubject<FileElement[]>;

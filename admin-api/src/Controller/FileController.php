@@ -10,6 +10,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * @Route("/api/v1/files")
@@ -74,6 +75,7 @@ class FileController extends AbstractFOSRestController
      * @Rest\Post("")
      * @param Request $request
      * @return Response
+     * @throws IOException
      */
     public function postAction(Request $request)
     {       
@@ -97,7 +99,13 @@ class FileController extends AbstractFOSRestController
                 );
             }
  
-            $fileSystem->mkdir($path, 0777); // TODO set proper
+            try {
+                $fileSystem->mkdir($path, 0777); // TODO set proper
+            } catch (IOException $ex) {           
+                return $this->handleView(
+                    $this->view($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR)
+                );
+            }          
         }
 
         return $this->handleView(
@@ -111,17 +119,24 @@ class FileController extends AbstractFOSRestController
      * @Rest\Patch()
      * @param Request $request
      * @return Response
+     * @throws IOException
      */
     public function patchAction(Request $request)
     {
+        $root = $this->getParameter('kernel.project_dir').'/public/files/';
         $data = json_decode($request->getContent(), true);
-        $file = $data['body']['file'];
-        $oldName = $data['body']['oldName'];
-        $moveTo = $data['body']['moveTo'];
-        $newPath = $moveTo ? $moveTo['path'].$moveTo['name'].'/' : $file['path'];
-
+        $oldPath = $root.$data['file']['path'].$data['oldName'];
+        $newPath = $data['moveTo'] ? 
+            $root.$data['moveTo']['path'].$data['moveTo']['name'].'/' : 
+            $root.$data['file']['path'].$data['file']['name'];    
         $fileSystem = new Filesystem();
-        $fileSystem->rename($file['path'].$oldName, $newPath.$file['name'], true);
+        try {
+            $fileSystem->rename($oldPath, $newPath, true);
+        } catch (IOException $ex) {           
+            return $this->handleView(
+                $this->view($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR)
+            );
+        }
 
         return $this->handleView(
             $this->view('file.updated', Response::HTTP_OK)
