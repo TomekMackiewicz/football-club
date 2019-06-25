@@ -19,17 +19,29 @@ export class FileComponent implements OnInit {
     ) { }
     
     ngOnInit() {
-        const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root' });
-        this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root' });
-        this.fileService.add({ name: 'Folder C', isFolder: true, parent: folderA.id });
-        this.fileService.add({ name: 'File A', isFolder: false, parent: 'root' });
-        this.fileService.add({ name: 'File B', isFolder: false, parent: 'root' });
+        const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root', path: '' });
+        this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root', path: '' });
+        this.fileService.add({ name: 'Folder C', isFolder: true, parent: folderA.id, path: '' });
+        this.fileService.add({ name: 'File A', isFolder: false, parent: 'root', path: '' });
+        this.fileService.add({ name: 'File B', isFolder: false, parent: 'root', path: '' });
 
         this.updateFileElementQuery();        
     }
 
-    addFolder(folder: { name: string }) {
-        this.fileService.add({ isFolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
+    addFolder(folder: FileElement) {
+        this.fileService.createFolder({ 
+            isFolder: true, 
+            name: folder.name, 
+            parent: this.currentRoot ? this.currentRoot.id : 'root', 
+            path: this.currentPath ? this.currentPath : ''
+        }).subscribe(
+            success => {
+                console.log(success);
+            },
+            error => {
+                console.log(error);
+            }
+        );
         this.updateFileElementQuery();
     }
 
