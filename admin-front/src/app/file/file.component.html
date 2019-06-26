@@ -3,7 +3,7 @@
         <mat-card-title>
             {{ 'files' | translate | capitalizeFirst }}
         </mat-card-title>
-        <mat-card-content>        
+        <mat-card-content>
             <file-explorer
               [fileElements]="fileElements | async"
               [path]="currentPath"

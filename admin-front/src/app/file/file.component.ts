@@ -19,30 +19,48 @@ export class FileComponent implements OnInit {
     ) { }
     
     ngOnInit() {
-        const folderA = this.fileService.add({ name: 'Folder A', isFolder: true, parent: 'root', path: '' });
-        this.fileService.add({ name: 'Folder B', isFolder: true, parent: 'root', path: '' });
-        this.fileService.add({ name: 'Folder C', isFolder: true, parent: folderA.id, path: '' });
-        this.fileService.add({ name: 'File A', isFolder: false, parent: 'root', path: '' });
-        this.fileService.add({ name: 'File B', isFolder: false, parent: 'root', path: '' });
-
-        this.updateFileElementQuery();        
+        this.nullData();
+        this.getFiles();        
     }
 
-    addFolder(folder: FileElement) {
+    nullData() {
+        this.fileService.clearData();         
+    }
+
+    getFiles() {
+        this.fileService.getFiles().subscribe(
+            (data: any) => {               
+                for (let file of data.files) {
+                    this.fileService.load(file);                   
+                }
+                this.updateFileElementQuery();
+            },
+            error => {
+                console.log(error);
+            }
+        );        
+    }
+
+    addFolder(fileElement: FileElement) {
         this.fileService.createFolder({ 
             isFolder: true, 
-            name: folder.name, 
+            name: fileElement.name, 
             parent: this.currentRoot ? this.currentRoot.id : 'root', 
             path: this.currentPath ? this.currentPath : ''
         }).subscribe(
-            success => {
-                console.log(success);
+            data => {
+                this.fileService.add({
+                    isFolder: true, 
+                    name: fileElement.name, 
+                    parent: this.currentRoot ? this.currentRoot.id : 'root', 
+                    path: this.currentPath ? this.currentPath : ''
+                });
+                this.updateFileElementQuery();
             },
             error => {
                 console.log(error);
             }
         );
-        this.updateFileElementQuery();
     }
 
     removeElement(element: FileElement) {
@@ -57,8 +75,8 @@ export class FileComponent implements OnInit {
 
     renameElement(element: FileElement) {
         this.fileService.updateFolder(element.id, { name: element.name }).subscribe(
-            success => {
-                console.log(success);
+            data => {
+                console.log(data);
             },
             error => {
                 console.log(error);
@@ -70,7 +88,7 @@ export class FileComponent implements OnInit {
     updateFileElementQuery() {
         this.fileElements = this.fileService.queryInFolder(this.currentRoot ? this.currentRoot.id : 'root');
     }  
-     
+
     navigateUp() {
         if (this.currentRoot && this.currentRoot.parent === 'root') {
             this.currentRoot = null;

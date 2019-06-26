@@ -28,7 +28,7 @@ class FileController extends AbstractFOSRestController
      */
     public function cgetAction()
     {
-        $dir = $this->get('kernel')->getProjectDir().'/public/files/';
+        $dir = $this->getParameter('kernel.project_dir').'/public/files/';
         $baseUrl = $this->getBaseUrl().'/files/';
         $finder = new Finder();
         $finder->in($dir);
@@ -40,13 +40,11 @@ class FileController extends AbstractFOSRestController
             $name = array_values(array_slice($parts, -1))[0];
             $parent = sizeof($parts) > 1 ? array_values(array_slice($parts, -2))[0] : 'root';
             $path = $file->getRelativePath() ? $baseUrl.$file->getRelativePath().'/' : $this->baseUrl;
-
             $files[$i]['id'] = $this->generateUuid();
             $files[$i]['name'] = $name;
             $files[$i]['parent'] = $parent;
-            $files[$i]['isFolder'] = strpos($file, '.') !== false ? false : true;
+            $files[$i]['isFolder'] = strpos($name, '.') !== false ? false : true;
             $files[$i]['path'] = $path;
-
             $i++;
         }
 

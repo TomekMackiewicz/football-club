@@ -14,6 +14,19 @@ export class FileService {
         private httpClient: HttpClient
     ) {}
 
+    clearData() {
+        this.map.clear();
+    }
+
+    load(fileElement: FileElement) {
+        this.map.set(fileElement.id, this.clone(fileElement));
+        return fileElement;
+    }
+
+    getFiles() {
+        return this.httpClient.get(API_URL+'/files').pipe(catchError(this.handleError));;
+    } 
+
     add(fileElement: FileElement) {
         fileElement.id = v4();
         this.map.set(fileElement.id, this.clone(fileElement));
@@ -22,7 +35,6 @@ export class FileService {
     }
 
     createFolder(fileElement: FileElement) {
-        this.add(fileElement);
         return this.httpClient.post<FileElement>(API_URL+'/files', { fileElement: fileElement }, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }

@@ -1,5 +1,4 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { NavService } from './services/nav.service';
 import { NavItem } from './model/nav-item';
