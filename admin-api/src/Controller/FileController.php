@@ -29,22 +29,20 @@ class FileController extends AbstractFOSRestController
     public function cgetAction()
     {
         $dir = $this->getParameter('kernel.project_dir').'/public/files/';
-        $baseUrl = $this->getBaseUrl().'/files/';
         $finder = new Finder();
         $finder->in($dir);
         $files = [];
 
         $i = 0;
         foreach ($finder as $file) {
-            $parts = explode('\\', $file->getRelativePathname());
+            $parts = explode('/', $file->getRelativePathname());
             $name = array_values(array_slice($parts, -1))[0];
-            $parent = sizeof($parts) > 1 ? array_values(array_slice($parts, -2))[0] : 'root';
-            $path = $file->getRelativePath() ? $baseUrl.$file->getRelativePath().'/' : $this->baseUrl;
+            $parent = sizeof($parts) > 1 ? array_values(array_slice($parts, -2))[0] : 'root';            
             $files[$i]['id'] = $this->generateUuid();
             $files[$i]['name'] = $name;
             $files[$i]['parent'] = $parent;
             $files[$i]['isFolder'] = strpos($name, '.') !== false ? false : true;
-            $files[$i]['path'] = $path;
+            $files[$i]['path'] = $file->getRelativePath();
             $i++;
         }
 
@@ -126,7 +124,7 @@ class FileController extends AbstractFOSRestController
         $oldPath = $root.$data['file']['path'].$data['oldName'];
         $newPath = $data['moveTo'] ? 
             $root.$data['moveTo']['path'].$data['moveTo']['name'].'/' : 
-            $root.$data['file']['path'].$data['file']['name'];    
+            $root.$data['file']['path'].$data['file']['name'];
         $fileSystem = new Filesystem();
         try {
             $fileSystem->rename($oldPath, $newPath, true);
