@@ -21,7 +21,7 @@ import {
 
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-//import { DragulaModule } from 'ng2-dragula';
+import { DragToSelectModule } from 'ngx-drag-to-select';
 
 import { FileComponent } from './file.component';
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
@@ -45,7 +45,7 @@ import { ApplicationPipesModule } from '../pipes/application-pipes.module';
         MatInputModule,
         FormsModule,
         DragDropModule,
-        //DragulaModule.forRoot(),
+        DragToSelectModule,
         MatButtonModule,
         MatCardModule,
         MatButtonToggleModule,

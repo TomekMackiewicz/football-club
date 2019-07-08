@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DragToSelectModule } from 'ngx-drag-to-select';
 import { 
     MatSidenavModule, 
     MatCheckboxModule, 
@@ -63,6 +64,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         MatDialogModule,
         HttpClientModule,
         ApplicationPipesModule,
+        DragToSelectModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

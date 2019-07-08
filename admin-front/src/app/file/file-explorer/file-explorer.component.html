@@ -15,67 +15,64 @@
     <mat-icon class="pointer" (click)="openNewFolderDialog()">
         create_new_folder
     </mat-icon>
+    <button *ngIf="filesView.value === 'grid'" data-cy="selectAll" mat-raised-button (click)="selectContainer.selectAll()">Select All</button>
+    <button *ngIf="filesView.value === 'grid'" data-cy="clearSelection" mat-raised-button (click)="selectContainer.clearSelection()">Clear Selection</button>
 </mat-toolbar>
 
-<div fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
-    <div class="content" fxFlex fxLayout="row">
-        <mat-grid-list *ngIf="filesView.value === 'grid'" cols="8" rowHeight="100px" fxFlex>
-            <mat-grid-tile *ngFor="let element of fileElements" class="file-or-folder">
-<!--                cdkDrag cdkDragBoundary=".content"-->
-<!--                <div class="file-handle" cdkDragHandle>
-                    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
-                        <path d="M0 0h24v24H0z" fill="none"></path>
-                    </svg>
-                </div>               -->
-                <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
-                <div fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
-                    <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="element.isFolder">folder</mat-icon>
-                    <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="!element.isFolder">insert_drive_file</mat-icon>
-                    <span>{{ element.name }}</span>
-                </div>
-            </mat-grid-tile>
-        </mat-grid-list>        
-        <table mat-table [dataSource]="fileElements" *ngIf="filesView.value === 'list'">
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (change)="$event ? masterToggle() : null"
-                                  [checked]="selection.hasValue() && isAllSelected()"
-                                  [indeterminate]="selection.hasValue() && !isAllSelected()">
-                    </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let row">
-                    <mat-checkbox (click)="$event.stopPropagation()"
-                                  (change)="$event ? selection.toggle(row) : null"
-                                  [checked]="selection.isSelected(row)">
-                    </mat-checkbox>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="preview">
-                <th mat-header-cell *matHeaderCellDef>Preview</th>
-                <td mat-cell *matCellDef="let element" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
+<dts-select-container #selectContainer="dts-select-container" [(selectedItems)]="selectedDocuments" (select)="someMethod($event)">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div class="content" fxFlex fxLayout="row">        
+            <mat-grid-list *ngIf="filesView.value === 'grid'" cols="8" rowHeight="100px" fxFlex>
+                <mat-grid-tile *ngFor="let element of fileElements" class="file-or-folder" [dtsSelectItem]="element">
                     <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
-                    <mat-icon color="primary" class="pointer" *ngIf="element.isFolder">folder</mat-icon>
-                    <mat-icon color="primary" class="pointer" *ngIf="!element.isFolder">insert_drive_file</mat-icon>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-            </ng-container>
-            <ng-container matColumnDef="type">
-                <th mat-header-cell *matHeaderCellDef>Type</th>
-                <td mat-cell *matCellDef="let element">jpg</td>
-            </ng-container> 
-            <ng-container matColumnDef="size">
-                <th mat-header-cell *matHeaderCellDef>Size</th>
-                <td mat-cell *matCellDef="let element">10kb</td>
-            </ng-container>   
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>  
-        </table>
+                    <div fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
+                        <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="element.isFolder">folder</mat-icon>
+                        <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="!element.isFolder">insert_drive_file</mat-icon>
+                        <span>{{ element.name }}</span>
+                    </div>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <table mat-table [dataSource]="fileElements" *ngIf="filesView.value === 'list'">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                      [checked]="selection.hasValue() && isAllSelected()"
+                                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                                      (change)="$event ? selection.toggle(row) : null"
+                                      [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="preview">
+                    <th mat-header-cell *matHeaderCellDef>Preview</th>
+                    <td mat-cell *matCellDef="let element" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
+                        <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
+                        <mat-icon color="primary" class="pointer" *ngIf="element.isFolder">folder</mat-icon>
+                        <mat-icon color="primary" class="pointer" *ngIf="!element.isFolder">insert_drive_file</mat-icon>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                </ng-container>
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef>Type</th>
+                    <td mat-cell *matCellDef="let element">jpg</td>
+                </ng-container> 
+                <ng-container matColumnDef="size">
+                    <th mat-header-cell *matHeaderCellDef>Size</th>
+                    <td mat-cell *matCellDef="let element">10kb</td>
+                </ng-container>   
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>  
+            </table>
+        </div>
     </div>
-</div>
+</dts-select-container>
 
 <mat-menu #rootMenu="matMenu" [overlapTrigger]="false">
     <ng-template matMenuContent let-element="element">

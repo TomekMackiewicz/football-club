@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatMenuTrigger } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-//import { DragulaService } from 'ng2-dragula';
 import { FileElement } from '../model/element';
 import { NewFolderDialogComponent } from '../modals/new-folder-dialog/new-folder-dialog.component';
 import { RenameDialogComponent } from '../modals/rename-dialog/rename-dialog.component';
@@ -28,18 +27,17 @@ export class FileExplorerComponent {
     @Output() navigatedUp = new EventEmitter()
 
     displayedColumns: string[] = ['select', 'preview', 'name', 'type', 'size'];
-    //data: FileElement[] = [];
     selection = new SelectionModel<FileElement>(true, []);
+    selectedDocuments: Array<any> = [];
         
     constructor(
-        public dialog: MatDialog,
-        //private dragulaService: DragulaService
-    ) {
-        //this.dragulaService.createGroup("REVERT", {
-        //  revertOnSpill: true
-        //});
+        public dialog: MatDialog
+    ) {}
+
+    someMethod($event) {
+        console.log($event);
     }
-    
+
     deleteElement(element: FileElement) {
         this.elementRemoved.emit(element);
     }
