@@ -16,7 +16,8 @@ import {
     MatButtonModule,
     MatCardModule,
     MatButtonToggleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTooltipModule
 } from '@angular/material';
 
 import { FormsModule } from '@angular/forms';
@@ -50,6 +51,7 @@ import { ApplicationPipesModule } from '../pipes/application-pipes.module';
         MatCardModule,
         MatButtonToggleModule,
         MatCheckboxModule,
+        MatTooltipModule,
         ApplicationPipesModule,
         TranslateModule.forRoot({
             loader: {

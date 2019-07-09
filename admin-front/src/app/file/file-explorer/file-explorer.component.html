@@ -2,27 +2,29 @@
     <mat-icon *ngIf="canNavigateUp" class="pointer" (click)="navigateUp()">
         arrow_back
     </mat-icon>
-    <span> {{ path || 'root' }} </span>
+    <span> {{ path || '/' }} </span>
     <span class="fill-space"></span>   
-    <mat-button-toggle-group #filesView="matButtonToggleGroup" value="grid">
-        <mat-button-toggle value="list">
-            <mat-icon class="pointer">view_list</mat-icon>        
-        </mat-button-toggle>
-        <mat-button-toggle value="grid">
-            <mat-icon class="pointer">view_module</mat-icon>        
-        </mat-button-toggle>
-    </mat-button-toggle-group>   
-    <mat-icon class="pointer" (click)="openNewFolderDialog()">
-        create_new_folder
-    </mat-icon>
-    <button *ngIf="filesView.value === 'grid'" data-cy="selectAll" mat-raised-button (click)="selectContainer.selectAll()">Select All</button>
-    <button *ngIf="filesView.value === 'grid'" data-cy="clearSelection" mat-raised-button (click)="selectContainer.clearSelection()">Clear Selection</button>
+    <button *ngIf="filesView === 'grid'" mat-flat-button matTooltip="Select all" (click)="selectContainer.selectAll()">
+        <mat-icon class="pointer">select_all</mat-icon>
+    </button>
+    <button *ngIf="filesView === 'grid'" mat-flat-button matTooltip="Clear selection" (click)="selectContainer.clearSelection()">
+        <mat-icon class="pointer">layers_clear</mat-icon>
+    </button>
+    <button mat-flat-button matTooltip="Add new folder" (click)="openNewFolderDialog()">
+        <mat-icon class="pointer">create_new_folder</mat-icon>        
+    </button>
+    <button mat-flat-button matTooltip="Show list" (click)="switchFilesView('list')">
+        <mat-icon class="pointer">view_list</mat-icon>        
+    </button>
+    <button mat-flat-button matTooltip="Show grid" (click)="switchFilesView('grid')">
+        <mat-icon class="pointer">view_module</mat-icon>        
+    </button>
 </mat-toolbar>
 
 <dts-select-container #selectContainer="dts-select-container" [(selectedItems)]="selectedDocuments" (select)="someMethod($event)">
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
         <div class="content" fxFlex fxLayout="row">        
-            <mat-grid-list *ngIf="filesView.value === 'grid'" cols="8" rowHeight="100px" fxFlex>
+            <mat-grid-list *ngIf="filesView === 'grid'" cols="8" rowHeight="100px" fxFlex>
                 <mat-grid-tile *ngFor="let element of fileElements" class="file-or-folder">
                     <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
                     <div [dtsSelectItem]="element" fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
@@ -32,7 +34,7 @@
                     </div>
                 </mat-grid-tile>
             </mat-grid-list>
-            <table mat-table [dataSource]="fileElements" *ngIf="filesView.value === 'list'">
+            <table mat-table [dataSource]="fileElements" *ngIf="filesView === 'list'">
                 <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (change)="$event ? masterToggle() : null"

@@ -29,10 +29,15 @@ export class FileExplorerComponent {
     displayedColumns: string[] = ['select', 'preview', 'name', 'type', 'size'];
     selection = new SelectionModel<FileElement>(true, []);
     selectedDocuments: Array<FileElement> = [];
+    filesView: string = 'grid';
         
     constructor(
         public dialog: MatDialog
     ) {}
+
+    switchFilesView(view: string) {
+        this.filesView = view;
+    }
 
     someMethod($event) {
         ///console.log($event);
