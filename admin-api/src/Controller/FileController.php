@@ -120,14 +120,17 @@ class FileController extends AbstractFOSRestController
     public function patchAction(Request $request)
     {
         $root = $this->getParameter('kernel.project_dir').'/public/files/';
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);       
         $oldPath = $root.$data['file']['path'].$data['oldName'];
         $newPath = $data['moveTo'] ? 
-            $root.$data['moveTo']['path'].$data['moveTo']['name'].'/' : 
-            $root.$data['file']['path'].$data['file']['name'];
+            $root.$data['moveTo']['path'].$data['moveTo']['name'].'/'.$data['file']['name'] : 
+            $root.$data['file']['path'].$data['file']['name']; 
+        // Override for renaming, do not override if moving
+        $override = $data['moveTo'] ? false : true;
+        
         $fileSystem = new Filesystem();
         try {
-            $fileSystem->rename($oldPath, $newPath, true);
+            $fileSystem->rename($oldPath, $newPath, $override);
         } catch (IOException $ex) {           
             return $this->handleView(
                 $this->view($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR)

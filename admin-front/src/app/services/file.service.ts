@@ -43,7 +43,7 @@ export class FileService {
         let element = this.map.get(id);
         let oldName = element.name;
         element = Object.assign(element, update);
-        this.map.set(element.id, element);
+        this.map.set(element.id, element); // zob 1)
         return this.httpClient.patch<FileElement>(API_URL+'/files', 
             { 
                 file: element, 

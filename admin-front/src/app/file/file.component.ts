@@ -69,10 +69,28 @@ export class FileComponent implements OnInit {
     }
 
     moveElement(event: { element: FileElement; moveTo: FileElement }) {
-        this.fileService.updateFolder(event.element.id, { parent: event.moveTo.id });
-        this.updateFileElementQuery();
+        this.fileService.updateFolder(event.element.id, { parent: event.moveTo.id }, event.moveTo).subscribe(
+            data => {
+                this.updateFileElementQuery();
+            },
+            error => {
+                console.log(error);
+            }
+        );
     }
-
+//    moveElement(event: { elements: FileElement[]; moveTo: FileElement }) {
+//        for (let selected of event.elements) {
+//            this.fileService.updateFolder(selected.id, { parent: event.moveTo.id }).subscribe(
+//                data => {
+//                    console.log(data);
+//                },
+//                error => {
+//                    console.log(error);
+//                }
+//            );
+//        }
+//        this.updateFileElementQuery();
+//    }
     renameElement(element: FileElement) {
         this.fileService.updateFolder(element.id, { name: element.name }).subscribe(
             data => {
@@ -82,7 +100,7 @@ export class FileComponent implements OnInit {
                 console.log(error);
             }
         );
-        this.updateFileElementQuery();
+        this.updateFileElementQuery(); // ?
     }
     
     updateFileElementQuery() {

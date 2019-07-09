@@ -21,6 +21,7 @@ export class FileExplorerComponent {
     @Output() elementRenamed = new EventEmitter<FileElement>()
     @Output() elementMoved = new EventEmitter<{
         element: FileElement
+        //elements: FileElement[]
         moveTo: FileElement
     }>()
     @Output() navigatedDown = new EventEmitter<FileElement>()
@@ -35,7 +36,7 @@ export class FileExplorerComponent {
     ) {}
 
     someMethod($event) {
-        console.log($event);
+        //console.log($event);
     }
 
     deleteElement(element: FileElement) {
@@ -54,8 +55,16 @@ export class FileExplorerComponent {
 
     moveElement(element: FileElement, moveTo: FileElement) {
         this.elementMoved.emit({ element: element, moveTo: moveTo });
-    }
-
+        }
+//    moveElement(element: FileElement, moveTo: FileElement) {
+//        if (this.selectedDocuments.length > 0) {
+//            var selection = this.selectedDocuments;
+//        } else {
+//            var selection: any[] = [element];
+//        }
+//        
+//        this.elementMoved.emit({ elements: selection, moveTo: moveTo });
+//    }        
     openNewFolderDialog() {
         let dialogRef = this.dialog.open(NewFolderDialogComponent);
         dialogRef.afterClosed().subscribe(res => {
