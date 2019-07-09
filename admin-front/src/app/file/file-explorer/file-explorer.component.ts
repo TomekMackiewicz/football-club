@@ -20,8 +20,7 @@ export class FileExplorerComponent {
     @Output() elementRemoved = new EventEmitter<FileElement>()
     @Output() elementRenamed = new EventEmitter<FileElement>()
     @Output() elementMoved = new EventEmitter<{
-        element: FileElement
-        //elements: FileElement[]
+        elements: FileElement[]
         moveTo: FileElement
     }>()
     @Output() navigatedDown = new EventEmitter<FileElement>()
@@ -29,14 +28,14 @@ export class FileExplorerComponent {
 
     displayedColumns: string[] = ['select', 'preview', 'name', 'type', 'size'];
     selection = new SelectionModel<FileElement>(true, []);
-    selectedDocuments: Array<any> = [];
+    selectedDocuments: Array<FileElement> = [];
         
     constructor(
         public dialog: MatDialog
     ) {}
 
     someMethod($event) {
-        //console.log($event);
+        ///console.log($event);
     }
 
     deleteElement(element: FileElement) {
@@ -54,17 +53,16 @@ export class FileExplorerComponent {
     }
 
     moveElement(element: FileElement, moveTo: FileElement) {
-        this.elementMoved.emit({ element: element, moveTo: moveTo });
+        // One or many (if selected)
+        if (this.selectedDocuments.length > 0) {
+            var selection = this.selectedDocuments;
+        } else {
+            var selection: FileElement[] = [element];
         }
-//    moveElement(element: FileElement, moveTo: FileElement) {
-//        if (this.selectedDocuments.length > 0) {
-//            var selection = this.selectedDocuments;
-//        } else {
-//            var selection: any[] = [element];
-//        }
-//        
-//        this.elementMoved.emit({ elements: selection, moveTo: moveTo });
-//    }        
+        
+        this.elementMoved.emit({ elements: selection, moveTo: moveTo });
+    }        
+
     openNewFolderDialog() {
         let dialogRef = this.dialog.open(NewFolderDialogComponent);
         dialogRef.afterClosed().subscribe(res => {

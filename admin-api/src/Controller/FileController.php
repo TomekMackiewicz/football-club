@@ -17,9 +17,18 @@ use Symfony\Component\Filesystem\Exception\IOException;
  */
 class FileController extends AbstractFOSRestController
 {
+    private $baseUrl;
+    private $fileSystem;
+    
     public function __construct(RequestStack $requestStack)
     {
         $this->baseUrl = $requestStack->getCurrentRequest()->getSchemeAndHttpHost();
+        $this->fileSystem = new Filesystem();       
+    }
+    
+    private function root()
+    {
+        return $this->getParameter('kernel.project_dir').'/public/files/';
     }
 
     /**
@@ -119,27 +128,35 @@ class FileController extends AbstractFOSRestController
      */
     public function patchAction(Request $request)
     {
-        $root = $this->getParameter('kernel.project_dir').'/public/files/';
-        $data = json_decode($request->getContent(), true);       
-        $oldPath = $root.$data['file']['path'].$data['oldName'];
-        $newPath = $data['moveTo'] ? 
-            $root.$data['moveTo']['path'].$data['moveTo']['name'].'/'.$data['file']['name'] : 
-            $root.$data['file']['path'].$data['file']['name']; 
-        // Override for renaming, do not override if moving
-        $override = $data['moveTo'] ? false : true;
+        $data = json_decode($request->getContent(), true);        
         
-        $fileSystem = new Filesystem();
         try {
-            $fileSystem->rename($oldPath, $newPath, $override);
-        } catch (IOException $ex) {           
+            isset($data['moveTo']) ? $this->moveFiles($data) : $this->renameFile($data);
+        } catch (IOException $ex) {
             return $this->handleView(
                 $this->view($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR)
             );
-        }
+        }            
 
         return $this->handleView(
             $this->view('file.updated', Response::HTTP_OK)
         );
+    }
+
+    private function moveFiles($data)
+    {
+        foreach ($data['files'] as $file) {
+            $oldPath = $this->root().$file['path'].$file['oldName'];
+            $newPath = $this->root().$data['moveTo']['path'].$data['moveTo']['name'].'/'.$file['name']; 
+            $this->fileSystem->rename($oldPath, $newPath);          
+        }
+    }
+
+    private function renameFile($data)
+    {
+        $oldPath = $this->root().$data['file']['path'].$data['oldName'];
+        $newPath = $this->root().$data['file']['path'].$data['file']['name']; 
+        $this->fileSystem->rename($oldPath, $newPath, true);
     }
 
     /**

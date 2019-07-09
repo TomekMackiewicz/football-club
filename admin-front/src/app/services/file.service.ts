@@ -39,19 +39,33 @@ export class FileService {
             .pipe(catchError(this.handleError));
     }
 
-    updateFolder(id: string, update: Partial<FileElement>, moveTo: FileElement = null) {
+    updateFiles(elements: FileElement[], update: Partial<FileElement>, moveTo: FileElement = null) {
+        var files = {};
+        elements.forEach((elem, index) => {
+            let element = this.map.get(elem.id);
+            let oldName = elem.name;
+            element = Object.assign(element, update);
+            var x = 'oldName'; 
+            files[index] = element;
+            files[index][x] = oldName;
+        });
+        //this.map.set(element.id, element); // zob 1) + działa bez tego - po co to?
+        
+        return this.httpClient.patch<FileElement>(API_URL+'/files', { 
+                files: files, 
+                moveTo: moveTo 
+        }, HTTP_OPTIONS).pipe(catchError(this.handleError));
+    }
+
+    renameFile(id: string, update: Partial<FileElement>) {
         let element = this.map.get(id);
         let oldName = element.name;
         element = Object.assign(element, update);
         this.map.set(element.id, element); // zob 1)
-        return this.httpClient.patch<FileElement>(API_URL+'/files', 
-            { 
-                file: element, 
-                oldName: oldName, 
-                moveTo: moveTo 
-            }, 
-            HTTP_OPTIONS
-        ).pipe(catchError(this.handleError));
+        return this.httpClient.patch<FileElement>(API_URL+'/files', { 
+            file: element, 
+            oldName: oldName 
+        }, HTTP_OPTIONS).pipe(catchError(this.handleError));
     }
 
     delete(id: string) {
