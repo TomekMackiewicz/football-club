@@ -21,7 +21,7 @@
     </button>
 </mat-toolbar>
 
-<dts-select-container #selectContainer="dts-select-container" [(selectedItems)]="selectedDocuments" (select)="someMethod($event)">
+<dts-select-container #selectContainer="dts-select-container" [(selectedItems)]="selectedFiles" (select)="selectFiles($event)">
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
         <div class="content" fxFlex fxLayout="row">        
             <mat-grid-list *ngIf="filesView === 'grid'" cols="8" rowHeight="100px" fxFlex>
@@ -96,8 +96,8 @@
 <mat-menu #moveToMenu="matMenu">
     <ng-template matMenuContent let-self="self">
         <ng-container *ngFor="let element of fileElements">
-            <button *ngIf="element.isFolder && element.id !== self.id" mat-menu-item (click)="moveElement(self, element)">
-                {{element.name}}
+            <button *ngIf="element.isFolder && !element.selected && element.id !== self.id" mat-menu-item (click)="moveElement(self, element)">
+                {{ element.name }}
             </button>
         </ng-container>
     </ng-template>

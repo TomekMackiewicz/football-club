@@ -28,7 +28,7 @@ export class FileExplorerComponent {
 
     displayedColumns: string[] = ['select', 'preview', 'name', 'type', 'size'];
     selection = new SelectionModel<FileElement>(true, []);
-    selectedDocuments: Array<FileElement> = [];
+    selectedFiles: Array<FileElement> = [];
     filesView: string = 'grid';
         
     constructor(
@@ -39,8 +39,11 @@ export class FileExplorerComponent {
         this.filesView = view;
     }
 
-    someMethod($event) {
-        ///console.log($event);
+    selectFiles($event: FileElement[]) {
+        const fileSelected = roleParam => $event.some( ({name}) => name == roleParam);
+        this.fileElements.forEach((file) => {
+            file.selected = true === fileSelected(file.name) ? true : false;
+        });
     }
 
     deleteElement(element: FileElement) {
@@ -59,8 +62,8 @@ export class FileExplorerComponent {
 
     moveElement(element: FileElement, moveTo: FileElement) {
         // One or many (if selected)
-        if (this.selectedDocuments.length > 0) {
-            var selection = this.selectedDocuments;
+        if (this.selectedFiles.length > 0) {
+            var selection = this.selectedFiles;
         } else {
             var selection: FileElement[] = [element];
         }

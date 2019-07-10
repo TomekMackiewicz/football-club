@@ -4,4 +4,5 @@ export class FileElement {
     name: string;
     parent: string;
     path: string;
+    selected?: boolean;
 }
