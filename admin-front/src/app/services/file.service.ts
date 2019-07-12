@@ -24,7 +24,7 @@ export class FileService {
     }
 
     getFiles() {
-        return this.httpClient.get(API_URL+'/files').pipe(catchError(this.handleError));;
+        return this.httpClient.get(API_URL+'/files').pipe(catchError(this.handleError));
     } 
 
     add(fileElement: FileElement) {
@@ -39,7 +39,7 @@ export class FileService {
             .pipe(catchError(this.handleError));
     }
 
-    updateFiles(elements: FileElement[], update: Partial<FileElement>, moveTo: FileElement = null) {
+    updateFiles(elements: FileElement[], update: Partial<FileElement>, moveTo: any = null) {
         var files = {};
         elements.forEach((elem, index) => {
             let element = this.map.get(elem.id);
@@ -75,12 +75,17 @@ export class FileService {
     private querySubject: BehaviorSubject<FileElement[]>;
     
     queryInFolder(folderId: string) {
-        const result: FileElement[] = []
+        const result: FileElement[] = [];
         this.map.forEach(element => {
-            if (element.parent === folderId) {
+            // Root element
+            if (element.parent == folderId) {
+                result.push(this.clone(element));
+                return;
+            }
+            if (element.parent.id === folderId) {
                 result.push(this.clone(element));
             }
-        })
+        });
         if (!this.querySubject) {
             this.querySubject = new BehaviorSubject(result);
         } else {

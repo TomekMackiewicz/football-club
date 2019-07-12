@@ -46,7 +46,7 @@ class FileController extends AbstractFOSRestController
         foreach ($finder as $file) {
             $parts = explode('/', $file->getRelativePathname());
             $name = array_values(array_slice($parts, -1))[0];
-            $parent = sizeof($parts) > 1 ? array_values(array_slice($parts, -2))[0] : 'root';            
+            $parent = sizeof($parts) > 1 ? array_values(array_slice($parts, -2))[0] : 'root';             
             $files[$i]['id'] = $this->generateUuid();
             $files[$i]['name'] = $name;
             $files[$i]['parent'] = $parent;
@@ -57,13 +57,13 @@ class FileController extends AbstractFOSRestController
 
         foreach ($files as &$file) {
             if ($file['parent'] !== 'root') {
-                $file['parent'] = $this->addParentId($file['parent'], $files);
+                $file['parent'] = $this->addParent($file['parent'], $files);
             }
         }
 
         foreach ($files as &$file) {
             if ($file['isFolder']) {
-                $file['children'] = $this->getFileChildren($file, $files);
+                $file['children'] = $this->addChildren($file, $files);
             }
         }
         
@@ -146,8 +146,12 @@ class FileController extends AbstractFOSRestController
     private function moveFiles($data)
     {
         foreach ($data['files'] as $file) {
-            $oldPath = $this->root().$file['path'].$file['oldName'];
-            $newPath = $this->root().$data['moveTo']['path'].$data['moveTo']['name'].'/'.$file['name']; 
+            $oldPath = $this->root().$file['path'].'/'.$file['oldName'];
+            if ($data['moveTo'] === 'root') {
+                $newPath = $this->root().'/'.$file['name']; 
+            } else {
+                $newPath = $this->root().$data['moveTo']['path'].'/'.$data['moveTo']['name'].'/'.$file['name']; 
+            }           
             $this->fileSystem->rename($oldPath, $newPath);          
         }
     }
@@ -179,31 +183,26 @@ class FileController extends AbstractFOSRestController
         }
     }
 
-    /**
-     * @return string
-     */
-    private function getBaseUrl()
-    {
-        return $this->baseUrl;
-    }
-
-    private function getFileChildren($file, $files)
+    private function addChildren($file, $files)
     {
         $children = [];
         foreach ($files as $f) {
-            if ($f['parent'] === $file['id']) {
-                $children[] = $f['name'];
+            if ($f['parent'] === 'root') {
+                continue;
+            }
+            if ($f['parent']['id'] === $file['id']) {
+                $children[] = $f;
             }
         }
 
         return $children;
     }
 
-    private function addParentId($parent, $files)
+    private function addParent($parent, $files)
     {
         foreach ($files as $file) {
             if ($file['name'] == $parent) {
-                return $file['id'];
+                return $file;
             }
         }
     }

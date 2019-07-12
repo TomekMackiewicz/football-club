@@ -69,7 +69,7 @@ export class FileComponent implements OnInit {
     }
 
     moveElement(event: { elements: FileElement[]; moveTo: FileElement }) {
-        this.fileService.updateFiles(event.elements, { parent: event.moveTo.id }, event.moveTo).subscribe(
+        this.fileService.updateFiles(event.elements, { parent: event.moveTo }, event.moveTo).subscribe(
             data => {
                 this.updateFileElementQuery();
             },
@@ -95,12 +95,12 @@ export class FileComponent implements OnInit {
     }  
 
     navigateUp() {
-        if (this.currentRoot && this.currentRoot.parent === 'root') {
+        if (this.currentRoot && this.currentRoot.parent.id === null) { // null?
             this.currentRoot = null;
             this.canNavigateUp = false;
             this.updateFileElementQuery();
         } else {
-            this.currentRoot = this.fileService.get(this.currentRoot.parent);
+            this.currentRoot = this.fileService.get(this.currentRoot.parent.id); // id?
             this.updateFileElementQuery();
         }
         this.currentPath = this.popFromPath(this.currentPath);

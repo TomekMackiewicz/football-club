@@ -12,19 +12,23 @@ import { RenameDialogComponent } from '../modals/rename-dialog/rename-dialog.com
 })
 
 export class FileExplorerComponent {
-    @Input() fileElements: FileElement[]
-    @Input() canNavigateUp: string
-    @Input() path: string
+    @Input() fileElements: FileElement[];
+    @Input() canNavigateUp: string;
+    @Input() path: string;
 
-    @Output() folderAdded = new EventEmitter<{ name: string }>()
-    @Output() elementRemoved = new EventEmitter<FileElement>()
-    @Output() elementRenamed = new EventEmitter<FileElement>()
+    @Output() folderAdded = new EventEmitter<{ name: string }>();
+    @Output() elementRemoved = new EventEmitter<FileElement>();
+    @Output() elementRenamed = new EventEmitter<FileElement>();
     @Output() elementMoved = new EventEmitter<{
         elements: FileElement[]
         moveTo: FileElement
-    }>()
-    @Output() navigatedDown = new EventEmitter<FileElement>()
-    @Output() navigatedUp = new EventEmitter()
+    }>();
+    @Output() elementMovedUp = new EventEmitter<{
+        elements: FileElement[]
+        moveTo: string
+    }>();
+    @Output() navigatedDown = new EventEmitter<FileElement>();
+    @Output() navigatedUp = new EventEmitter();
 
     displayedColumns: string[] = ['select', 'preview', 'name', 'type', 'size'];
     selection = new SelectionModel<FileElement>(true, []);
@@ -69,8 +73,8 @@ export class FileExplorerComponent {
         }
         
         this.elementMoved.emit({ elements: selection, moveTo: moveTo });
-    }        
-
+    } 
+    
     openNewFolderDialog() {
         let dialogRef = this.dialog.open(NewFolderDialogComponent);
         dialogRef.afterClosed().subscribe(res => {
