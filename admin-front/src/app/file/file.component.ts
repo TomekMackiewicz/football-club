@@ -71,12 +71,21 @@ export class FileComponent implements OnInit {
     moveElement(event: { elements: FileElement[]; moveTo: FileElement }) {
         this.fileService.updateFiles(event.elements, { parent: event.moveTo }, event.moveTo).subscribe(
             data => {
+                this.updateMovedFilesPath(event.elements, event.moveTo);
                 this.updateFileElementQuery();
             },
             error => {
                 console.log(error);
             }
         );
+    }
+
+    updateMovedFilesPath(files: FileElement[], moveTo: FileElement) {
+        files.forEach((file: FileElement) => {
+            file.path = (typeof file.parent.parent !== "undefined" && file.parent.parent.id === moveTo.id) ? 
+                this.popFromPath(this.currentPath) : this.pushToPath(this.currentPath, moveTo.name);
+            file.parent = moveTo;
+        });
     }
 
     renameElement(element: FileElement) {
@@ -95,12 +104,12 @@ export class FileComponent implements OnInit {
     }  
 
     navigateUp() {
-        if (this.currentRoot && this.currentRoot.parent.id === null) { // null?
+        if (this.currentRoot && this.currentRoot.parent === 'root') {
             this.currentRoot = null;
             this.canNavigateUp = false;
             this.updateFileElementQuery();
         } else {
-            this.currentRoot = this.fileService.get(this.currentRoot.parent.id); // id?
+            this.currentRoot = this.fileService.get(this.currentRoot.parent.id);
             this.updateFileElementQuery();
         }
         this.currentPath = this.popFromPath(this.currentPath);

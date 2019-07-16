@@ -45,9 +45,11 @@ export class FileExplorerComponent {
 
     selectFiles($event: FileElement[]) {
         const fileSelected = roleParam => $event.some( ({name}) => name == roleParam);
-        this.fileElements.forEach((file) => {
-            file.selected = true === fileSelected(file.name) ? true : false;
-        });
+        if (this.fileElements !== null) {
+            this.fileElements.forEach((file) => {
+                file.selected = true === fileSelected(file.name) ? true : false;
+            });            
+        }
     }
 
     deleteElement(element: FileElement) {

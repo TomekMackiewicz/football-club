@@ -48,15 +48,15 @@ export class FileService {
             var x = 'oldName'; 
             files[index] = element;
             files[index][x] = oldName;
+            this.map.set(elem.id, elem);
         });
-        //this.map.set(element.id, element); // zob 1) + działa bez tego - po co to?
         
         return this.httpClient.patch<FileElement>(API_URL+'/files', { 
                 files: files, 
                 moveTo: moveTo 
         }, HTTP_OPTIONS).pipe(catchError(this.handleError));
     }
-
+    
     renameFile(id: string, update: Partial<FileElement>) {
         let element = this.map.get(id);
         let oldName = element.name;
