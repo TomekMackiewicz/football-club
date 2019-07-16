@@ -63,9 +63,16 @@ export class FileComponent implements OnInit {
         );
     }
 
-    removeElement(element: FileElement) {
-        this.fileService.delete(element.id);
-        this.updateFileElementQuery();
+    removeElement(event: { elements: FileElement[] }) {
+        this.fileService.deleteFiles(event.elements).subscribe(
+            data => {
+                this.fileService.removeFiles(event.elements);
+                this.updateFileElementQuery();
+            },
+            error => {
+                console.log(error);
+            }
+        );
     }
 
     moveElement(event: { elements: FileElement[]; moveTo: FileElement }) {

@@ -17,7 +17,9 @@ export class FileExplorerComponent {
     @Input() path: string;
 
     @Output() folderAdded = new EventEmitter<{ name: string }>();
-    @Output() elementRemoved = new EventEmitter<FileElement>();
+    @Output() elementRemoved = new EventEmitter<{
+        elements: FileElement[]
+    }>();
     @Output() elementRenamed = new EventEmitter<FileElement>();
     @Output() elementMoved = new EventEmitter<{
         elements: FileElement[]
@@ -53,7 +55,13 @@ export class FileExplorerComponent {
     }
 
     deleteElement(element: FileElement) {
-        this.elementRemoved.emit(element);
+        // One or many (if selected)
+        if (this.selectedFiles.length > 0) {
+            var selection = this.selectedFiles;
+        } else {
+            var selection: FileElement[] = [element];
+        }        
+        this.elementRemoved.emit({ elements: selection });
     }
 
     navigate(element: FileElement) {

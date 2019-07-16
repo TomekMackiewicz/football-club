@@ -164,7 +164,7 @@ class FileController extends AbstractFOSRestController
     }
 
     /**
-     * Delete file / folder.
+     * Delete files
      *
      * @Rest\Delete("")
      * @param Request $request
@@ -173,13 +173,15 @@ class FileController extends AbstractFOSRestController
     public function deleteAction(Request $request)
     {
         $fileSystem = new Filesystem();
-        $file = json_decode($request->getContent(), true);
-        $fileSystem->remove($file['path'].$file['name']);
-
-        if ($fileSystem->exists($file['path'].$file['name'])) {
-            return $this->handleView(
-                $this->view('file.delete_error', Response::HTTP_BAD_REQUEST)
-            );
+        $files = json_decode($request->getContent(), true);
+        
+        foreach ($files as $file) {
+            $fileSystem->remove($this->root().$file['path'].$file['name']);
+            if ($fileSystem->exists($this->root().$file['path'].$file['name'])) {
+                return $this->handleView(
+                    $this->view('file.delete_error', Response::HTTP_BAD_REQUEST)
+                );
+            }            
         }
     }
 

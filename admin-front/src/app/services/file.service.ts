@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { v4 } from 'uuid';
 import { FileElement } from '../file/model/element';
@@ -52,8 +52,8 @@ export class FileService {
         });
         
         return this.httpClient.patch<FileElement>(API_URL+'/files', { 
-                files: files, 
-                moveTo: moveTo 
+            files: files, 
+            moveTo: moveTo 
         }, HTTP_OPTIONS).pipe(catchError(this.handleError));
     }
     
@@ -68,8 +68,17 @@ export class FileService {
         }, HTTP_OPTIONS).pipe(catchError(this.handleError));
     }
 
-    delete(id: string) {
-        this.map.delete(id);
+    deleteFiles(elements: FileElement[]) {
+        const req = new HttpRequest('DELETE', API_URL+'/files', elements, {
+            reportProgress: true
+        });
+        return this.httpClient.request(req).pipe(catchError(this.handleError));
+    } 
+
+    removeFiles(files: FileElement[]) {
+        files.forEach((file) => {
+            this.map.delete(file.id);
+        })
     }
 
     private querySubject: BehaviorSubject<FileElement[]>;
