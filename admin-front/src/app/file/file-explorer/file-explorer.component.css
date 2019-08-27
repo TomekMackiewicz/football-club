@@ -10,10 +10,10 @@
     user-select: none;
 }
 
-.file-or-folder {
+/*.file-or-folder {
     overflow: hidden;
-/*    border: 1px dotted gray;*/
-}
+    border: 1px dotted gray;
+}*/
 
 .file-or-folder-icon {
     width: 50px;

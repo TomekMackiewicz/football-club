@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog, MatMenuTrigger } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FileElement } from '../model/element';
@@ -36,9 +37,11 @@ export class FileExplorerComponent {
     selection = new SelectionModel<FileElement>(true, []);
     selectedFiles: Array<FileElement> = [];
     filesView: string = 'grid';
-        
+    fileSize = 50;
+
     constructor(
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private sanitizer: DomSanitizer
     ) {}
 
     switchFilesView(view: string) {
@@ -50,7 +53,7 @@ export class FileExplorerComponent {
         if (this.fileElements !== null) {
             this.fileElements.forEach((file) => {
                 file.selected = true === fileSelected(file.name) ? true : false;
-            });            
+            });
         }
     }
 
@@ -60,7 +63,7 @@ export class FileExplorerComponent {
             var selection = this.selectedFiles;
         } else {
             var selection: FileElement[] = [element];
-        }        
+        }
         this.elementRemoved.emit({ elements: selection });
     }
 
@@ -81,10 +84,10 @@ export class FileExplorerComponent {
         } else {
             var selection: FileElement[] = [element];
         }
-        
+
         this.elementMoved.emit({ elements: selection, moveTo: moveTo });
-    } 
-    
+    }
+
     openNewFolderDialog() {
         let dialogRef = this.dialog.open(NewFolderDialogComponent);
         dialogRef.afterClosed().subscribe(res => {
@@ -107,7 +110,7 @@ export class FileExplorerComponent {
     openMenu(event: MouseEvent, viewChild: MatMenuTrigger) {
         event.preventDefault();
         viewChild.openMenu();
-    }    
+    }
 
     isAllSelected() {
         const numSelected = this.selection.selected.length;
@@ -119,5 +122,41 @@ export class FileExplorerComponent {
         this.isAllSelected() ?
             this.selection.clear() :
             this.fileElements.forEach(row => this.selection.select(row));
-    }    
+    }
+
+    formatLabel(value: number | null) {
+        if (!value) {
+            return 0;
+        }
+
+        if (value === 50) {
+            return 'S';
+        }
+        if (value === 100) {
+            return 'M';
+        }
+        if (value === 150) {
+            return 'L';
+        }
+
+        return value;
+    }
+
+    getFileWidth() {
+        return this.sanitizer.bypassSecurityTrustStyle(String(this.fileSize));
+    }
+
+    getFileHeight() {
+        return this.sanitizer.bypassSecurityTrustStyle(String(this.fileSize));
+    }
+
+    getFileFontSize() {
+        return this.sanitizer.bypassSecurityTrustStyle(String(this.fileSize));
+    }
+
+    getRowHeight() {
+        let height = String(this.fileSize * 3);
+        return this.sanitizer.bypassSecurityTrustStyle(height);
+    }
+
 }

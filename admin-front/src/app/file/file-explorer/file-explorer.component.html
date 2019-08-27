@@ -3,7 +3,16 @@
         arrow_back
     </mat-icon>
     <span> {{ path || '/' }} </span>
-    <span class="fill-space"></span>   
+    <span class="fill-space"></span>
+    <mat-slider *ngIf="filesView === 'grid'"
+        [max]="150"
+        [min]="50"
+        [step]="50"
+        [thumbLabel]="true"
+        [tickInterval]="50"
+        [(ngModel)]="fileSize"
+        [displayWith]="formatLabel">
+    </mat-slider>    
     <button *ngIf="filesView === 'grid'" mat-flat-button matTooltip="Select all" (click)="selectContainer.selectAll()">
         <mat-icon class="pointer">select_all</mat-icon>
     </button>
@@ -24,12 +33,12 @@
 <dts-select-container #selectContainer="dts-select-container" [(selectedItems)]="selectedFiles" (select)="selectFiles($event)">
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between stretch">
         <div class="content" fxFlex fxLayout="row">        
-            <mat-grid-list *ngIf="filesView === 'grid'" cols="8" rowHeight="100px" fxFlex>
+            <mat-grid-list *ngIf="filesView === 'grid'" cols="8" rowHeight="fit" [style.height.px]="getRowHeight()" fxFlex>
                 <mat-grid-tile *ngFor="let element of fileElements" class="file-or-folder">
                     <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
-                    <div [dtsSelectItem]="element" fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
-                        <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="element.isFolder">folder</mat-icon>
-                        <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="!element.isFolder">insert_drive_file</mat-icon>
+                    <div [dtsSelectItem]="element" fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">   
+                        <mat-icon color="primary" [style.width.px]="getFileWidth()" [style.height.px]="getFileHeight()" [style.font-size.px]="getFileFontSize()" *ngIf="element.isFolder">folder</mat-icon>
+                        <mat-icon color="primary" [style.width.px]="getFileWidth()" [style.height.px]="getFileHeight()" [style.font-size.px]="getFileFontSize()" *ngIf="!element.isFolder">insert_drive_file</mat-icon>
                         <span>{{ element.name }}</span>
                     </div>
                 </mat-grid-tile>
