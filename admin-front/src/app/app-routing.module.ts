@@ -10,6 +10,7 @@ import { CategoryListComponent } from './category/category-list/category-list.co
 import { CategoryAddComponent } from './category/category-add/category-add.component';
 import { CategoryEditComponent } from './category/category-edit/category-edit.component';
 import { FileComponent } from './file/file.component';
+import { ConfigComponent } from './config/config.component';
 
 const routes: Routes = [
     {path: 'games/list', 
@@ -41,6 +42,9 @@ const routes: Routes = [
     },
     {path: 'files', 
         component: FileComponent                      
+    },
+    {path: 'config', 
+        component: ConfigComponent                      
     },          
 ];
 

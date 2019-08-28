@@ -25,6 +25,7 @@ import { GameModule } from './game/game.module';
 import { PostModule } from './post/post.module';
 import { CategoryModule } from './category/category.module';
 import { FileModule } from './file/file.module';
+import { ConfigModule } from './config/config.module';
 
 import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
@@ -75,7 +76,8 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         GameModule,
         PostModule,
         CategoryModule,
-        FileModule
+        FileModule,
+        ConfigModule
     ],
     providers: [
         NavService, 

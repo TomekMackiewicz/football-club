@@ -1,0 +1,42 @@
+<div fxLayout="column" fxLayoutGap="16px">
+    <mat-card>
+        <mat-card-title>
+            {{ 'config' | translate | capitalizeFirst }}
+        </mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="configForm" (ngSubmit)="editConfig()" fxLayout="column" fxLayoutAlign="none">
+                <h3>{{ 'files' | translate | capitalizeFirst }}</h3>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'config.files.small_file_size' | translate | capitalizeFirst }}</mat-label>
+                    <mat-select formControlName="smallFileSize">
+                        <mat-option value="50">50px</mat-option>
+                        <mat-option value="75">75px</mat-option>
+                        <mat-option value="100">100px</mat-option>
+                    </mat-select>
+                </mat-form-field>    
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'config.files.medium_file_size' | translate | capitalizeFirst }}</mat-label>
+                    <mat-select formControlName="mediumFileSize">
+                        <mat-option value="100">100px</mat-option>
+                        <mat-option value="150">150px</mat-option>
+                        <mat-option value="200">200px</mat-option>
+                    </mat-select>
+                </mat-form-field>                 
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'config.files.large_file_size' | translate | capitalizeFirst }}</mat-label>
+                    <mat-select formControlName="largeFileSize">
+                        <mat-option value="150">150px</mat-option>
+                        <mat-option value="300">300px</mat-option>
+                        <mat-option value="450">450px</mat-option>
+                    </mat-select>
+                </mat-form-field>                
+                
+                <button mat-raised-button type="submit" [disabled]="!configForm.valid">
+                    {{ 'edit' | translate | capitalizeFirst }}
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

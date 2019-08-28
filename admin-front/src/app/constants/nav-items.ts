@@ -62,5 +62,10 @@ export const NAV_ITEMS = [
         displayName: 'files',
         iconName: 'perm_media',
         route: 'files'
-    },     
+    },
+    {
+        displayName: 'config',
+        iconName: 'settings_applications',
+        route: 'config'
+    },      
 ];
