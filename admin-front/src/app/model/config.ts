@@ -1,5 +1,5 @@
 export interface Config {
     smallFileSize: number;
-    mediumFileSize: string;
+    mediumFileSize: number;
     largeFileSize: number;
 }

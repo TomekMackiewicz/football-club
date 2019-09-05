@@ -42,8 +42,9 @@ export class GameEditComponent implements OnInit {
                     this.game = game;
                     this.gameForm.setValue(this.game);
                 });
+                // co jeśli błąd w subscribe?
             } else {
-                this.alertService.error('error');
+                this.alertService.error('error');//?
             }
         });
     }

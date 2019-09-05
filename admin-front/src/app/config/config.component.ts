@@ -12,9 +12,10 @@ import { Config } from '../model/config';
 export class ConfigComponent implements OnInit {
     config: Config;
     configForm = this.fb.group({
-        smallFileSize: [''],
-        mediumFileSize: [''],
-        largeFileSize: ['']
+        id: [''],
+        small_file_size: [''],
+        medium_file_size: [''],
+        large_file_size: ['']
     });
 
     constructor(
@@ -32,6 +33,7 @@ export class ConfigComponent implements OnInit {
         this.configService.getConfig().subscribe(
             resp => {
                 this.config = resp;
+                this.configForm.setValue(this.config);
             },
             error => {
                 console.log(error);
