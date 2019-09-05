@@ -4,7 +4,7 @@
             {{ 'config' | translate | capitalizeFirst }}
         </mat-card-title>
         <mat-card-content>
-            <form [formGroup]="configForm" (ngSubmit)="editConfig()" fxLayout="column" fxLayoutAlign="none">
+            <form [formGroup]="configForm" (ngSubmit)="saveConfig()" fxLayout="column" fxLayoutAlign="none">
                 <h3>{{ 'files' | translate | capitalizeFirst }}</h3>
                 <mat-form-field appearance="outline">
                     <mat-label>{{ 'config.files.small_file_size' | translate | capitalizeFirst }}</mat-label>

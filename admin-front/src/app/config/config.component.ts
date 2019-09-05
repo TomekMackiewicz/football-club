@@ -40,9 +40,28 @@ export class ConfigComponent implements OnInit {
             }
         );        
     }
+    
+    saveConfig() {
+        if (this.config.id === -1) {
+            this.createConfig();
+        } else {
+            this.updateConfig();
+        }
+    }
 
-    editConfig() {
-        return this.configService.editConfig(this.configForm.value).subscribe(
+    createConfig() {
+        return this.configService.createConfig(this.configForm.value).subscribe(
+            success => {
+                this.alertService.success(success, true);
+            },
+            error => {
+                this.alertService.error(error, true);
+            }
+        );
+    }
+
+    updateConfig() {
+        return this.configService.updateConfig(this.configForm.value).subscribe(
             success => {
                 this.alertService.success(success, true);
             },

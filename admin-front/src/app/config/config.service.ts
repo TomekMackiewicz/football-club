@@ -18,9 +18,14 @@ export class ConfigService {
         return this.httpClient.get<Config>(API_URL+'/config')
             .pipe(catchError(this.handleError));   
     }    
-    
-    editConfig(config: Config): Observable<string> {
-        return this.httpClient.patch<string>(API_URL+'/config', config, HTTP_OPTIONS)
+
+    createConfig(config: Config): Observable<string> {
+        return this.httpClient.post<string>(API_URL+'/config', config, HTTP_OPTIONS)
+            .pipe(catchError(this.handleError));
+    }
+
+    updateConfig(config: Config): Observable<string> {
+        return this.httpClient.patch<string>(API_URL+'/config/'+config.id, config, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
 
