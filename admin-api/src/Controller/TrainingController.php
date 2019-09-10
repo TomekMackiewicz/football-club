@@ -11,7 +11,7 @@ use App\Entity\Training;
 use App\Form\TrainingType;
 
 /**
- * @Route("/api/v1/trainings")
+ * @Route("/api/v1/admin/trainings")
  */
 class TrainingController extends AbstractFOSRestController
 {   

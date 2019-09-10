@@ -11,7 +11,7 @@ use App\Entity\Config;
 use App\Form\ConfigType;
 
 /**
- * @Route("/api/v1/config")
+ * @Route("/api/v1/admin/config")
  */
 class ConfigController extends AbstractFOSRestController
 {

@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
- * @Route("/api/v1/files")
+ * @Route("/api/v1/admin/files")
  */
 class FileController extends AbstractFOSRestController
 {

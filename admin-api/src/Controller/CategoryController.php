@@ -12,7 +12,7 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 
 /**
- * @Route("/api/v1/categories")
+ * @Route("/api/v1/admin/categories")
  */
 class CategoryController extends AbstractFOSRestController
 {
