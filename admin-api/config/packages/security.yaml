@@ -12,7 +12,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         login:
-            pattern:  ^/api/v1/login
+            pattern:  ^/api/v1/login_check
             stateless: true
             anonymous: true
             provider: fos_userbundle
@@ -20,7 +20,6 @@ security:
                 check_path:               /api/v1/login_check
                 success_handler:          lexik_jwt_authentication.handler.authentication_success
                 failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-
         api:
             pattern:   ^/api/v1/admin
             stateless: true
@@ -29,5 +28,5 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/api/v1/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1/admin, roles: IS_AUTHENTICATED_FULLY }
