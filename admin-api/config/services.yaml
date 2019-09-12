@@ -21,3 +21,9 @@ services:
     App\Controller\ExceptionController:
         arguments:
             $exceptionCodes: '@fos_rest.exception.codes_map'
+            
+    App\Controller\RegistrationController:
+        arguments:
+            $formFactory: '@fos_user.registration.form.factory'
+            $userManager: '@fos_user.user_manager'
+            $dispatcher: '@event_dispatcher'
