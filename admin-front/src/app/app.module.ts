@@ -31,6 +31,10 @@ import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { FrontComponent } from './front_temp/front.component';
+import { AccessDeniedComponent } from './denied/denied.component';
+
+import { AuthGuard } from './guards/auth.guard';
 
 import { NavService } from './services/nav.service';
 import { LoaderService } from './services/loader.service';
@@ -45,7 +49,9 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         AppComponent,
         MenuListItemComponent,
         LoaderComponent,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        FrontComponent,
+        AccessDeniedComponent
     ],
     imports: [
         BrowserModule,
@@ -80,6 +86,7 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         ConfigModule
     ],
     providers: [
+        AuthGuard,
         NavService, 
         FileService, 
         LoaderService, 

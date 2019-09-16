@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Config } from '../model/config';
-import { HTTP_OPTIONS, API_URL } from '../constants/http';
+import { HTTP_OPTIONS, ADMIN_URL } from '../constants/http';
 
 @Injectable({
     providedIn: 'root'
@@ -15,17 +15,17 @@ export class ConfigService {
     ) {}
 
     getConfig(): Observable<Config> {     
-        return this.httpClient.get<Config>(API_URL+'/config')
+        return this.httpClient.get<Config>(ADMIN_URL+'/config')
             .pipe(catchError(this.handleError));   
     }    
 
     createConfig(config: Config): Observable<string> {
-        return this.httpClient.post<string>(API_URL+'/config', config, HTTP_OPTIONS)
+        return this.httpClient.post<string>(ADMIN_URL+'/config', config, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
 
     updateConfig(config: Config): Observable<string> {
-        return this.httpClient.patch<string>(API_URL+'/config/'+config.id, config, HTTP_OPTIONS)
+        return this.httpClient.patch<string>(ADMIN_URL+'/config/'+config.id, config, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
 

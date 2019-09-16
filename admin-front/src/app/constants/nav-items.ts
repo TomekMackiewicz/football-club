@@ -2,17 +2,16 @@ export const NAV_ITEMS = [
     {
         displayName: 'players',
         iconName: 'people_outline',
-        //route: 'players',
         children: [
             {
                 displayName: 'list',
                 iconName: 'group',
-                route: 'players',
+                route: 'admin/players',
             },
             {
                 displayName: 'add',
                 iconName: 'person_add',
-                route: 'players/add',
+                route: 'admin/players/add',
             }
         ]
     },
@@ -23,12 +22,12 @@ export const NAV_ITEMS = [
             {
                 displayName: 'list',
                 iconName: 'ballot',
-                route: 'games/list'
+                route: 'admin/games/list'
             },
             {
                 displayName: 'add',
                 iconName: 'create',
-                route: 'games/add'
+                route: 'admin/games/add'
             }
         ]
     },
@@ -39,33 +38,33 @@ export const NAV_ITEMS = [
             {
                 displayName: 'list',
                 iconName: 'ballot',
-                route: 'posts/list'
+                route: 'admin/posts/list'
             },
             {
                 displayName: 'add',
                 iconName: 'create',
-                route: 'posts/add'
+                route: 'admin/posts/add'
             },
             {
                 displayName: 'categories',
                 iconName: 'ballot',
-                route: 'categories/list'
+                route: 'admin/categories/list'
             },
             {
                 displayName: 'add category',
                 iconName: 'create',
-                route: 'categories/add'
+                route: 'admin/categories/add'
             }
         ]
     },
     {
         displayName: 'files',
         iconName: 'perm_media',
-        route: 'files'
+        route: 'admin/files'
     },
     {
         displayName: 'config',
         iconName: 'settings_applications',
-        route: 'config'
+        route: 'admin/config'
     },      
 ];

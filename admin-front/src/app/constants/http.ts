@@ -6,4 +6,6 @@ export const HTTP_OPTIONS = {
     })
 };
 
-export const API_URL = 'http://localhost:8000/api/v1';
+export const TEMP_URL = 'http://localhost:8000/api/v1'; // Dopóki nie ma frontu!
+
+export const ADMIN_URL = 'http://localhost:8000/api/v1/admin';

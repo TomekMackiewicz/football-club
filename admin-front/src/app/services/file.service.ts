@@ -4,7 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { v4 } from 'uuid';
 import { FileElement } from '../file/model/element';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
-import { HTTP_OPTIONS, API_URL } from '../constants/http';
+import { HTTP_OPTIONS, ADMIN_URL } from '../constants/http';
 
 @Injectable()
 export class FileService {
@@ -24,7 +24,7 @@ export class FileService {
     }
 
     getFiles() {
-        return this.httpClient.get(API_URL+'/files').pipe(catchError(this.handleError));
+        return this.httpClient.get(ADMIN_URL+'/files').pipe(catchError(this.handleError));
     } 
 
     add(fileElement: FileElement) {
@@ -35,7 +35,7 @@ export class FileService {
     }
 
     createFolder(fileElement: FileElement) {
-        return this.httpClient.post<FileElement>(API_URL+'/files', { fileElement: fileElement }, HTTP_OPTIONS)
+        return this.httpClient.post<FileElement>(ADMIN_URL+'/files', { fileElement: fileElement }, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
 
@@ -51,7 +51,7 @@ export class FileService {
             this.map.set(elem.id, elem);
         });
         
-        return this.httpClient.patch<FileElement>(API_URL+'/files', { 
+        return this.httpClient.patch<FileElement>(ADMIN_URL+'/files', { 
             files: files, 
             moveTo: moveTo 
         }, HTTP_OPTIONS).pipe(catchError(this.handleError));
@@ -62,14 +62,14 @@ export class FileService {
         let oldName = element.name;
         element = Object.assign(element, update);
         this.map.set(element.id, element); // zob 1)
-        return this.httpClient.patch<FileElement>(API_URL+'/files', { 
+        return this.httpClient.patch<FileElement>(ADMIN_URL+'/files', { 
             file: element, 
             oldName: oldName 
         }, HTTP_OPTIONS).pipe(catchError(this.handleError));
     }
 
     deleteFiles(elements: FileElement[]) {
-        const req = new HttpRequest('DELETE', API_URL+'/files', elements, {
+        const req = new HttpRequest('DELETE', ADMIN_URL+'/files', elements, {
             reportProgress: true
         });
         return this.httpClient.request(req).pipe(catchError(this.handleError));

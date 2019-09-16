@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Post } from '../model/post';
-import { HTTP_OPTIONS, API_URL } from '../constants/http';
+import { HTTP_OPTIONS, ADMIN_URL } from '../constants/http';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +17,7 @@ export class PostService {
     ) {}
 
     getPost(id: number): Observable<Post> {     
-        return this.httpClient.get<Post>(API_URL+'/posts/'+id)
+        return this.httpClient.get<Post>(ADMIN_URL+'/posts/'+id)
             .pipe(catchError(this.handleError));   
     }    
         
@@ -26,22 +26,22 @@ export class PostService {
         filters.dateTo = this.datepipe.transform(filters.dateTo, 'yyyy-MM-dd');  
         let params = 'sort='+sort+'&order='+order+'&page='+page+'&size='+size+'&filters='+JSON.stringify(filters); 
                
-        return this.httpClient.get<PostsWithCount>(API_URL+'/posts?'+params)
+        return this.httpClient.get<PostsWithCount>(ADMIN_URL+'/posts?'+params)
             .pipe(catchError(this.handleError));   
     }
     
     addPost(post: Post): Observable<string> {
-        return this.httpClient.post<string>(API_URL+'/posts', post, HTTP_OPTIONS)
+        return this.httpClient.post<string>(ADMIN_URL+'/posts', post, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
     
     updatePost(post: Post): Observable<string> {
-        return this.httpClient.patch<string>(API_URL+'/posts/'+post.id, post, HTTP_OPTIONS)
+        return this.httpClient.patch<string>(ADMIN_URL+'/posts/'+post.id, post, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
        
     deletePosts(ids: Array<number>): Observable<string> {            
-        return this.httpClient.request<string>('delete', API_URL+'/posts', { body: ids })
+        return this.httpClient.request<string>('delete', ADMIN_URL+'/posts', { body: ids })
             .pipe(catchError(this.handleError));
     }
 
