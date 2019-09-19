@@ -16,6 +16,7 @@ import { FrontComponent } from './front/front.component';
 import { AccessDeniedComponent } from './denied/denied.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -28,6 +29,10 @@ const routes: Routes = [
     },
     {path: 'admin/games/list', 
         component: GameListComponent,
+        canActivate: [AuthGuard]                       
+    },
+    {path: 'admin/profile', 
+        component: ProfileComponent,
         canActivate: [AuthGuard]                       
     }, 
     {path: 'admin/games/add', 

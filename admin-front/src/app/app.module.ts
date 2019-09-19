@@ -39,6 +39,7 @@ import { FrontComponent } from './front/front.component';
 import { AccessDeniedComponent } from './denied/denied.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -46,6 +47,7 @@ import { NavService } from './services/nav.service';
 import { LoaderService } from './services/loader.service';
 import { FileService } from './services/file.service';
 import { AuthenticationService } from './services/authentication.service';
+import { ProfileService } from './profile/profile.service';
 
 import { ApplicationPipesModule } from './pipes/application-pipes.module';
 
@@ -61,7 +63,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         FrontComponent,
         AccessDeniedComponent,
         LoginComponent,
-        LogoutComponent
+        LogoutComponent,
+        ProfileComponent
     ],
     imports: [
         BrowserModule,
@@ -106,6 +109,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         FileService, 
         LoaderService,
         AuthenticationService, 
+        ProfileService,
         { 
             provide: HTTP_INTERCEPTORS, 
             useClass: LoaderInterceptor, 
