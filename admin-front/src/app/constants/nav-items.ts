@@ -1,15 +1,5 @@
 export const NAV_ITEMS = [
     {
-        displayName: 'login',
-        iconName: 'settings_applications',
-        route: 'login'
-    },
-    {
-        displayName: 'logout',
-        iconName: 'settings_applications',
-        route: 'logout'
-    },
-    {
         displayName: 'players',
         iconName: 'people_outline',
         children: [
