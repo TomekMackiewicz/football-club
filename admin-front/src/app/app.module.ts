@@ -16,7 +16,10 @@ import {
     MatListModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -33,16 +36,20 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { FrontComponent } from './front_temp/front.component';
 import { AccessDeniedComponent } from './denied/denied.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
 import { NavService } from './services/nav.service';
 import { LoaderService } from './services/loader.service';
 import { FileService } from './services/file.service';
+import { AuthenticationService } from './services/authentication.service';
 
 import { ApplicationPipesModule } from './pipes/application-pipes.module';
 
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
     declarations: [
@@ -51,7 +58,9 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         LoaderComponent,
         ConfirmDialogComponent,
         FrontComponent,
-        AccessDeniedComponent
+        AccessDeniedComponent,
+        LoginComponent,
+        LogoutComponent
     ],
     imports: [
         BrowserModule,
@@ -69,6 +78,9 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
         MatProgressSpinnerModule,
         MatProgressBarModule,
         MatDialogModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
         HttpClientModule,
         ApplicationPipesModule,
         DragToSelectModule.forRoot(),
@@ -87,10 +99,21 @@ import { LoaderInterceptor } from './interceptors/loader.interceptor';
     ],
     providers: [
         AuthGuard,
+        TokenInterceptor,
         NavService, 
         FileService, 
-        LoaderService, 
-        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+        LoaderService,
+        AuthenticationService, 
+        { 
+            provide: HTTP_INTERCEPTORS, 
+            useClass: LoaderInterceptor, 
+            multi: true 
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        }
     ],
     entryComponents: [ConfirmDialogComponent],
     bootstrap: [AppComponent]
