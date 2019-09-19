@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { GameListComponent } from './game/game-list/game-list.component';
 import { GameAddComponent } from './game/game-add/game-add.component';
 import { GameEditComponent } from './game/game-edit/game-edit.component';
@@ -13,51 +14,59 @@ import { FileComponent } from './file/file.component';
 import { ConfigComponent } from './config/config.component';
 import { FrontComponent } from './front_temp/front.component';
 import { AccessDeniedComponent } from './denied/denied.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+    {path: 'login', 
+        component: LoginComponent                      
+    },
+    {path: 'logout', 
+        component: LogoutComponent                      
+    },
     {path: 'admin/games/list', 
         component: GameListComponent,
         canActivate: [AuthGuard]                       
     }, 
-    {path: 'games/add', 
+    {path: 'admin/games/add', 
         component: GameAddComponent,
         canActivate: [AuthGuard]                      
     },
-    {path: 'games/edit/:id', 
+    {path: 'admin/games/edit/:id', 
         component: GameEditComponent,
         canActivate: [AuthGuard]                      
     },
-    {path: 'posts/list', 
+    {path: 'admin/posts/list', 
         component: PostListComponent,
         canActivate: [AuthGuard]                      
     }, 
-    {path: 'posts/add', 
+    {path: 'admin/posts/add', 
         component: PostAddComponent,
         canActivate: [AuthGuard]                      
     },
-    {path: 'posts/edit/:id', 
+    {path: 'admin/posts/edit/:id', 
         component: PostEditComponent,
         canActivate: [AuthGuard]                      
     },
-    {path: 'categories/list', 
+    {path: 'admin/categories/list', 
         component: CategoryListComponent,
         canActivate: [AuthGuard]                     
     }, 
-    {path: 'categories/add', 
+    {path: 'admin/categories/add', 
         component: CategoryAddComponent,
         canActivate: [AuthGuard]                     
     },
-    {path: 'categories/edit/:id', 
+    {path: 'admin/categories/edit/:id', 
         component: CategoryEditComponent,
         canActivate: [AuthGuard]                    
     },
-    {path: 'files', 
+    {path: 'admin/files', 
         component: FileComponent,
         canActivate: [AuthGuard]
     },
-    {path: 'config', 
+    {path: 'admin/config', 
         component: ConfigComponent,
         canActivate: [AuthGuard]
     }, 
