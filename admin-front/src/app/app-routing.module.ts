@@ -12,7 +12,7 @@ import { CategoryAddComponent } from './category/category-add/category-add.compo
 import { CategoryEditComponent } from './category/category-edit/category-edit.component';
 import { FileComponent } from './file/file.component';
 import { ConfigComponent } from './config/config.component';
-import { FrontComponent } from './front_temp/front.component';
+import { FrontComponent } from './front/front.component';
 import { AccessDeniedComponent } from './denied/denied.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';

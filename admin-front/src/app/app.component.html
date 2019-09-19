@@ -1,5 +1,4 @@
-<mat-sidenav-container>
-    
+<mat-sidenav-container *ngIf="isLoggedIn">
     <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened">
         <mat-toolbar>
             Title
@@ -9,21 +8,17 @@
             </app-menu-list-item>           
         </mat-nav-list>       
     </mat-sidenav>
-
     <mat-sidenav-content>
         <mat-toolbar>
             <button mat-raised-button (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
             <span class="fill-space"></span>
-            
             <button mat-icon-button (click)="useLanguage('en')">en</button>
             <button mat-icon-button (click)="useLanguage('pl')">pl</button>            
-            
             <button mat-icon-button [matMenuTriggerFor]="userMenu">
                 <mat-icon>person_outline</mat-icon>
             </button>
-
             <mat-menu #userMenu="matMenu">
                 <button mat-menu-item>
                     <mat-icon>person_outline</mat-icon>
@@ -35,13 +30,35 @@
                 </button>
             </mat-menu>           
         </mat-toolbar>
-        
         <main>
             <app-loader></app-loader>
             <alert></alert>
-            <router-outlet #outlet="outlet"></router-outlet>
+            <ng-container *ngTemplateOutlet="template"></ng-container>
         </main>
-        
-    </mat-sidenav-content>
-    
+    </mat-sidenav-content>   
 </mat-sidenav-container>
+
+<div fxFlexFill *ngIf="!isLoggedIn">
+    <mat-toolbar>
+        <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+        <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
+        <span class="fill-space"></span>                
+        <a mat-button routerLink="/login" routerLinkActive="active">
+            {{ 'ui.login' | translate }}
+        </a>
+        <a mat-button routerLink="/register" routerLinkActive="active">
+            {{ 'ui.register' | translate }}
+        </a>
+        <button mat-icon-button (click)="useLanguage('en')">en</button>
+        <button mat-icon-button (click)="useLanguage('pl')">pl</button>
+    </mat-toolbar>
+    <main>
+        <app-loader></app-loader>
+        <alert></alert>
+        <ng-container *ngTemplateOutlet="template"></ng-container>
+    </main>
+</div>
+
+<ng-template #template>
+    <router-outlet></router-outlet>
+</ng-template>

@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-//import 'rxjs/add/operator/map';
 import * as decode from 'jwt-decode';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -13,7 +12,6 @@ export class AuthenticationService {
     loginUrl = this.route.snapshot.queryParams['loginUrl'] || '/login';
     currentUsername: BehaviorSubject<string> = new BehaviorSubject<string>('');
     admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    //loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     loginError: EventEmitter<any> = new EventEmitter();
     
     getUsername(value: string) {
@@ -23,11 +21,7 @@ export class AuthenticationService {
     isAdmin(value: boolean) {
         this.admin.next(value);
     }
-
-//    isLoggedIn(value: boolean) {
-//        this.loggedIn.next(value);
-//    }
-                
+        
     constructor(
         private http: HttpClient,
         private route: ActivatedRoute,
@@ -47,7 +41,6 @@ export class AuthenticationService {
                     localStorage.setItem('userId', token.userId);
                     localStorage.setItem('userRole', token.roles[0]);                    
                     this.getUsername(localStorage.getItem('currentUsername'));
-                    //this.isLoggedIn(true);
                     if (token.roles[0] == 'ROLE_ADMIN' || token.roles[0] == 'ROLE_SUPER_ADMIN') {
                         this.isAdmin(true);
                         this.router.navigate([this.adminUrl]);
@@ -67,7 +60,6 @@ export class AuthenticationService {
         localStorage.removeItem('currentUsername');
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');
-        //this.isLoggedIn(false);
         this.isAdmin(false);
         this.getUsername('');
         this.router.navigate([this.loginUrl]);

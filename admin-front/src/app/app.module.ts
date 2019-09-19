@@ -34,7 +34,7 @@ import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
-import { FrontComponent } from './front_temp/front.component';
+import { FrontComponent } from './front/front.component';
 import { AccessDeniedComponent } from './denied/denied.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
