@@ -6,6 +6,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DragToSelectModule } from 'ngx-drag-to-select';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { 
     MatSidenavModule, 
     MatCheckboxModule, 
@@ -68,6 +69,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         AppRoutingModule,
         AlertModule,
         FormsModule,
+        FlexLayoutModule,
         MatSidenavModule,
         MatCheckboxModule,
         MatToolbarModule,

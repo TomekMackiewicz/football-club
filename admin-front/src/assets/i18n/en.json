@@ -20,6 +20,9 @@
     "expand.to.filter": "expand to filter results",
     "filter": "filter",
     "filter.clear": "clear filter",
+    "form.username_or_email": "username or email",
+    "form.password": "password",
+    "form.password.forgot": "forgot password?",
     "game.added": "game added succesfully",
     "game.edit": "edit game",
     "game.edited": "game edited succesfully",
@@ -44,6 +47,7 @@
     "title": "title",
     "guest.score": "guest score",
     "host.score": "host score",
+    "ui.login": "login",
     "validation.digits": "only digits are allowed",
     "validation.required": "field is required"
 }

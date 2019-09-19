@@ -20,6 +20,9 @@
     "expand.to.filter": "Rozwiń aby filtrować wyniki",
     "filter": "filtruj",
     "filter.clear": "usuń filtry",
+    "form.username_or_email": "nazwa lub email",
+    "form.password": "hasło",
+    "form.password.forgot": "zapomniałeś hasła?",
     "game.added": "mecz został dodany",
     "game.edit": "edycja meczu",
     "game.edited": "mecz został zaktualizowany",
@@ -44,6 +47,7 @@
     "title": "tytuł",
     "guest.score": "wynik gości",
     "host.score": "wynik gospodarzy",
+    "ui.login": "logowanie",
     "validation.digits": "pole może zawierać tylko cyfry",
     "validation.required": "pole jest wymagane"
 }

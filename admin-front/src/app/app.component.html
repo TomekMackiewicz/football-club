@@ -38,7 +38,7 @@
     </mat-sidenav-content>   
 </mat-sidenav-container>
 
-<div fxFlexFill *ngIf="!isLoggedIn">
+<div fxLayout="column" *ngIf="!isLoggedIn">
     <mat-toolbar>
         <a mat-button routerLink="/about" routerLinkActive="active">About</a>
         <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
