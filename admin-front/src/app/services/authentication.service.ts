@@ -1,8 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import * as decode from 'jwt-decode';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BASE_URL } from '../constants/http';
 
 @Injectable()
 export class AuthenticationService {
@@ -29,7 +30,7 @@ export class AuthenticationService {
     ) {};
        
     login(username: string, password: string) { 
-        return this.http.post<any>('http://localhost:8000/api/v1/login_check', { 
+        return this.http.post<any>(BASE_URL+'/login_check', {
             username: username, 
             password: password
         }).subscribe(
