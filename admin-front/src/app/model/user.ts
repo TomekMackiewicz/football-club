@@ -1,5 +1,6 @@
-export interface User {
-    username: string;
-    email: string;
-    roles: Array<string>
+export class User {
+    username: string = '';
+    email: string = '';
+    password: string = '';
+    roles: Array<string> = []
 }
