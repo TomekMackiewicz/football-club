@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
@@ -17,6 +17,10 @@ export class AuthGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        if (state.url === '/login') {
+            this.isLoggedIn(false);
+            return true;
+        }
         if (!this.isTokenExpired()) {
             this.isLoggedIn(true);
             return true;
