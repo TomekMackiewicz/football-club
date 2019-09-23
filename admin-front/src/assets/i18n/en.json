@@ -48,6 +48,7 @@
     "guest.score": "guest score",
     "host.score": "host score",
     "ui.login": "login",
+    "user.profile": "user profile",
     "validation.digits": "only digits are allowed",
     "validation.required": "field is required"
 }

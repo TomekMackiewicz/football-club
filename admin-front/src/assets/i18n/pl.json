@@ -48,6 +48,7 @@
     "guest.score": "wynik gości",
     "host.score": "wynik gospodarzy",
     "ui.login": "logowanie",
+    "user.profile": "profil",
     "validation.digits": "pole może zawierać tylko cyfry",
     "validation.required": "pole jest wymagane"
 }
