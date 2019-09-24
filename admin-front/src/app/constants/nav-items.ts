@@ -66,5 +66,16 @@ export const NAV_ITEMS = [
         displayName: 'config',
         iconName: 'settings_applications',
         route: 'admin/config'
-    },      
+    }, 
+    {
+        displayName: 'users',
+        iconName: 'people_outline',
+        children: [
+            {
+                displayName: 'list',
+                iconName: 'ballot',
+                route: 'admin/users/list'
+            }
+        ]
+    }     
 ];

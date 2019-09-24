@@ -26,6 +26,7 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AlertModule } from './alert/alert.module';
 import { GameModule } from './game/game.module';
+import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
 import { CategoryModule } from './category/category.module';
 import { FileModule } from './file/file.module';
@@ -100,7 +101,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         PostModule,
         CategoryModule,
         FileModule,
-        ConfigModule
+        ConfigModule,
+        UserModule
     ],
     providers: [
         AuthGuard,

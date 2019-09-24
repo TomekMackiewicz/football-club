@@ -16,22 +16,61 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use App\Entity\User;
 
 /**
- * @Route("/api/v1/register")
+ * @Route("/api/v1/admin/users")
  */
-class RegistrationController extends FOSRestController
+class UserController extends FOSRestController
 {
     private $formFactory;
     private $userManager;
     private $dispatcher;
+    private $repository;
 
-    public function __construct(FormFactory $formFactory, UserManagerInterface $userManager, EventDispatcherInterface $dispatcher)
+    public function __construct(
+        FormFactory $formFactory, 
+        UserManagerInterface $userManager, 
+        EventDispatcherInterface $dispatcher, 
+        EntityManagerInterface $entityManager)
     {
         $this->formFactory = $formFactory;
         $this->userManager = $userManager;
         $this->dispatcher = $dispatcher;
+        $this->repository = $entityManager->getRepository(User::class);
     }     
+
+    /**
+     * @Rest\Get("")
+     * @param Request $request
+     * @return Response
+     */
+    public function cgetAction(Request $request)
+    {
+        $page = $request->query->get('page');
+        $size = (int) $request->query->get('size');
+        $sort = $request->query->get('sort');
+        $order = $request->query->get('order');
+        $offset = ($page-1) * $size;
+        $filters = json_decode($request->query->get('filters'), true);
+
+        $users = $this->repository->findUsers($size, $sort, $order, $offset, $filters);
+
+        if (!$users) {
+            return $this->handleView(
+                $this->view(null, Response::HTTP_NO_CONTENT)
+            );
+        }
+
+        $response['users'] = $users;
+        $response['total_count'] = $this->repository->countUsers();
+
+        return $this->handleView(
+            $this->view($response, Response::HTTP_OK)
+        );
+    }
 
     /**
      * Register new user.

@@ -17,6 +17,7 @@ import { AccessDeniedComponent } from './denied/denied.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UserListComponent } from './user/user-list/user-list.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -28,12 +29,12 @@ const routes: Routes = [
     {path: 'logout', 
         component: LogoutComponent                      
     },
-    {path: 'admin/games/list', 
-        component: GameListComponent,
-        canActivate: [AuthGuard]                       
-    },
     {path: 'admin/profile', 
         component: ProfileComponent,
+        canActivate: [AuthGuard]                       
+    },
+    {path: 'admin/games/list', 
+        component: GameListComponent,
         canActivate: [AuthGuard]                       
     }, 
     {path: 'admin/games/add', 
@@ -75,7 +76,11 @@ const routes: Routes = [
     {path: 'admin/config', 
         component: ConfigComponent,
         canActivate: [AuthGuard]
-    }, 
+    },
+    {path: 'admin/users/list', 
+        component: UserListComponent,
+        canActivate: [AuthGuard]                       
+    },
     {path: 'front', 
         component: FrontComponent                      
     },
