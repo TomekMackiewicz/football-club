@@ -12,7 +12,7 @@ use App\Entity\Game;
 use App\Form\GameType;
 
 /**
- * @Route("/api/v1/admin/games")
+ * @Route("/api/v1/editor/games")
  */
 class GameController extends AbstractFOSRestController
 {

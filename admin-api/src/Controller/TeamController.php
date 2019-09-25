@@ -11,7 +11,7 @@ use App\Entity\Team;
 use App\Form\TeamType;
 
 /**
- * @Route("/api/v1/admin/teams")
+ * @Route("/api/v1/editor/teams")
  */
 class TeamController extends AbstractFOSRestController
 {   

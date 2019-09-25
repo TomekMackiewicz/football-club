@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Form\ProfileType;
 
 /**
- * @Route("/api/v1/admin/profile")
+ * @Route("/api/v1/editor/profile")
  */
 class ProfileController extends AbstractFOSRestController
 {
