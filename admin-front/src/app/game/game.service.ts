@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Game } from '../model/game';
-import { HTTP_OPTIONS, ADMIN_URL } from '../constants/http';
+import { HTTP_OPTIONS, BASE_URL } from '../constants/http';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +17,7 @@ export class GameService {
     ) {}
 
     getGame(id: number): Observable<Game> {     
-        return this.httpClient.get<Game>(ADMIN_URL+'/games/'+id)
+        return this.httpClient.get<Game>(BASE_URL+'/games/'+id)
             .pipe(catchError(this.handleError));   
     }    
         
@@ -26,22 +26,22 @@ export class GameService {
         filters.dateTo = this.datepipe.transform(filters.dateTo, 'yyyy-MM-dd');  
         let params = 'sort='+sort+'&order='+order+'&page='+page+'&size='+size+'&filters='+JSON.stringify(filters); 
                
-        return this.httpClient.get<GamesWithCount>(ADMIN_URL+'/games?'+params)
+        return this.httpClient.get<GamesWithCount>(BASE_URL+'/games?'+params)
             .pipe(catchError(this.handleError));   
     }
     
     addGame(game: Game): Observable<string> {
-        return this.httpClient.post<string>(ADMIN_URL+'/games', game, HTTP_OPTIONS)
+        return this.httpClient.post<string>(BASE_URL+'/games', game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
     
     updateGame(game: Game): Observable<string> {
-        return this.httpClient.patch<string>(ADMIN_URL+'/games/'+game.id, game, HTTP_OPTIONS)
+        return this.httpClient.patch<string>(BASE_URL+'/games/'+game.id, game, HTTP_OPTIONS)
             .pipe(catchError(this.handleError));
     }
        
     deleteGames(ids: Array<number>): Observable<string> {            
-        return this.httpClient.request<string>('delete', ADMIN_URL+'/games', { body: ids })
+        return this.httpClient.request<string>('delete', BASE_URL+'/games', { body: ids })
             .pipe(catchError(this.handleError));
     }
 

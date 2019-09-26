@@ -31,55 +31,94 @@ const routes: Routes = [
     },
     {path: 'admin/profile', 
         component: ProfileComponent,
-        canActivate: [AuthGuard]                       
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                       
     },
     {path: 'admin/games/list', 
         component: GameListComponent,
-        canActivate: [AuthGuard]                       
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                       
     }, 
     {path: 'admin/games/add', 
         component: GameAddComponent,
-        canActivate: [AuthGuard]                      
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                      
     },
     {path: 'admin/games/edit/:id', 
         component: GameEditComponent,
-        canActivate: [AuthGuard]                      
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                      
     },
     {path: 'admin/posts/list', 
         component: PostListComponent,
-        canActivate: [AuthGuard]                      
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }
     }, 
     {path: 'admin/posts/add', 
         component: PostAddComponent,
-        canActivate: [AuthGuard]                      
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }
     },
     {path: 'admin/posts/edit/:id', 
         component: PostEditComponent,
-        canActivate: [AuthGuard]                      
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }
     },
     {path: 'admin/categories/list', 
         component: CategoryListComponent,
-        canActivate: [AuthGuard]                     
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                     
     }, 
     {path: 'admin/categories/add', 
         component: CategoryAddComponent,
-        canActivate: [AuthGuard]                     
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }
     },
     {path: 'admin/categories/edit/:id', 
         component: CategoryEditComponent,
-        canActivate: [AuthGuard]                    
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }
     },
     {path: 'admin/files', 
         component: FileComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }
     },
     {path: 'admin/config', 
         component: ConfigComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_SUPER_ADMIN'
+        }
     },
     {path: 'admin/users/list', 
         component: UserListComponent,
-        canActivate: [AuthGuard]                       
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_SUPER_ADMIN'
+        }
     },
     {path: 'front', 
         component: FrontComponent                      

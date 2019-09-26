@@ -7,5 +7,4 @@ export const HTTP_OPTIONS = {
 };
 
 export const BASE_URL = 'http://localhost:8000/api/v1';
-export const EDITOR_URL = 'http://localhost:8000/api/v1/editor';
 export const ADMIN_URL = 'http://localhost:8000/api/v1/admin';

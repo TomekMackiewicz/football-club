@@ -2,15 +2,12 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import * as decode from 'jwt-decode';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { BASE_URL } from '../constants/http';
 
 @Injectable()
 export class AuthenticationService {
 
-    adminUrl = this.route.snapshot.queryParams['adminUrl'] || '/admin/config';
-    userUrl = this.route.snapshot.queryParams['userUrl'] || '/admin/games';
-    loginUrl = this.route.snapshot.queryParams['loginUrl'] || '/login';
     currentUsername: BehaviorSubject<string> = new BehaviorSubject<string>('');
     admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     loginError: EventEmitter<any> = new EventEmitter();
@@ -25,7 +22,6 @@ export class AuthenticationService {
         
     constructor(
         private http: HttpClient,
-        private route: ActivatedRoute,
         private router: Router           
     ) {};
        
@@ -42,12 +38,14 @@ export class AuthenticationService {
                     localStorage.setItem('userId', token.userId);
                     localStorage.setItem('userRole', token.roles[0]);                    
                     this.getUsername(localStorage.getItem('currentUsername'));
-                    if (token.roles[0] == 'ROLE_ADMIN' || token.roles[0] == 'ROLE_SUPER_ADMIN') {
+                    if (token.roles[0] == 'ROLE_SUPER_ADMIN') {
                         this.isAdmin(true);
-                        this.router.navigate([this.adminUrl]);
+                        this.router.navigate(['/admin/config']);
+                    } else if (token.roles[0] == 'ROLE_ADMIN') {
+                        this.router.navigate(['/admin/games/list']);
                     } else {
-                        this.router.navigate([this.userUrl]);
-                    }                
+                        this.router.navigate(['/denied']);
+                    }               
                 }
             },
             error => {
@@ -63,6 +61,6 @@ export class AuthenticationService {
         localStorage.removeItem('userRole');
         this.isAdmin(false);
         this.getUsername('');
-        this.router.navigate([this.loginUrl]);
+        this.router.navigate(['/login']);
     }
 }

@@ -1,17 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertService } from '../alert/alert.service';
+import { Component } from '@angular/core';
 
 @Component({
     templateUrl: './denied.component.html'
 })
 
-export class AccessDeniedComponent implements OnInit {
-
-    constructor(
-        private alertService: AlertService
-    ) {}
+export class AccessDeniedComponent {
     
-    ngOnInit() {
-        this.alertService.error('access.denied', true);
-    }
 }

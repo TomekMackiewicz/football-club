@@ -12,7 +12,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 
 /**
- * @Route("/api/v1/editor/posts")
+ * @Route("/api/v1/posts")
  */
 class PostController extends AbstractFOSRestController
 {

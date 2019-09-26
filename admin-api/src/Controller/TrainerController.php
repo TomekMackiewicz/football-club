@@ -12,7 +12,7 @@ use App\Entity\Trainer;
 use App\Form\TrainerType;
 
 /**
- * @Route("/api/v1/admin/trainers")
+ * @Route("/api/v1/trainers")
  */
 class TrainerController extends AbstractFOSRestController
 {
