@@ -26,6 +26,7 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AlertModule } from './alert/alert.module';
 import { GameModule } from './game/game.module';
+import { TrainerModule } from './trainer/trainer.module';
 import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
 import { CategoryModule } from './category/category.module';
@@ -46,7 +47,6 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { NavService } from './services/nav.service';
 import { LoaderService } from './services/loader.service';
-import { FileService } from './services/file.service';
 import { AuthenticationService } from './services/authentication.service';
 import { ProfileService } from './profile/profile.service';
 
@@ -98,6 +98,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
             }
         }),
         GameModule,
+        TrainerModule,
         PostModule,
         CategoryModule,
         FileModule,
@@ -108,7 +109,6 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         AuthGuard,
         TokenInterceptor,
         NavService, 
-        FileService, 
         LoaderService,
         AuthenticationService, 
         ProfileService,

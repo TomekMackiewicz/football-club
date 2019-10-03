@@ -1,0 +1,45 @@
+<div fxFlex.gt-sm="40" fxFlex.sm="100" fxFlexOffset.gt-sm="30" fxLayout="column" fxLayoutGap="16px">
+    <mat-card>
+        <mat-card-title>
+            {{ 'trainer.edit' | translate | capitalizeFirst }}
+        </mat-card-title>
+        <mat-card-content>        
+            <form [formGroup]="trainerForm" (ngSubmit)="updateTrainer()" fxLayout="column" fxLayoutAlign="none">
+                <input type="hidden" formControlName="id">
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'firstName' | translate | capitalizeFirst }}</mat-label>
+                    <input matInput placeholder="{{ 'firstName' | translate | capitalizeFirst }}" formControlName="first_name" required>
+                    <mat-error *ngIf="trainerForm.get('first_name').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>    
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'lastName' | translate | capitalizeFirst }}</mat-label>
+                    <input matInput placeholder="{{ 'lastName' | translate | capitalizeFirst }}" formControlName="last_name" required>
+                    <mat-error *ngIf="trainerForm.get('last_name').hasError('required')">
+                        {{ 'validation.required' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field> 
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'email' | translate | capitalizeFirst }}</mat-label>
+                    <input matInput placeholder="{{ 'email' | translate | capitalizeFirst }}" formControlName="email" required>
+                    <mat-error *ngIf="trainerForm.get('email').hasError('email')">
+                        {{ 'validation.email' | translate | capitalizeFirst }}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ 'trainer.status' | translate | capitalizeFirst }}</mat-label>
+                  <mat-select formControlName="status" required>
+                    <mat-option *ngFor="let status of trainerStatus" [value]="status.value">
+                      {{ status.label | translate | capitalizeFirst }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                
+                <button mat-raised-button type="submit" [disabled]="!trainerForm.valid">
+                    {{ 'edit' | translate | capitalizeFirst }}
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

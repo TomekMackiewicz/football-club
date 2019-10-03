@@ -37,12 +37,6 @@ class Trainer
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="validation.required")
-     */
-    private $login;
-
-    /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      * @Assert\Email(message="validation.invalidEmail")
      */
@@ -88,18 +82,6 @@ class Trainer
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getLogin(): ?string
-    {
-        return $this->login;
-    }
-
-    public function setLogin(string $login): self
-    {
-        $this->login = $login;
 
         return $this;
     }

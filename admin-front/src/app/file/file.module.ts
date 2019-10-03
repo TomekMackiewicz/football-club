@@ -30,6 +30,8 @@ import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { NewFolderDialogComponent } from './modals/new-folder-dialog/new-folder-dialog.component';
 import { RenameDialogComponent } from './modals/rename-dialog/rename-dialog.component';
 
+import { FileService } from './file.service';
+
 import { ApplicationPipesModule } from '../pipes/application-pipes.module';
 
 @NgModule({
@@ -69,6 +71,7 @@ import { ApplicationPipesModule } from '../pipes/application-pipes.module';
         NewFolderDialogComponent, 
         RenameDialogComponent
     ],
+    providers: [FileService],
     exports: [
         FileComponent,
         FileExplorerComponent

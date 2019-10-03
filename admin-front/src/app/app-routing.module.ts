@@ -4,6 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { GameListComponent } from './game/game-list/game-list.component';
 import { GameAddComponent } from './game/game-add/game-add.component';
 import { GameEditComponent } from './game/game-edit/game-edit.component';
+import { TrainerListComponent } from './trainer/trainer-list/trainer-list.component';
+import { TrainerAddComponent } from './trainer/trainer-add/trainer-add.component';
+import { TrainerEditComponent } from './trainer/trainer-edit/trainer-edit.component';
 import { PostListComponent } from './post/post-list/post-list.component';
 import { PostAddComponent } from './post/post-add/post-add.component';
 import { PostEditComponent } from './post/post-edit/post-edit.component';
@@ -52,6 +55,27 @@ const routes: Routes = [
     },
     {path: 'admin/games/edit/:id', 
         component: GameEditComponent,
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                      
+    },
+    {path: 'admin/trainers/list', 
+        component: TrainerListComponent,
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                       
+    }, 
+    {path: 'admin/trainers/add', 
+        component: TrainerAddComponent,
+        canActivate: [AuthGuard],
+        data: { 
+          expectedRole: 'ROLE_ADMIN'
+        }                      
+    },
+    {path: 'admin/trainers/edit/:id', 
+        component: TrainerEditComponent,
         canActivate: [AuthGuard],
         data: { 
           expectedRole: 'ROLE_ADMIN'

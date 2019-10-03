@@ -5,27 +5,28 @@ import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder } from '@angular/forms';
-import { PostService } from '../post.service';
+import { TrainerService } from '../trainer.service';
 import { AlertService } from '../../alert/alert.service';
-import { Post } from '../../model/post';
+import { Trainer } from '../model/trainer';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
-    selector: 'app-post-list',
-    templateUrl: './post-list.component.html',
+    selector: 'app-trainer-list',
+    templateUrl: './trainer-list.component.html',
 })
-export class PostListComponent implements AfterViewInit {
-    displayedColumns: string[] = ['select', 'publishDate', 'title'];
-    data: Post[] = [];
-    selection = new SelectionModel<Post>(true, []);
+export class TrainerListComponent implements AfterViewInit {
+    displayedColumns: string[] = ['select', 'firstName', 'lastName', 'email', 'status'];
+    data: Trainer[] = [];
+    selection = new SelectionModel<Trainer>(true, []);
     resultsLength = 0;
     isLoadingResults = true;
     isRateLimitReached = false;
     
     filterForm = this.fb.group({
-        dateFrom: [''],
-        dateTo: [''],
-        title: ['']
+        firstName: [''],
+        lastName: [''],
+        email: [''],
+        status: ['']
     });
     filterPanelOpenState = true;
     
@@ -34,7 +35,7 @@ export class PostListComponent implements AfterViewInit {
 
     constructor(
         private router: Router,
-        private postService: PostService,
+        private trainerService: TrainerService,
         private alertService: AlertService,
         public dialog: MatDialog,
         private fb: FormBuilder
@@ -42,15 +43,15 @@ export class PostListComponent implements AfterViewInit {
 
     ngAfterViewInit() {       
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-        this.getPosts();
+        this.getTrainers();
     }
-    
-    getPosts() {
+
+    getTrainers() {
         merge(this.sort.sortChange, this.paginator.page).pipe(
             startWith({}),
             switchMap(() => {
                 this.isLoadingResults = true;
-                return this.postService.getPosts(
+                return this.trainerService.getTrainers(
                     this.sort.active, 
                     this.sort.direction, 
                     this.paginator.pageIndex+1, 
@@ -63,7 +64,7 @@ export class PostListComponent implements AfterViewInit {
                 this.isRateLimitReached = false;
                 this.resultsLength = data.total_count;
 
-                return data.posts;
+                return data.trainers;
             }),
             catchError(() => {
                 this.isLoadingResults = false;
@@ -86,20 +87,20 @@ export class PostListComponent implements AfterViewInit {
     }
 
     applyFilter() {
-        this.getPosts();
+        this.getTrainers();
     }
-    
+
     resetFilter() {
         this.filterForm.reset();
-        this.getPosts();
+        this.getTrainers();
     }
-    
+
     redirectToEditPage() {
         var id = this.selection.selected.map(({ id }) => id);
-        this.router.navigate(['/admin/posts/edit/'+id[0]]);
+        this.router.navigate(['/admin/trainers/edit/'+id[0]]);
     }
-    
-    deletePosts() {
+
+    deleteTrainers() {
         this.openConfirmDeleteDialog();
     }
 
@@ -119,10 +120,10 @@ export class PostListComponent implements AfterViewInit {
             data => {
                 if (data === true) {
                     var ids = this.selection.selected.map(({ id }) => id);
-                    this.postService.deletePosts(ids).subscribe(
+                    this.trainerService.deleteTrainers(ids).subscribe(
                         success => {
                             this.alertService.success(success, true);
-                            this.getPosts();
+                            this.getTrainers();
                             this.selection.clear();
                         },
                         error => {

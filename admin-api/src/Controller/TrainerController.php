@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -124,6 +125,7 @@ class TrainerController extends AbstractFOSRestController
         $form->submit($data);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trainer->getStatus() !== null ?: $trainer->setStatus(false);
             $this->em()->persist($trainer);
             $this->em()->flush();
 

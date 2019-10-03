@@ -32,6 +32,22 @@ export const NAV_ITEMS = [
         ]
     },
     {
+        displayName: 'trainers',
+        iconName: 'trainers',
+        children: [
+            {
+                displayName: 'list',
+                iconName: 'ballot',
+                route: 'admin/trainers/list'
+            },
+            {
+                displayName: 'add',
+                iconName: 'create',
+                route: 'admin/trainers/add'
+            }
+        ]
+    },
+    {
         displayName: 'posts',
         iconName: 'create',
         children: [

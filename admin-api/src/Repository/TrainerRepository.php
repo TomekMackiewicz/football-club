@@ -39,11 +39,6 @@ class TrainerRepository extends ServiceEntityRepository
                 ->setParameter(":lastName", '%'.$filters['lastName'].'%');
         }
 
-        if (!empty($filters) && $filters['login']) {
-            $qb->andWhere('t.login LIKE :login')
-                ->setParameter(":login", '%'.$filters['login'].'%');
-        }
-
         if (!empty($filters) && $filters['email']) {
             $qb->andWhere('t.email LIKE :email')
                 ->setParameter(":email", '%'.$filters['email'].'%');
