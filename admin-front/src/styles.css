@@ -10,6 +10,11 @@ main {
     padding: 16px;
 }
 
+.dark-toolbar {
+    background: #424242;
+    color: #fff;
+}
+
 mat-sidenav {
     width: 250px;
 }
@@ -24,6 +29,7 @@ mat-sidenav {
 
 .route-icon {
     padding-right: 8px;
+    color: gray;
 }
 
 .nav-chevron {
@@ -123,9 +129,21 @@ table {
     cursor: pointer;
 }
 
-mat-list-item:hover {
-    font-weight: bold;
-    background-color: #f5f5f5;
+.mat-list-base .mat-list-item {
+    color: #fff;
+}
+
+.mat-list-base .mat-list-item:hover {
+    background: #000 !important;
+}
+
+.submenu-item > .mat-list-item {
+    font-size: 14px;
+    height: 36px !important;
+}
+
+.submenu-item > .active {
+    background: #000 !important;
 }
 
 .dts-no-select {

@@ -1,5 +1,10 @@
 export const NAV_ITEMS = [
     {
+        displayName: 'dashboard',
+        iconName: 'dashboard',
+        route: 'admin/dashboard'
+    },
+    {
         displayName: 'players',
         iconName: 'people_outline',
         children: [
@@ -17,11 +22,11 @@ export const NAV_ITEMS = [
     },
     {
         displayName: 'games',
-        iconName: 'games',
+        iconName: 'sports_soccer',
         children: [
             {
                 displayName: 'list',
-                iconName: 'ballot',
+                iconName: 'list_alt',
                 route: 'admin/games/list'
             },
             {
@@ -33,16 +38,16 @@ export const NAV_ITEMS = [
     },
     {
         displayName: 'trainers',
-        iconName: 'trainers',
+        iconName: 'sports',
         children: [
             {
                 displayName: 'list',
-                iconName: 'ballot',
+                iconName: 'group',
                 route: 'admin/trainers/list'
             },
             {
                 displayName: 'add',
-                iconName: 'create',
+                iconName: 'person_add',
                 route: 'admin/trainers/add'
             }
         ]
@@ -53,7 +58,7 @@ export const NAV_ITEMS = [
         children: [
             {
                 displayName: 'list',
-                iconName: 'ballot',
+                iconName: 'list_alt',
                 route: 'admin/posts/list'
             },
             {
@@ -63,7 +68,7 @@ export const NAV_ITEMS = [
             },
             {
                 displayName: 'categories',
-                iconName: 'ballot',
+                iconName: 'assignment',
                 route: 'admin/categories/list'
             },
             {
@@ -89,7 +94,7 @@ export const NAV_ITEMS = [
         children: [
             {
                 displayName: 'list',
-                iconName: 'ballot',
+                iconName: 'list_alt',
                 route: 'admin/users/list'
             }
         ]

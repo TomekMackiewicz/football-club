@@ -1,7 +1,7 @@
 <mat-sidenav-container *ngIf="isLoggedIn">
-    <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened">
-        <mat-toolbar>
-            Title
+    <mat-sidenav class="dark-toolbar" #sidenav mode="side" [(opened)]="sidenavOpened">
+        <mat-toolbar class="dark-toolbar">
+            Football Manager
         </mat-toolbar>
         <mat-nav-list>
             <app-menu-list-item *ngFor="let item of navItems" [item]="item">
@@ -9,8 +9,8 @@
         </mat-nav-list>       
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar>
-            <button mat-raised-button (click)="sidenav.toggle()">
+        <mat-toolbar class="dark-toolbar">
+            <button mat-button (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
             <span class="fill-space"></span>
