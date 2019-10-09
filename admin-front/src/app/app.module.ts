@@ -32,6 +32,8 @@ import { PostModule } from './post/post.module';
 import { CategoryModule } from './category/category.module';
 import { FileModule } from './file/file.module';
 import { ConfigModule } from './config/config.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { ApplicationPipesModule } from './pipes/application-pipes.module';
 
 import { AppComponent } from './app.component';
 import { MenuListItemComponent } from './menu-list-item/menu-list-item.component';
@@ -42,6 +44,7 @@ import { AccessDeniedComponent } from './denied/denied.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SessionTrackerComponent } from './session-tracker/session-tracker.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -49,8 +52,6 @@ import { NavService } from './services/nav.service';
 import { LoaderService } from './services/loader.service';
 import { AuthenticationService } from './services/authentication.service';
 import { ProfileService } from './profile/profile.service';
-
-import { ApplicationPipesModule } from './pipes/application-pipes.module';
 
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
@@ -65,7 +66,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         AccessDeniedComponent,
         LoginComponent,
         LogoutComponent,
-        ProfileComponent
+        ProfileComponent,
+        SessionTrackerComponent
     ],
     imports: [
         BrowserModule,
@@ -103,7 +105,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         CategoryModule,
         FileModule,
         ConfigModule,
-        UserModule
+        UserModule,
+        DashboardModule
     ],
     providers: [
         AuthGuard,

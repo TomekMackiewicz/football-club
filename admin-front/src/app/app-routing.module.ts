@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserListComponent } from './user/user-list/user-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { AuthGuard } from './guards/auth.guard';
 
@@ -31,6 +32,13 @@ const routes: Routes = [
     },
     {path: 'logout', 
         component: LogoutComponent                      
+    },
+    {path: 'admin/dashboard',
+        component: DashboardComponent,
+        canActivate: [AuthGuard],
+        data: {
+          expectedRole: 'ROLE_ADMIN'
+        }
     },
     {path: 'admin/profile', 
         component: ProfileComponent,
@@ -153,7 +161,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
