@@ -14,10 +14,6 @@ export class AuthenticationService {
     
     getUsername(value: string) {
         this.currentUsername.next(value);
-    }  
-
-    isAdmin(value: boolean) {
-        this.admin.next(value);
     }
         
     constructor(
@@ -38,11 +34,8 @@ export class AuthenticationService {
                     localStorage.setItem('userId', token.userId);
                     localStorage.setItem('userRole', token.roles[0]);                    
                     this.getUsername(localStorage.getItem('currentUsername'));
-                    if (token.roles[0] == 'ROLE_SUPER_ADMIN') {
-                        this.isAdmin(true);
-                        this.router.navigate(['/admin/config']);
-                    } else if (token.roles[0] == 'ROLE_ADMIN') {
-                        this.router.navigate(['/admin/games/list']);
+                    if (token.roles[0] == 'ROLE_SUPER_ADMIN' || token.roles[0] == 'ROLE_ADMIN') {
+                        this.router.navigate(['/admin/dashboard']);
                     } else {
                         this.router.navigate(['/denied']);
                     }               
@@ -59,7 +52,6 @@ export class AuthenticationService {
         localStorage.removeItem('currentUsername');
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');
-        this.isAdmin(false);
         this.getUsername('');
         this.router.navigate(['/login']);
     }
