@@ -30,6 +30,7 @@ export class AuthenticationService {
                 var token: any = decode(data.token);
                 if (token) {             
                     localStorage.setItem('token', data.token);
+                    localStorage.setItem('refreshToken', data.refresh_token);
                     localStorage.setItem('currentUsername', token.username);
                     localStorage.setItem('userId', token.userId);
                     localStorage.setItem('userRole', token.roles[0]);                    
@@ -49,6 +50,7 @@ export class AuthenticationService {
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
         localStorage.removeItem('currentUsername');
         localStorage.removeItem('userId');
         localStorage.removeItem('userRole');

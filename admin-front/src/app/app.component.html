@@ -17,6 +17,10 @@
             <button mat-button>Session expires in: 
                 <app-session-tracker></app-session-tracker>
             </button>
+            <button mat-icon-button color="warn" matTooltip="Referesh session" aria-label="Referesh session" (click)="refreshToken()">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <mat-divider [vertical]="true"></mat-divider>
             <button mat-icon-button (click)="useLanguage('en')">en</button>
             <button mat-icon-button (click)="useLanguage('pl')">pl</button>            
             <button mat-icon-button [matMenuTriggerFor]="userMenu">

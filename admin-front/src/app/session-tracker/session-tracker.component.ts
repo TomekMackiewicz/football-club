@@ -7,9 +7,10 @@ import { AuthGuard } from '../guards/auth.guard';
 })
 export class SessionTrackerComponent {
 
-    @Output() voted: EventEmitter<string> = new EventEmitter<string>();
+    @Output() sessionEmitter: EventEmitter<string> = new EventEmitter<string>();
     tokenExpires: string;
     isLoggedIn: boolean = false;
+    sessionInterval: any;
 
     constructor(private authGuard: AuthGuard) {
         this.trackSessionTime();
@@ -22,14 +23,19 @@ export class SessionTrackerComponent {
     }
 
     trackSessionTime() {
+        if (this.sessionInterval) {
+           clearInterval(this.sessionInterval);
+        }
         var token = localStorage.getItem('token');
         if (null !== token) {
             var time = this.authGuard.getTokenExpirationTime(token);
-            let intervalId = setInterval(() => {
+            this.sessionInterval = setInterval(() => {
                 this.tokenExpires = this.displayTime(time);
-                this.voted.emit(this.tokenExpires);
+                this.sessionEmitter.emit(this.tokenExpires);
                 time = time - 1000;
-                if(time === 0 || this.isLoggedIn === false) clearInterval(intervalId);
+                if(time < 0 || this.isLoggedIn === false) {
+                    clearInterval(this.sessionInterval);
+                }
             }, 1000);
         }
     }

@@ -20,7 +20,8 @@ import {
     MatDialogModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTooltipModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -89,6 +90,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
+        MatTooltipModule,
         HttpClientModule,
         ApplicationPipesModule,
         DragToSelectModule.forRoot(),

@@ -5,6 +5,8 @@ import { NavItem } from './model/nav-item';
 import { NAV_ITEMS } from './constants/nav-items';
 import { indicatorRotate } from './constants/animations';
 import { AuthGuard } from './guards/auth.guard';
+import { AlertService } from './alert/alert.service';
+import { SessionTrackerComponent } from './session-tracker/session-tracker.component';
 
 @Component({
     selector: 'app-root',
@@ -14,6 +16,7 @@ import { AuthGuard } from './guards/auth.guard';
 export class AppComponent implements OnInit, AfterViewInit {
     
     @ViewChild('sidenav') sidenav: ElementRef;
+    @ViewChild(SessionTrackerComponent) sessionTracker: SessionTrackerComponent;
     
     title = 'admin-front';
     sidenavOpened: boolean = true;
@@ -23,6 +26,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     constructor(
         private navService: NavService,
         private translate: TranslateService,
+        private alertService: AlertService,
         private authGuard: AuthGuard
     ) {
         translate.setDefaultLang('en');
@@ -40,6 +44,19 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     useLanguage(language: string) {
         this.translate.use(language);
-    }    
-       
+    } 
+    
+    refreshToken() {
+        var refreshToken = localStorage.getItem('refreshToken');
+        return this.navService.refreshToken(refreshToken).subscribe(
+            data => {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('refreshToken', data.refresh_token);
+                this.sessionTracker.trackSessionTime();
+            },
+            error => {
+                this.alertService.error(error, true);
+            }
+        ); 
+    }               
 }
